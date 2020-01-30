@@ -19,6 +19,7 @@
 #   Future implementation of this class will define methods to
 #       engage in activities such as combat.
 
+import tkinter
 
 
 #establish starting score for each new player characters ability scores
@@ -75,12 +76,29 @@ class playerCharacter:
         pointsLeft = startingAbilityPoints 
         
         print("Character Creation:")
-        print("You have " + str(startingAbilityPoints) + " points to distribute " +
-              "amongst your ability scores.\n" + 
-              "Each score starts at " + str(minAbilityScore) + ".\n" +
-              "The maximum for each score is " + str(maxAbilityScore) + ".")
+        print()
 
-        #TODO: future implementation goes here: develop tkinter window for GUI character creation
+
+
+
+        #TODO: future implementation goes here: develop:
+        #tkinter window for GUI character creation
+        ccWindow = tkinter.Tk() #character creation window
+        ccWindow.title("Character Creation")
+
+        instructionsText = str("You have " + str(pointsLeft) + 
+                " points to distribute amongst your ability scores.\n" + 
+                "Each score starts at " + str(minAbilityScore) + ".\n" +
+                "The maximum for each score is " + str(maxAbilityScore) + ".")
+        ccInstructions = tkinter.Label(text=instructionsText)
+        ccInstructions.pack()
+
+        btnStrMinus = tkinter.Button(text="+")
+
+        ccWindow.mainloop()
+
+
+
 
         #TEMP: enter point distributions in console
         #Strength
