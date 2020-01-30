@@ -37,14 +37,19 @@ maxAbilityScore = 100
 #player character class
 class playerCharacter:
     def __init__(self):
+        #demographics
+        self.name = "Newguy McCharacter"
+
         #abilities
         global minAbilityScore
         self.strengthScore = minAbilityScore
         self.constitutionScore = minAbilityScore
         self.dexterityScore = minAbilityScore
         self.intelligenceScore = minAbilityScore
+        
         #inventory
         self.inventory = []
+    
     #end initializer
 
     #update ability scores
