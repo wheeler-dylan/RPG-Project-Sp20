@@ -1,4 +1,16 @@
-# Getting Started with the CSC 424 RPG Project
+from network import Network
+from adventurer import Adventurer
 
-message = "Hello CSC 424!"
-print(message)
+def main():
+    run = True
+    currentNetwork = Network()
+    myAdventurerID = currentNetwork.getAdventurerID()
+
+    while run:
+        otherAdventurerID = currentNetwork.send(myAdventurerID)
+
+        myAdventurerID.think()
+        myAdventurerID.speak()
+        otherAdventurerID.speak()
+
+main()
