@@ -1,3 +1,11 @@
+#Author:        John P Armentor
+#Date:          2019 01 30
+#Course:        CSC242 - Software Engineering II
+#Prof:         Dr. A. Louise Perkins
+
+# File that acts as the server for our game.  Intended to be launchable by
+# anyone looking to host.
+
 import socket
 import pickle
 from _thread import *
@@ -20,14 +28,14 @@ print("--Server Initialized--")
 print("Listening for Connections...")
 
 
-adventurers = [Adventurer("Jack", "Bandit", 10, "Hello!"), Adventurer("Jill", "Bandit", 10, "Hello!")]
+adventurers = [Adventurer("Jack", "Bandit", 10, "Hello!"), Adventurer("Jill", "Mage", 10, "Hello!")]
 
-def threaded_client(conn, adventurer):
-    conn.send(pickle.dumps(adventurers[adventurer]))
+def threaded_client(connection, adventurer):
+    connection.send(pickle.dumps(adventurers[adventurer]))
     reply = ""
     while True:
         try:
-            inboundData = pickle.loads(conn.recv(2048))
+            inboundData = pickle.loads(connection.recv(2048))
             adventurers[adventurer] = inboundData
 
             if not inboundData:
@@ -42,17 +50,17 @@ def threaded_client(conn, adventurer):
                 print("Incoming: ", inboundData)
                 print("Outgoing : ", outboundData)
 
-            conn.sendall(pickle.dumps(outboundData))
+            connection.sendall(pickle.dumps(outboundData))
         except:
             break
 
     print("Lost connection")
-    conn.close()
+    connection.close()
 
 currentAdventurerCount = 0
 while True:
-    conn, addr = currentSocket.accept()
-    print("Connected established with:", addr)
+    connection, address = currentSocket.accept()
+    print("Connected established with:", address)
 
-    start_new_thread(threaded_client, (conn, currentAdventurerCount))
+    start_new_thread(threaded_client, (connection, currentAdventurerCount))
     currentAdventurerCount += 1
