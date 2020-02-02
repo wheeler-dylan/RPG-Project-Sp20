@@ -24,8 +24,14 @@ class gameItem():
 
     #open an item stored in host device
     def loadItemFromFile(self, fFile):
-        open(fFile)
-        #TODO
+        for eachLine in fFile:
+            if "name: " in eachLine:
+                thisLine = str(eachLine).replace("name: ", "")
+                self.name = thisLine
+            if "description: " in eachLine:
+                thisLine = str(eachLine.replace("description: ", ""))
+                self.description = thisLine
+
     #end load item from file
 
     #generate an item with only a name and description

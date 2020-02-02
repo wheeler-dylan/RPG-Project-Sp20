@@ -85,24 +85,33 @@ class playerCharacter:
         #   updates the bonuses with new value from the spinbox
         def updateBonusesFromSpinbox():
             global strengthBonus, constitutionBonus, dexterityBonus, intelligenceBonus
-            global maxBonus, startingAbilityPoints, maxAbilityScore, minAbilityScore, pointsLeft
+            global startingAbilityPoints, maxAbilityScore, minAbilityScore, pointsLeft, maxBonus
+
+            #update bonuses based off values in the spinboxes
             strengthBonus = int(spinbox_strengthBonus.get())
             constitutionBonus = int(spinbox_constitutionBonus.get())
             dexterityBonus = int(spinbox_dexterityBonus.get())
             intelligenceBonus = int(spinbox_intelligenceBonus.get())
+
+            #check how many points are left
             pointsLeft = startingAbilityPoints - (strengthBonus + constitutionBonus + dexterityBonus + intelligenceBonus)
             maxBonus = min(maxAbilityScore - minAbilityScore, pointsLeft)
+
+            #don't let player spend more points than they have, resets spinbox max values
             if(pointsLeft == 0):
                 spinbox_strengthBonus.config(to = int(spinbox_strengthBonus.get()))
                 spinbox_constitutionBonus.config(to = int(spinbox_constitutionBonus.get()))
                 spinbox_dexterityBonus.config(to = int(spinbox_dexterityBonus.get()))
                 spinbox_intelligenceBonus.config(to = int(spinbox_intelligenceBonus.get()))
+
+            #raise maximums again if player deallocates points
             else:
                 spinbox_strengthBonus.config(to = max(maxBonus, int(spinbox_strengthBonus.get()) + pointsLeft))
                 spinbox_constitutionBonus.config(to = max(maxBonus, int(spinbox_constitutionBonus.get()) + pointsLeft))
                 spinbox_dexterityBonus.config(to = max(maxBonus, int(spinbox_dexterityBonus.get()) + pointsLeft))
                 spinbox_intelligenceBonus.config(to = max(maxBonus, int(spinbox_intelligenceBonus.get()) + pointsLeft))
 
+            #debugging
             print(strengthBonus, constitutionBonus, dexterityBonus, intelligenceBonus, pointsLeft, maxBonus)
 
 
@@ -119,30 +128,32 @@ class playerCharacter:
         
 
         #the following section use spinboxes to update the bonuses the player 
-        #   would like to grant to each ability
+        #   would like to add to each ability
 
         #strength            
+        label = tkinter.Label(text="Stength:").pack()
         spinbox_strengthBonus = tkinter.Spinbox(ccWindow, from_ = 0, to = maxBonus, command = updateBonusesFromSpinbox)
         spinbox_strengthBonus.pack() 
         
         #constitution
+        label = tkinter.Label(text="Constitution:").pack()
         spinbox_constitutionBonus = tkinter.Spinbox(ccWindow, from_ = 0, to = maxBonus, command = updateBonusesFromSpinbox)
         spinbox_constitutionBonus.pack() 
         
         #dexterity
+        label = tkinter.Label(text="Dexterity:").pack()
         spinbox_dexterityBonus = tkinter.Spinbox(ccWindow, from_ = 0, to = maxBonus, command = updateBonusesFromSpinbox)
         spinbox_dexterityBonus.pack() 
         
         #intelligence
+        label = tkinter.Label(text="Intelligence:").pack()
         spinbox_intelligenceBonus = tkinter.Spinbox(ccWindow, from_ = 0, to = maxBonus, command = updateBonusesFromSpinbox)
         spinbox_intelligenceBonus.pack() 
 
         ccWindow.mainloop()
         #end character creation window
-
-
-        #TODO: input validation to ensure points are not greater than maximum
-
+        
+        #debugging
         print(strengthBonus, constitutionBonus, dexterityBonus, intelligenceBonus, pointsLeft, maxBonus)
 
         #update scores
