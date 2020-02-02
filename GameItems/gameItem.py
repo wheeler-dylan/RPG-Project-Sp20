@@ -32,3 +32,5 @@ class gameItem():
     def quickBuild(self):
         self.name = input("Enter item name:")
         self.description = input("Describe the item:") 
+    #end quick build
+

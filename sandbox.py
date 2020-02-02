@@ -27,3 +27,5 @@ thingOnGround.quickBuild()
 Etrius.collectItem(thingOnGround) 
 print(Etrius.inventory)
 
+
+
