@@ -21,7 +21,14 @@ print("Intelligence: " + str(Etrius.intelligenceScore))
 
 #build an item
 thingOnGround = gameItem.gameItem()
-thingOnGround.quickBuild()
+#thingOnGround.quickBuild()
+thingOnGround.loadItemFromFile(open("./GameItems/ironsword.gmitm"))
+print(thingOnGround.name)
+print(thingOnGround.description)
+print(thingOnGround.actions)
+
+for action in thingOnGround.actions:
+    action()
 
 #add item to character inventory
 Etrius.collectItem(thingOnGround) 

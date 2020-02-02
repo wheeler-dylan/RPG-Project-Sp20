@@ -13,6 +13,8 @@
 #       at runtime. (Future implementation should only load items as they 
 #       are needed in order to save RAM space.)
 
+import gameItemActionDictionary
+
 #item class 
 class gameItem():
     def __init__(self):
@@ -24,8 +26,23 @@ class gameItem():
 
     #open an item stored in host device
     def loadItemFromFile(self, fFile):
-        open(fFile)
-        #TODO
+        for eachLine in fFile:
+            if "name: " in eachLine:
+                thisLine = str(eachLine.replace("name: ", "").replace("\n", ""))
+                self.name = thisLine
+            if "description: " in eachLine:
+                thisLine = str(eachLine.replace("description: ", "").replace("\n", ""))
+                self.description = thisLine
+            if "actions: " in eachLine:
+                thisLine = str(eachLine.replace("actions: ", "").replace("\n", ""))
+                theseActions = thisLine.split(", ")
+                #print(theseActions) #debugging
+                for eachAction in theseActions:
+                    #print("for each action in these actions") #debugging
+                    if eachAction in gameItemActionDictionary.validActions:
+                        #print("action found!") #debugging
+                        self.actions.append(gameItemActionDictionary.validActions[eachAction]) 
+
     #end load item from file
 
     #generate an item with only a name and description
@@ -33,4 +50,7 @@ class gameItem():
         self.name = input("Enter item name:")
         self.description = input("Describe the item:") 
     #end quick build
+
+#end game item class
+
 
