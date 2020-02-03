@@ -15,10 +15,23 @@ print("-------------------------Running sandbox.py-------------------------\n\n"
 
 #create new PC
 Etrius = playerCharacter.playerCharacter()
-Etrius.characterCreation()
+#playerCharacter.characterCreation(Etrius)
 
-#display ability score dictionary
+#display ability score dictionary and skills dictionary
 print(Etrius.abilityScores)
+print(Etrius.skills)
+
+Etrius.updateAbilityScores([50,3,5,7,11])
+
+print(Etrius.abilityScores)
+print(Etrius.skills)
+
+Etrius.updateSkillRanks([33,44,55])
+
+print(Etrius.abilityScores)
+print(Etrius.skills)
+
+
 
 """
 #update scores
