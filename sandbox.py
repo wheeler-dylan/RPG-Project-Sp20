@@ -21,17 +21,20 @@ Etrius = playerCharacter.playerCharacter()
 print(Etrius.abilityScores)
 print(Etrius.skills)
 
-Etrius.updateAbilityScores([50,3,5,7,11])
+#Etrius.updateAbilityScores([50,3,5,7,11])
+#print(Etrius.abilityScores)
+#print(Etrius.skills)
+#Etrius.updateSkillRanks([33,44,55])
+
+Etrius.abilityScores["strength"] = 15
+Etrius.abilityScores["constitution"] = 15
+
+Etrius.updateAbilityScores([0,0,0,0,0])
 
 print(Etrius.abilityScores)
 print(Etrius.skills)
 
-Etrius.updateSkillRanks([33,44,55])
-
-print(Etrius.abilityScores)
-print(Etrius.skills)
-
-
+print(Etrius.hitPoints)
 
 """
 #update scores

@@ -20,15 +20,16 @@
 #       engage in activities such as combat.
 
 import tkinter
+import species 
 
 
 
 #list of core ability scores
-coreAbilityScores = ["strength", "consitution", "dexterity", "intelligence", "charisma"]
+coreAbilityScores = ["strength", "constitution", "dexterity", "intelligence", "charisma"]
 minAbilityScore = 5                     #minimum score, starting score at initialization
-startingAbilityPointsPerScore = 20      #player may add this many points per score to all their scores
+startingAbilityPointsPerScore = 10      #player may add this many points per score to all their scores
 startingAbilityPoints = startingAbilityPointsPerScore * len(coreAbilityScores)      #total of above
-maxAbilityScore = 30                    #maximum ability score bonus at character creation
+maxAbilityScore = 20                    #maximum ability score bonus at character creation
 
 
 #list of main skills, each skill is followed by its two associated abilities
@@ -46,12 +47,9 @@ class playerCharacter:
     def __init__(self):
         #demographics
         self.name = "Newguy McCharacter"
-        self.species = "human"
+        self.species = species.human
         self.languages = ["vernacular"]
 
-        #combat stats
-        hitPoints = 1
-        speed = 1
 
         #abilities
         self.abilityScores = {}
@@ -73,6 +71,13 @@ class playerCharacter:
         for eachSkill in coreSkills:
             self.skills[eachSkill[0]] = self.skillBases[eachSkill[0]] + self.skillRanks[eachSkill[0]]
 
+        #combat stats
+        self.hitPointTotal = (self.abilityScores["strength"] + self. abilityScores["constitution"]) * 2
+        self.hitPoints = {}
+        for eachHitbox in self.species.hitboxes:
+            self.hitPoints[eachHitbox] = int(self.hitPointTotal * (self.species.hitboxes[eachHitbox]/100))
+        speed = 1
+
         #inventory
         self.inventory = []
 
@@ -86,8 +91,11 @@ class playerCharacter:
         for eachScore in coreAbilityScores:
             self.abilityScores[eachScore] += fNewScores[i]
             i += 1
+        
         #update skills
         self.refreshSkillBases()
+        #update hitpoints
+        self.refreshHitPoints()
     #end update ability scores
 
 
@@ -115,6 +123,15 @@ class playerCharacter:
         for eachSkill in coreSkills:
             self.skills[eachSkill[0]] = self.skillBases[eachSkill[0]] + self.skillRanks[eachSkill[0]]
     #end skill refresh
+
+
+
+    #refresh hitpoints, used if ability scores change
+    def refreshHitPoints(self):
+        self.hitPointTotal = (self.abilityScores["strength"] + self. abilityScores["constitution"])
+        for eachHitbox in self.species.hitboxes:
+            self.hitPoints[eachHitbox] = int(self.hitPointTotal * (self.species.hitboxes[eachHitbox]/100))
+    #end refresh hitpoints
 
 
 
