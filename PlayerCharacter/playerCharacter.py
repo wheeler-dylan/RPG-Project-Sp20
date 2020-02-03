@@ -35,7 +35,7 @@ startingAbilityPoints = 120
 maxAbilityScore = 100
 
 #list of core ability scores
-coreAbilityScores = ["strength", "consitution", "dexterity", "intelligence"]
+coreAbilityScores = ["strength", "consitution", "dexterity", "intelligence", "charisma"]
 
 #list of main skills
 #TODO
@@ -52,19 +52,12 @@ class playerCharacter:
         self.species = "Human"
 
         #abilities
-        self.strengthScore = minAbilityScore
-        self.constitutionScore = minAbilityScore
-        self.dexterityScore = minAbilityScore
-        self.intelligenceScore = minAbilityScore
-        
-        #new
         self.abilityScores = {}
         for eachScore in coreAbilityScores:
             self.abilityScores[eachScore] = minAbilityScore 
 
         #inventory
         self.inventory = []
-    
     #end initializer
 
     #update ability scores
@@ -73,13 +66,6 @@ class playerCharacter:
         for eachScore in coreAbilityScores:
             self.abilityScores[eachScore] += fNewScores[i]
             i += 1
-    """
-    def updateAbilities(self, fStr, fCon, fDex, fInt):
-        self.strengthScore += fStr
-        self.constitutionScore += fCon
-        self.dexterityScore += fDex
-        self.intelligenceScore += fInt
-    """
     #end update ability scores
 
     #add item to inventory
@@ -89,9 +75,6 @@ class playerCharacter:
 
     #character creation screen
     def characterCreation(self):
-        #global startingAbilityPoints
-        #global maxAbilityScore
-        #global minAbilityScore
         
         print("Character Creation:")
         print()
@@ -156,13 +139,11 @@ class playerCharacter:
             abilityBonusSpinboxes[eachScore] = tkinter.Spinbox(ccWindow, from_ = 0, to = maxBonus, command = updateBonusesFromSpinbox)
             abilityBonusSpinboxes[eachScore].pack()
 
-
         ccWindow.mainloop()
         #end character creation window
         
         #debugging
         print(abilityBonuses)
-        #print(strengthBonus, constitutionBonus, dexterityBonus, intelligenceBonus, pointsLeft, maxBonus)
 
         #update scores
         newScores = []
