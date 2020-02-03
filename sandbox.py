@@ -1,3 +1,7 @@
+############################
+# sandbox file for testing #
+############################
+
 import sys
 sys.path.append('./PlayerCharacter')
 import playerCharacter
@@ -13,6 +17,21 @@ print("-------------------------Running sandbox.py-------------------------\n\n"
 Etrius = playerCharacter.playerCharacter()
 Etrius.characterCreation()
 
+#display ability score dictionary
+print(Etrius.abilityScores)
+
+"""
+#update scores
+print("Updating scores (add 5 to each)")
+newScores = []
+for score in playerCharacter.coreAbilityScores:
+    newScores.append(5)
+Etrius.updateAbilityScores(newScores)
+
+print(Etrius.abilityScores)
+"""
+
+"""
 #display scores
 print("Strength: " + str(Etrius.strengthScore))
 print("Constitution: " + str(Etrius.constitutionScore))
@@ -42,6 +61,7 @@ newItem.name = "SpellBook of Etrius"
 newItem.description = "An ancient tome riddled with holy runes that holds divine insight."
 newItem.actions = [gameItemActionDictionary.explode]
 newItem.saveItemToFile()
+"""
 
 
 
