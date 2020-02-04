@@ -50,8 +50,8 @@ class playerCharacter:
     def __init__(self):
         #demographics
         self.name = "Newguy McCharacter"
-        self.species = species.human
-        self.languages = ["vernacular"]
+        self.species = species.speciesList["human"]
+        self.languages = self.species.nativeLanguages
 
 
         #abilities
@@ -89,10 +89,10 @@ class playerCharacter:
 
 
     #update ability scores
-    def updateAbilityScores(self, fNewScores):
+    def updateAbilityScores(self, fnewAbilityScores):
         i = 0
         for eachScore in coreAbilityScores:
-            self.abilityScores[eachScore] += fNewScores[i]
+            self.abilityScores[eachScore] += fnewAbilityScores[i]
             i += 1
         
         #update skills
@@ -170,14 +170,20 @@ def characterCreation(fCharacter):
     for eachScore in coreAbilityScores:
         abilityBonuses[eachScore] = 0
 
+    skillBonuses = {}
+    for eachSkill in coreSkills:
+        skillBonuses[eachSkill[0]] = 0
+
     #used when the spinbox arrows are clicked, 
     #   updates the bonuses with new value from the spinbox
-    def updateBonusesFromSpinbox():
-        global startingAbilityPoints, maxAbilityScore, minAbilityScore, pointsLeft, maxBonus
-
-        #update bonuses based off values in the spinboxes
+    def spinboxUpdate():
+        #update ability bonuses based off values in the spinboxes
         for eachScore in coreAbilityScores:
             abilityBonuses[eachScore] = int(abilityBonusSpinboxes[eachScore].get()) 
+
+        #update skill ranks
+        for eachSkill in coreSkills:
+            skillBonuses[eachSkill[0]] = int(skillBonusSpinboxes[eachSkill[0]].get())
 
         #check how many points are left
         bonusSum = 0
@@ -199,6 +205,7 @@ def characterCreation(fCharacter):
         #debugging
         print(abilityBonuses, end="\t")
         print(pointsLeft, maxBonus)
+    #end spinbox update
 
 
     #tkinter window for GUI character creation
@@ -218,7 +225,7 @@ def characterCreation(fCharacter):
     for eachScore in coreAbilityScores:
         label = tkinter.Label(text = eachScore.capitalize() + ":").pack() 
         abilityBonusSpinboxes[eachScore] = tkinter.Spinbox(ccWindow, from_ = 0, to = maxBonus, 
-                                                           command = updateBonusesFromSpinbox)
+                                                           command = spinboxUpdate)
         abilityBonusSpinboxes[eachScore].pack()
     #
     label = tkinter.Label(text="").pack() #blank line
@@ -235,7 +242,7 @@ def characterCreation(fCharacter):
                               eachSkill[1].capitalize() + ", " +
                               eachSkill[2].capitalize() + "):").pack()
         skillBonusSpinboxes[eachSkill[0]] = tkinter.Spinbox(ccWindow, from_ = 0, to = 100,
-                                                           command = updateBonusesFromSpinbox)
+                                                           command = spinboxUpdate)
         skillBonusSpinboxes[eachSkill[0]].pack()
     #
     label = tkinter.Label(text="").pack() #blank line
@@ -249,9 +256,14 @@ def characterCreation(fCharacter):
     print(abilityBonuses)
 
     #update scores
-    newScores = []
+    newAbilityScores = []
     for eachScore in coreAbilityScores:
-        newScores.append(abilityBonuses[eachScore])
-    fCharacter.updateAbilityScores(newScores)
+        newAbilityScores.append(abilityBonuses[eachScore])
+    fCharacter.updateAbilityScores(newAbilityScores)
+
+    newSkillRanks = []
+    for eachSkill in coreSkills:
+        newSkillRanks.append(skillBonuses[eachSkill[0]])
+    fCharacter.updateSkillRanks(newSkillRanks)
 
 #end character creation function
