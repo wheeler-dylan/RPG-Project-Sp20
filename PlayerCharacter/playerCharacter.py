@@ -35,8 +35,11 @@ maxAbilityScore = 20                    #maximum ability score bonus at characte
 #list of main skills, each skill is followed by its two associated abilities
 coreSkills = [["athletics", "strength", "dexterity"], 
               ["medicine", "intelligence", "dexterity"], 
-              ["perception", "charisma", "intelligence"]]
-
+              ["perception", "charisma", "intelligence"],
+              ["acrobatics", "dexterity", "constitution"]]
+minSkillRank = 0                #minimum additional points added to each skill besides linked abilities
+startingSkillPoints = 20        #total character creation points added to skill ranks
+maxSkillTotal = 100             #maximux skill score allowed (including ability bonuses)
 
 
 
@@ -202,21 +205,42 @@ def characterCreation(fCharacter):
     ccWindow = tkinter.Tk() #character creation window
     ccWindow.title("Character Creation")
 
-    instructionsText = str("You have " + str(pointsLeft) + 
-            " points to distribute amongst your ability scores.\n" + 
-            "Each score starts at " + str(minAbilityScore) + ".\n" +
-            "The maximum for each score is " + str(maxAbilityScore) + ".")
 
-    label_instructions = tkinter.Label(text = instructionsText).pack()
+    #give instructions for adding points to ability scores
+    abilityBanner = str("Abilities:\nYou have " + str(pointsLeft) + 
+                        " points to distribute amongst your ability scores.\n" + 
+                        "Each score starts at " + str(minAbilityScore) + ".\n" +
+                        "The maximum for each score is " + str(maxAbilityScore) + ".")
+    label = tkinter.Label(text = abilityBanner).pack()
         
-
-    #the following section use spinboxes to update the bonuses the player 
-    #   would like to add to each ability
+    #add a spinbox user uses to allocate points to each ability score
     abilityBonusSpinboxes = {}
     for eachScore in coreAbilityScores:
         label = tkinter.Label(text = eachScore.capitalize() + ":").pack() 
-        abilityBonusSpinboxes[eachScore] = tkinter.Spinbox(ccWindow, from_ = 0, to = maxBonus, command = updateBonusesFromSpinbox)
+        abilityBonusSpinboxes[eachScore] = tkinter.Spinbox(ccWindow, from_ = 0, to = maxBonus, 
+                                                           command = updateBonusesFromSpinbox)
         abilityBonusSpinboxes[eachScore].pack()
+    #
+    label = tkinter.Label(text="").pack() #blank line
+
+
+    #give instructions for adding points to skill ranks
+    skillBanner = str("Skills:")
+    label = tkinter.Label(text = skillBanner).pack()
+
+    #add a spinbox user uses to allocate points to each skill rank
+    skillBonusSpinboxes = {}
+    for eachSkill in coreSkills:
+        label = tkinter.Label(text = eachSkill[0].capitalize() + " (" +
+                              eachSkill[1].capitalize() + ", " +
+                              eachSkill[2].capitalize() + "):").pack()
+        skillBonusSpinboxes[eachSkill[0]] = tkinter.Spinbox(ccWindow, from_ = 0, to = 100,
+                                                           command = updateBonusesFromSpinbox)
+        skillBonusSpinboxes[eachSkill[0]].pack()
+    #
+    label = tkinter.Label(text="").pack() #blank line
+
+
 
     ccWindow.mainloop()
     #end character creation window
