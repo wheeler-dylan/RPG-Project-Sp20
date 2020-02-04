@@ -42,8 +42,22 @@ class gameItem():
                     if eachAction in gameItemActionDictionary.validActions:
                         #print("action found!") #debugging
                         self.actions.append(gameItemActionDictionary.validActions[eachAction]) 
-
+            #TODO: add subitems
     #end load item from file
+
+    #save item to a file on host device
+    def saveItemToFile(self):
+        fileName = "./GameItems/" + str(self.name).lower().replace(" ", "") + ".gmitm"
+        print(fileName)
+        file = open(fileName, "w+")
+        file.write("name: " + str(self.name) + "\n")
+        file.write("description: " + str(self.description) + "\n")
+        file.write("actions: ")
+        for eachAction in self.actions:
+            file.write(eachAction.__name__)
+            file.write(", ")
+        file.write("\n")
+        file.write("subitems: ")
 
     #generate an item with only a name and description
     def quickBuild(self):
