@@ -22,7 +22,7 @@ while(command != "exit"):
                     #"quick:\tcreate a basic character\n" +
                     "abils:\toutput the character's abilities\n" +
                     "skills:\toutput the character's skills\n" +
-                    #"sheet:\toutput all the character's stats\n\n\n"
+                    #"sheet:\toutput all the character's stats\n\n\n" +
                     "")
     print(instructions)
     command = input()
