@@ -21,7 +21,6 @@
 
 import tkinter
 import species 
-import characterCreation
 
 
 
@@ -38,6 +37,7 @@ coreSkills = [["athletics", "strength", "dexterity"],
 
 
 
+import characterCreation
 
 
 #player character class

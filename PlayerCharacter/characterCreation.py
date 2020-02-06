@@ -3,16 +3,19 @@
 import playerCharacter
 import tkinter
 
-
+#ability score parameters
 minAbilityScore = 5                     #minimum score, starting score at initialization
-startingAbilityPointsPerScore = 10      #player may add this many points per score to all their scores
-startingAbilityPoints = startingAbilityPointsPerScore * len(playerCharacter.coreAbilityScores)      #total of above
+startingAbilityPointsPerScore = 10      #this number defines the average points per score at character creation
+startingAbilityPoints = startingAbilityPointsPerScore * len(playerCharacter.coreAbilityScores)  #total of above
 maxAbilityScore = 20                    #maximum ability score bonus at character creation
 
 
+#skill rank parameters
 minSkillRank = 0                #minimum additional points added to each skill besides linked abilities
-startingSkillPoints = 20        #total character creation points added to skill ranks
-maxSkillRanks = 40             #maximux skill bonus allowed at character creation
+startingSkillPoints = 40        #total character creation points added to skill ranks
+maxSkillRanks = 40              #maximux skill bonus allowed at character creation
+
+
 
 ###################################
 #### character creation screen ####
@@ -67,7 +70,7 @@ def characterCreation(fCharacter):
         for eachScore in playerCharacter.coreAbilityScores:
             abilityBonusSum += abilityBonuses[eachScore]
         abilityPointsLeft = startingAbilityPoints - abilityBonusSum
-        abilityMaxBonus = maxAbilityScore - minAbilityScore #TODO: What? Why?
+        abilityMaxBonus = maxAbilityScore - minAbilityScore 
 
         #don't let player spend more points than they have, resets spinbox max values
         if(abilityPointsLeft == 0):
@@ -105,7 +108,7 @@ def characterCreation(fCharacter):
     ############ Skills ############
 
     #remaining points to spend on skills
-    skillPointsLeft = playerCharacter.startingSkillPoints
+    skillPointsLeft = startingSkillPoints
     #highest bonus that can be added to skill ranks
     skillMaxBonus = min(maxSkillRanks - minSkillRank, skillPointsLeft)
 
@@ -126,6 +129,8 @@ def characterCreation(fCharacter):
     def skillSpinboxUpdate():
         #update skill bonuses based off values in the spinboxes
         for eachSkill in playerCharacter.coreSkills:
+            #if (int(skillBonusSpinboxes[eachSkill[0]].get()) > int(maxSkillRanks)):   #input validation
+            #    skillBonusSpinboxes[eachSkill[0]].set(int(maxSkillRanks))
             skillBonuses[eachSkill[0]] = int(skillBonusSpinboxes[eachSkill[0]].get())
 
         #check how many points are left for skills
@@ -135,6 +140,7 @@ def characterCreation(fCharacter):
         skillPointsLeft = startingSkillPoints - skillBonusSum
 
         #don't let player spend more points than they have, reset spinbox max values
+        """
         if(skillPointsLeft == 0):
             for eachSkill in playerCharacter.coreSkills:
                 skillBonusSpinboxes[eachSkill[0]].config(
@@ -144,6 +150,12 @@ def characterCreation(fCharacter):
                 skillBonusSpinboxes[eachSkill[0]].config(
                     to = min(skillMaxBonus, 
                              int(skillBonusSpinboxes[eachSkill[0]].get()) + skillPointsLeft))
+        """
+        for eachSkill in playerCharacter.coreSkills:
+            skillBonusSpinboxes[eachSkill[0]].config(
+                to = min(skillMaxBonus, 
+                         int(skillBonusSpinboxes[eachSkill[0]].get()) + skillPointsLeft))
+
 
     #end skill spinbox update
 
