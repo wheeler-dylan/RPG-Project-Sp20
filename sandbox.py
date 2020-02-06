@@ -5,6 +5,7 @@
 import sys
 sys.path.append('./PlayerCharacter')
 import playerCharacter
+import characterCreation 
 sys.path.append('./GameItems')
 import gameItem
 import gameItemActionDictionary
@@ -28,7 +29,7 @@ while(command != "exit"):
     command = input()
 
     if (command == "build"):
-        playerCharacter.characterCreation(player1)
+        characterCreation.characterCreation(player1)
     elif (command == "abils"):
         for eachScore in playerCharacter.coreAbilityScores:
             print(str(eachScore)+":\t"+str(player1.abilityScores[eachScore]))
