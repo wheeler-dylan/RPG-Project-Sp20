@@ -5,6 +5,7 @@
 import sys
 sys.path.append('./PlayerCharacter')
 import playerCharacter
+import characterCreation 
 sys.path.append('./GameItems')
 import gameItem
 import gameItemActionDictionary
@@ -12,7 +13,34 @@ import gameItemActionDictionary
 
 print("-------------------------Running sandbox.py-------------------------\n\n")
 
+command = ""
+player1 = playerCharacter.playerCharacter()
 
+while(command != "exit"):
+    instructions = ("\n\nsandbox commands:\n" +
+                    "exit:\tclose the program\n" +
+                    "build:\tcreate a new character with gui\n" +
+                    #"quick:\tcreate a basic character\n" +
+                    "abils:\toutput the character's abilities\n" +
+                    "skills:\toutput the character's skills\n" +
+                    #"sheet:\toutput all the character's stats\n\n\n" +
+                    "")
+    print(instructions)
+    command = input()
+
+    if (command == "build"):
+        characterCreation.characterCreation(player1)
+    elif (command == "abils"):
+        for eachScore in playerCharacter.coreAbilityScores:
+            print(str(eachScore)+":\t"+str(player1.abilityScores[eachScore]))
+    elif (command == "skills"):
+        for eachSkill in playerCharacter.coreSkills:
+            print(str(eachSkill[0])+"\t"+str(player1.skills[eachSkill[0]]))
+
+
+
+
+"""
 #create new PC
 Etrius = playerCharacter.playerCharacter()
 #playerCharacter.characterCreation(Etrius)
@@ -35,6 +63,7 @@ print(Etrius.abilityScores)
 print(Etrius.skills)
 
 print(Etrius.hitPoints)
+"""
 
 """
 #update scores
