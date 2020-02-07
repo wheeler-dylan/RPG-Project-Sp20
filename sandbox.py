@@ -16,26 +16,81 @@ print("-------------------------Running sandbox.py-------------------------\n\n"
 command = ""
 player1 = playerCharacter.playerCharacter()
 
+instructions = ("\n\nsandbox commands:\n" +
+                "exit:\tclose the program\n" +
+                "help:\tprint list of commands\n" +
+                "\n----- Player Character Commands -----\n" +
+                "build:\tcreate a new character with gui\n" +
+                #"quick:\tinstantly create a basic character\n" +
+                "abils:\toutput the character's abilities\n" +
+                "skills:\toutput the character's skills\n" +
+                #"sheet:\toutput all the character's stats\n\n\n" +
+                "\n----- Game Item Commands -----\n" +
+                "look:\tview a list of all items in the game items folder\n" +
+                "find:\tload an example item (iron sword)" +
+                "\n")
+print(instructions)
+
 while(command != "exit"):
-    instructions = ("\n\nsandbox commands:\n" +
-                    "exit:\tclose the program\n" +
-                    "build:\tcreate a new character with gui\n" +
-                    #"quick:\tcreate a basic character\n" +
-                    "abils:\toutput the character's abilities\n" +
-                    "skills:\toutput the character's skills\n" +
-                    #"sheet:\toutput all the character's stats\n\n\n" +
-                    "")
-    print(instructions)
     command = input()
 
-    if (command == "build"):
+    #input command switch
+    if (command == "help"):         #output valid commands for sandbox
+        print("-------------------------\n")
+        print(instructions)
+        print("\n-------------------------\n")
+
+    if (command == "build"):        #tests Character Creation GUI
         characterCreation.characterCreation(player1)
-    elif (command == "abils"):
+
+    elif (command == "abils"):      #ensures ability scores have been updated
+        print("-------------------------\n")
         for eachScore in playerCharacter.coreAbilityScores:
             print(str(eachScore)+":\t"+str(player1.abilityScores[eachScore]))
-    elif (command == "skills"):
+        print("\n-------------------------\n")
+        
+
+    elif (command == "skills"):     #ensures skills have been updated
+        print("-------------------------\n")
         for eachSkill in playerCharacter.coreSkills:
             print(str(eachSkill[0])+"\t"+str(player1.skills[eachSkill[0]]))
+        print("\n-------------------------\n")
+
+    elif (command == "look"):       #tests function to get a list of game items from folder
+        print("-------------------------\n")
+        itemList = gameItem.loadItemsList()
+        for eachItem in itemList:
+            print(eachItem.name)
+        print("\n-------------------------\n")
+
+    elif (command == "find"):       #tests game item load and print
+        print("-------------------------\n")
+        ironSword = gameItem.gameItem()
+        ironSword.loadItemFromFile(open("./GameItems/ironsword.gmitm"))
+        ironSword.printItem()
+        print("\n-------------------------\n")
+
+    #end command switch
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

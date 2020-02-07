@@ -1,0 +1,4 @@
+name: journal
+description: This weathered book bound in leather contains many blank pages
+actions: read
+subitems: page

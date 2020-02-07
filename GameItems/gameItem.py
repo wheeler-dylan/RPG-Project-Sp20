@@ -24,15 +24,40 @@ class gameItem():
         self.subItems = []
     #end initializer
 
+
+    #print item to console for debugging
+    def printItem(self):
+        #print("\n-------------------------\n" +
+        print("Game Item:\n" +
+              "Name:\t" + str(self.name) + "\n" +
+              "\nDescription:\n" +
+              str(self.description) + "\n" +
+              "\nAvailable Actions:")
+        if (len(self.actions) == 0):
+            print("None")
+        else:
+            for eachAction in self.actions:
+                print(eachAction.__name__)
+        print("\nSubitems:")
+        if (len(self.subItems) == 0):
+            print("None")
+        else:
+            for eachItem in self.subItems:
+                print(str(eachItem.name))
+        #print("\n-------------------------\n")
+
     #open an item stored in host device
     def loadItemFromFile(self, fFile):
         for eachLine in fFile:
+
             if "name: " in eachLine:
                 thisLine = str(eachLine.replace("name: ", "").replace("\n", ""))
                 self.name = thisLine
+
             if "description: " in eachLine:
                 thisLine = str(eachLine.replace("description: ", "").replace("\n", ""))
                 self.description = thisLine
+
             if "actions: " in eachLine:
                 thisLine = str(eachLine.replace("actions: ", "").replace("\n", ""))
                 theseActions = thisLine.split(", ")
@@ -42,7 +67,10 @@ class gameItem():
                     if eachAction in gameItemActionDictionary.validActions:
                         #print("action found!") #debugging
                         self.actions.append(gameItemActionDictionary.validActions[eachAction]) 
+
             #TODO: add subitems
+            #
+
     #end load item from file
 
     #save item to a file on host device
@@ -67,4 +95,19 @@ class gameItem():
 
 #end game item class
 
+
+#function to get a list of items from all saved items
+from glob import glob
+def loadItemsList():
+    itemsList = []
+    
+    #os.chdir("./GameItems/")
+    for eachFile in glob("./GameItems/*.gmitm"):
+        thisItem = gameItem()
+        thisItem.loadItemFromFile(open(eachFile))
+        itemsList.append(thisItem)
+    #
+
+    return itemsList
+#
 
