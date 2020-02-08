@@ -13,6 +13,9 @@
 #       at runtime. (Future implementation should only load items as they 
 #       are needed in order to save RAM space.)
 
+import tkinter 
+from tkinter import ttk
+
 import gameItemActionDictionary
 
 #item class 
@@ -21,7 +24,7 @@ class gameItem():
         self.name = "item"
         self.description = "description"
         self.actions = []
-        self.subItems = []
+        self.subitems = []
     #end initializer
 
 
@@ -38,11 +41,11 @@ class gameItem():
         else:
             for eachAction in self.actions:
                 print(eachAction.__name__)
-        print("\nSubitems:")
-        if (len(self.subItems) == 0):
+        print("\nsubitems:")
+        if (len(self.subitems) == 0):
             print("None")
         else:
-            for eachItem in self.subItems:
+            for eachItem in self.subitems:
                 print(str(eachItem.name))
         #print("\n-------------------------\n")
 
@@ -61,15 +64,22 @@ class gameItem():
             if "actions: " in eachLine:
                 thisLine = str(eachLine.replace("actions: ", "").replace("\n", ""))
                 theseActions = thisLine.split(", ")
-                #print(theseActions) #debugging
+
                 for eachAction in theseActions:
-                    #print("for each action in these actions") #debugging
                     if eachAction in gameItemActionDictionary.validActions:
-                        #print("action found!") #debugging
                         self.actions.append(gameItemActionDictionary.validActions[eachAction]) 
 
-            #TODO: add subitems
-            #
+            if "subitems: " in eachLine: 
+                thisLine = str(eachLine.replace("subitems: ", "").replace("\n", "").replace(" ", ""))
+                theseItems = thisLine.split(", ")
+
+                for eachItem in theseItems:
+                    if (len(eachItem) > 0):
+                        thisItem = gameItem()
+                        thisItemFile = open("./GameItems/" + str(eachItem) + ".gmitm")
+                        if (thisItemFile):
+                            thisItem.loadItemFromFile(thisItemFile)
+                            self.subitems.append(thisItem) 
 
     #end load item from file
 
@@ -101,8 +111,7 @@ from glob import glob
 def loadItemsList():
     itemsList = []
     
-    #os.chdir("./GameItems/")
-    for eachFile in glob("./GameItems/*.gmitm"):
+    for eachFile in glob("./GameItems/*.gmitm"): #search game items directory for all gmitm files
         thisItem = gameItem()
         thisItem.loadItemFromFile(open(eachFile))
         itemsList.append(thisItem)
@@ -110,4 +119,37 @@ def loadItemsList():
 
     return itemsList
 #
+
+
+
+
+##### Game Item Creation Window (GUI) #####
+def gameItemCreation(fGameItem):
+
+    gameItemCreationWindow = tkinter.Tk()
+    gameItemCreationWindow.title("Game Item Creation")
+    gameItemCreationWindow.geometry('500x250')
+
+    #enter name
+    label = tkinter.Label(text = "Name:").pack()
+    nameInput = tkinter.Entry()
+    nameInput.pack()
+
+    #enter description
+    label = tkinter.Label(text = "Decription:").pack()
+    descriptionInput = tkinter.Entry()
+    descriptionInput.pack()
+
+    #select item actions
+    label = tkinter.Label(text = "Actions:").pack()
+
+    #load selectable actions into list for display
+    actionsList = []
+    actionCheckboxes = {}
+    for eachAction in gameItemActionDictionary.validActions:
+        actionsList.append(eachAction)
+        actionCheckboxes[eachAction] = tkinter.Checkbutton(text = str(eachAction))
+        actionCheckboxes[eachAction].pack()
+    
+
 

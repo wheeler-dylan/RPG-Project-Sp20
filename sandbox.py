@@ -19,15 +19,19 @@ player1 = playerCharacter.playerCharacter()
 instructions = ("\n\nsandbox commands:\n" +
                 "exit:\tclose the program\n" +
                 "help:\tprint list of commands\n" +
+
                 "\n----- Player Character Commands -----\n" +
                 "build:\tcreate a new character with gui\n" +
                 #"quick:\tinstantly create a basic character\n" +
                 "abils:\toutput the character's abilities\n" +
                 "skills:\toutput the character's skills\n" +
-                #"sheet:\toutput all the character's stats\n\n\n" +
+                "bags:\tview the character's inventory\n" +
+                #"sheet:\toutput all the character's stats\n" +
+
                 "\n----- Game Item Commands -----\n" +
                 "look:\tview a list of all items in the game items folder\n" +
-                "find:\tload an example item (iron sword)" +
+                "find:\tload some example items and add to inventory\n" +
+                "craft:\tbuild a new item with gui\n" +
                 "\n")
 print(instructions)
 
@@ -48,12 +52,17 @@ while(command != "exit"):
         for eachScore in playerCharacter.coreAbilityScores:
             print(str(eachScore)+":\t"+str(player1.abilityScores[eachScore]))
         print("\n-------------------------\n")
-        
 
     elif (command == "skills"):     #ensures skills have been updated
         print("-------------------------\n")
         for eachSkill in playerCharacter.coreSkills:
             print(str(eachSkill[0])+"\t"+str(player1.skills[eachSkill[0]]))
+        print("\n-------------------------\n")
+
+    elif (command == "bags"):   #view characters inventory
+        print("-------------------------\n")
+        for eachItem in player1.inventory:
+            print(eachItem.name)
         print("\n-------------------------\n")
 
     elif (command == "look"):       #tests function to get a list of game items from folder
@@ -68,6 +77,19 @@ while(command != "exit"):
         ironSword = gameItem.gameItem()
         ironSword.loadItemFromFile(open("./GameItems/ironsword.gmitm"))
         ironSword.printItem()
+        player1.collectItem(ironSword)
+        print("\n")
+        journal = gameItem.gameItem()
+        journal.loadItemFromFile(open("./GameItems/journal.gmitm"))
+        journal.printItem()
+        player1.collectItem(journal)
+        print("\n-------------------------\n")
+
+    elif (command == "craft"):
+        print("-------------------------\n")
+        newItem = gameItem.gameItem()
+        gameItem.gameItemCreation(newItem)
+        newItem.printItem()
         print("\n-------------------------\n")
 
     #end command switch

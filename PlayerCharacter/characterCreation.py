@@ -1,4 +1,7 @@
-
+#Author:        Dylan E. Wheeler
+#Date:          2019 02 06
+#Course:        CSC242 - Software Engineering II
+#Prof.:         Dr. A. Louise Perkins
 
 import playerCharacter
 import tkinter
@@ -26,8 +29,8 @@ def characterCreation(fCharacter):
     print()
     
     #tkinter window for GUI character creation
-    ccWindow = tkinter.Tk() #character creation window
-    ccWindow.title("Character Creation")
+    characterCreationWindow = tkinter.Tk() #character creation window
+    characterCreationWindow.title("Character Creation")
 
 
 
@@ -84,15 +87,15 @@ def characterCreation(fCharacter):
                     to = min(abilityMaxBonus, int(abilityBonusSpinboxes[eachScore].get()) + abilityPointsLeft))
 
         #debugging
-        print(abilityBonuses, end="\t")
-        print(abilityPointsLeft, abilityMaxBonus)
+        #print(abilityBonuses, end="\t")
+        #print(abilityPointsLeft, abilityMaxBonus)
     #end ability spinbox update
     
     #add a spinbox user uses to allocate points to each ability score
     abilityBonusSpinboxes = {}
     for eachScore in playerCharacter.coreAbilityScores:
         label = tkinter.Label(text = eachScore.capitalize() + ":").pack() 
-        abilityBonusSpinboxes[eachScore] = tkinter.Spinbox(ccWindow, from_ = 0, to = abilityMaxBonus, 
+        abilityBonusSpinboxes[eachScore] = tkinter.Spinbox(characterCreationWindow, from_ = 0, to = abilityMaxBonus, 
                                                            command = abilitySpinboxUpdate)
         abilityBonusSpinboxes[eachScore].pack()
     #
@@ -165,7 +168,7 @@ def characterCreation(fCharacter):
         label = tkinter.Label(text = eachSkill[0].capitalize() + " (" +
                               eachSkill[1].capitalize() + ", " +
                               eachSkill[2].capitalize() + "):").pack()
-        skillBonusSpinboxes[eachSkill[0]] = tkinter.Spinbox(ccWindow, from_ = 0, to = maxSkillRanks,
+        skillBonusSpinboxes[eachSkill[0]] = tkinter.Spinbox(characterCreationWindow, from_ = 0, to = maxSkillRanks,
                                                            command = skillSpinboxUpdate)
         skillBonusSpinboxes[eachSkill[0]].pack()
     #
@@ -176,11 +179,11 @@ def characterCreation(fCharacter):
 
 
 
-    ccWindow.mainloop()
+    characterCreationWindow.mainloop()
     #end character creation window
         
     #debugging
-    print(abilityBonuses)
+    #print(abilityBonuses)
 
 
 
