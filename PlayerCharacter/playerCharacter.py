@@ -25,20 +25,16 @@ import species
 import sys
 sys.path.append('./PlayerCharacter/Skills')
 import skills
+sys.path.append('./PlayerCharacter/Abilities')
+import abilities
 
 
 #list of core ability scores
-coreAbilityScores = ["strength", "constitution", "dexterity", "intelligence", "charisma"]
+#abilities.coreAbilities.values() = ["strength", "constitution", "dexterity", "intelligence", "charisma"]
 
 
 
-#list of main skills, each skill is followed by its two associated abilities
-"""
-coreSkills = [["athletics", "strength", "dexterity"], 
-              ["medicine", "intelligence", "dexterity"], 
-              ["perception", "charisma", "intelligence"],
-              ["acrobatics", "dexterity", "constitution"]]
-"""
+
 
 
 import characterCreation
@@ -56,8 +52,8 @@ class playerCharacter:
 
         #abilities
         self.abilityScores = {}
-        for eachScore in coreAbilityScores:         #set each score to its minumum
-            self.abilityScores[eachScore] = characterCreation.minAbilityScore
+        for eachAbility in abilities.coreAbilities.values():         #set each score to its minumum
+            self.abilityScores[eachAbility.ID] = characterCreation.minAbilityScore
 
         #skill bases (sum of two linked abilities)
         self.skillBases = {}
@@ -92,8 +88,8 @@ class playerCharacter:
     #update ability scores
     def updateAbilityScores(self, fnewAbilityScores):
         i = 0
-        for eachScore in coreAbilityScores:
-            self.abilityScores[eachScore] += fnewAbilityScores[i]
+        for eachAbility in abilities.coreAbilities.values():
+            self.abilityScores[eachAbility.ID] += fnewAbilityScores[i]
             i += 1
         
         #update skills

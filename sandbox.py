@@ -11,6 +11,8 @@ import gameItem
 import gameItemActionDictionary
 sys.path.append('./PlayerCharacter/Skills')
 import skills
+sys.path.append('./PlayerCharacter/Abilities')
+import abilities
 
 
 print("-------------------------Running sandbox.py-------------------------\n\n")
@@ -38,7 +40,8 @@ instructions = ("\n\nsandbox commands:\n" +
                 "craft:\tbuild a new item with gui\n" +
 
                 "\n----- Game Engine Commands -----\n" +
-                "printskills:\tview all skills in the skills.gameconfig file" +
+                "printskills:\tview all skills in the skills.gameconfig file\n" +
+                "printabils:\tview all abilities in the abilities.gameconfig file\n" +
                 "\n")
 print(instructions)
 
@@ -59,6 +62,7 @@ while(command != "exit"):
 
 
     ##### PC Commands #####
+
     #tests Character Creation GUI
     elif (command == "create"):     
         characterCreation.characterCreation(player1)
@@ -66,8 +70,9 @@ while(command != "exit"):
     #ensures ability scores have been updated
     elif (command == "abils"):      
         print("-------------------------\n")
-        for eachScore in playerCharacter.coreAbilityScores:
-            print(str(eachScore)+":\t"+str(player1.abilityScores[eachScore]))
+        for eachAbility in abilities.coreAbilities.values():
+            print(str(eachAbility.name)+":\t" + 
+                  str(player1.abilityScores[eachAbility.ID]))
         print("\n-------------------------\n")
 
     #ensures skills have been updated
@@ -86,6 +91,7 @@ while(command != "exit"):
 
 
     ##### Game Item Commands #####
+
     #tests function to get a list of game items from folder
     elif (command == "look"):       
         print("-------------------------\n")
@@ -119,11 +125,20 @@ while(command != "exit"):
 
 
     ##### Game Engine Commands #####
+
+    #confirm skills loaded from game config file
     elif (command == "printskills"):
         print("-------------------------\n")
-        #print(skills.gameSkills)
         for eachSkill in skills.coreSkills.values():
             eachSkill.printSkill()
+            print("\n----------\n")
+        print("\n-------------------------\n")
+
+    #confirm skills loaded from game config file
+    elif (command == "printabils"):
+        print("-------------------------\n")
+        for eachAbility in abilities.coreAbilities.values():
+            eachAbility.printAbility()
             print("\n----------\n")
         print("\n-------------------------\n")
 

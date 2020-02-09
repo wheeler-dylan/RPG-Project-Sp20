@@ -9,11 +9,13 @@ import tkinter
 import sys
 sys.path.append('./PlayerCharacter/Skills')
 import skills
+sys.path.append('./PlayerCharacter/Abilities')
+import abilities
 
 #ability score parameters
 minAbilityScore = 5                     #minimum score, starting score at initialization
 startingAbilityPointsPerScore = 10      #this number defines the average points per score at character creation
-startingAbilityPoints = startingAbilityPointsPerScore * len(playerCharacter.coreAbilityScores)  #total of above
+startingAbilityPoints = startingAbilityPointsPerScore * len(abilities.coreAbilities)  #total of above
 maxAbilityScore = 20                    #maximum ability score bonus at character creation
 
 
@@ -53,8 +55,8 @@ def characterCreation(fCharacter):
     #   list will be used as parameters for the character object's
     #   update abilites function
     abilityBonuses = {}
-    for eachScore in playerCharacter.coreAbilityScores:
-        abilityBonuses[eachScore] = 0
+    for eachAbility in abilities.coreAbilities.values():
+        abilityBonuses[eachAbility.ID] = 0
 
 
     #give instructions for adding points to ability scores
@@ -69,26 +71,28 @@ def characterCreation(fCharacter):
     #   updates the bonuses with new value from the spinbox
     def abilitySpinboxUpdate():
         #update ability bonuses based off values in the spinboxes
-        for eachScore in playerCharacter.coreAbilityScores:
-            abilityBonuses[eachScore] = int(abilityBonusSpinboxes[eachScore].get()) 
+        for eachAbility in abilities.coreAbilities.values():
+            abilityBonuses[eachAbility.ID] = int(abilityBonusSpinboxes[eachAbility.ID].get()) 
 
         #check how many points are left
         abilityBonusSum = 0
-        for eachScore in playerCharacter.coreAbilityScores:
-            abilityBonusSum += abilityBonuses[eachScore]
+        for eachAbility in abilities.coreAbilities.values():
+            abilityBonusSum += abilityBonuses[eachAbility.ID]
         abilityPointsLeft = startingAbilityPoints - abilityBonusSum
         abilityMaxBonus = maxAbilityScore - minAbilityScore 
 
         #don't let player spend more points than they have, resets spinbox max values
         if(abilityPointsLeft == 0):
-            for eachScore in playerCharacter.coreAbilityScores:
-                abilityBonusSpinboxes[eachScore].config(to = int(abilityBonusSpinboxes[eachScore].get()))
+            for eachAbility in abilities.coreAbilities.values():
+                abilityBonusSpinboxes[eachAbility.ID].config(to = int(abilityBonusSpinboxes[eachAbility.ID].get()))
 
         #reset maximums if player deallocates points or has points left
         else:
-            for eachScore in playerCharacter.coreAbilityScores:
-                abilityBonusSpinboxes[eachScore].config(
-                    to = min(abilityMaxBonus, int(abilityBonusSpinboxes[eachScore].get()) + abilityPointsLeft))
+            for eachAbility in abilities.coreAbilities.values():
+                abilityBonusSpinboxes[eachAbility.ID].config(
+                    to = min(abilityMaxBonus, 
+                             int(abilityBonusSpinboxes[eachAbility.ID].get()) + 
+                             abilityPointsLeft))
 
         #debugging
         #print(abilityBonuses, end="\t")
@@ -97,11 +101,12 @@ def characterCreation(fCharacter):
     
     #add a spinbox user uses to allocate points to each ability score
     abilityBonusSpinboxes = {}
-    for eachScore in playerCharacter.coreAbilityScores:
-        label = tkinter.Label(text = eachScore.capitalize() + ":").pack() 
-        abilityBonusSpinboxes[eachScore] = tkinter.Spinbox(characterCreationWindow, from_ = 0, to = abilityMaxBonus, 
-                                                           command = abilitySpinboxUpdate)
-        abilityBonusSpinboxes[eachScore].pack()
+    for eachAbility in abilities.coreAbilities.values():
+        label = tkinter.Label(text = eachAbility.name + ":").pack() 
+        abilityBonusSpinboxes[eachAbility.ID] = tkinter.Spinbox(
+            characterCreationWindow, from_ = 0, to = abilityMaxBonus, 
+            command = abilitySpinboxUpdate)
+        abilityBonusSpinboxes[eachAbility.ID].pack()
     #
     label = tkinter.Label(text="").pack() #blank line
 
@@ -201,8 +206,8 @@ def characterCreation(fCharacter):
 
     #update scores
     newAbilityScores = []
-    for eachScore in playerCharacter.coreAbilityScores:
-        newAbilityScores.append(abilityBonuses[eachScore])
+    for eachAbility in abilities.coreAbilities.values():
+        newAbilityScores.append(abilityBonuses[eachAbility.ID])
     fCharacter.updateAbilityScores(newAbilityScores)
 
     newSkillRanks = []
