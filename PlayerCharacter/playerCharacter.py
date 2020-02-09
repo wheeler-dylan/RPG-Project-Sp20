@@ -58,8 +58,8 @@ class playerCharacter:
         #skill bases (sum of two linked abilities)
         self.skillBases = {}
         for eachSkill in skills.coreSkills.values():                #set each skill to the sum of its two linked abilities
-            self.skillBases[eachSkill.ID] = (self.abilityScores[eachSkill.mainAbility] + 
-                                             self.abilityScores[eachSkill.secondaryAbility])
+            self.skillBases[eachSkill.ID] = (self.abilityScores[eachSkill.mainAbility.ID] + 
+                                             self.abilityScores[eachSkill.secondaryAbility.ID])
 
         #skill ranks (points added to skills at character chreation and level up)
         self.skillRanks = {}
@@ -113,8 +113,8 @@ class playerCharacter:
     #refresh skill bases, used if ability scores are changed
     def refreshSkillBases(self):
         for eachSkill in skills.coreSkills.values():
-            self.skillBases[eachSkill.ID] = (self.abilityScores[eachSkill.mainAbility] + 
-                                             self.abilityScores[eachSkill.secondaryAbility])
+            self.skillBases[eachSkill.ID] = (self.abilityScores[eachSkill.mainAbility.ID] + 
+                                             self.abilityScores[eachSkill.secondaryAbility.ID])
         #update skill totals
         self.refreshSkills() 
     #end refresh skill bases

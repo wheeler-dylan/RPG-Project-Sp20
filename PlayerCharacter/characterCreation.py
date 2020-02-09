@@ -7,10 +7,10 @@
 import playerCharacter
 import tkinter
 import sys
-sys.path.append('./PlayerCharacter/Skills')
-import skills
 sys.path.append('./PlayerCharacter/Abilities')
 import abilities
+sys.path.append('./PlayerCharacter/Skills')
+import skills
 
 #ability score parameters
 minAbilityScore = 5                     #minimum score, starting score at initialization
@@ -180,8 +180,8 @@ def characterCreation(fCharacter):
     skillBonusSpinboxes = {}
     for eachSkill in skills.coreSkills.values():
         label = tkinter.Label(text = str(eachSkill.name) + " (" +
-                              str(eachSkill.mainAbility) + ", " +
-                              str(eachSkill.secondaryAbility) + "):").pack()
+                              str(eachSkill.mainAbility.name) + ", " +
+                              str(eachSkill.secondaryAbility.name) + "):").pack()
         skillBonusSpinboxes[eachSkill.ID] = tkinter.Spinbox(characterCreationWindow, from_ = 0, 
                                                             to = maxSkillRanks,
                                                             command = skillSpinboxUpdate)
