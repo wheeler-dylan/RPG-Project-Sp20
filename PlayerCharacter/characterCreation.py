@@ -1,4 +1,7 @@
-
+#Author:        Dylan E. Wheeler
+#Date:          2019 02 06
+#Course:        CSC242 - Software Engineering II
+#Prof.:         Dr. A. Louise Perkins
 
 import playerCharacter
 import tkinter
@@ -11,7 +14,7 @@ maxAbilityScore = 20                    #maximum ability score bonus at characte
 
 
 #skill rank parameters
-minSkillRank = 0                #minimum additional points added to each skill besides linked abilities
+minSkillRanks = 0                #minimum additional points added to each skill besides linked abilities
 startingSkillPoints = 40        #total character creation points added to skill ranks
 maxSkillRanks = 40              #maximux skill bonus allowed at character creation
 
@@ -26,8 +29,8 @@ def characterCreation(fCharacter):
     print()
     
     #tkinter window for GUI character creation
-    ccWindow = tkinter.Tk() #character creation window
-    ccWindow.title("Character Creation")
+    characterCreationWindow = tkinter.Tk() #character creation window
+    characterCreationWindow.title("Character Creation")
 
 
 
@@ -84,15 +87,15 @@ def characterCreation(fCharacter):
                     to = min(abilityMaxBonus, int(abilityBonusSpinboxes[eachScore].get()) + abilityPointsLeft))
 
         #debugging
-        print(abilityBonuses, end="\t")
-        print(abilityPointsLeft, abilityMaxBonus)
+        #print(abilityBonuses, end="\t")
+        #print(abilityPointsLeft, abilityMaxBonus)
     #end ability spinbox update
     
     #add a spinbox user uses to allocate points to each ability score
     abilityBonusSpinboxes = {}
     for eachScore in playerCharacter.coreAbilityScores:
         label = tkinter.Label(text = eachScore.capitalize() + ":").pack() 
-        abilityBonusSpinboxes[eachScore] = tkinter.Spinbox(ccWindow, from_ = 0, to = abilityMaxBonus, 
+        abilityBonusSpinboxes[eachScore] = tkinter.Spinbox(characterCreationWindow, from_ = 0, to = abilityMaxBonus, 
                                                            command = abilitySpinboxUpdate)
         abilityBonusSpinboxes[eachScore].pack()
     #
@@ -110,7 +113,7 @@ def characterCreation(fCharacter):
     #remaining points to spend on skills
     skillPointsLeft = startingSkillPoints
     #highest bonus that can be added to skill ranks
-    skillMaxBonus = min(maxSkillRanks - minSkillRank, skillPointsLeft)
+    skillMaxBonus = min(maxSkillRanks - minSkillRanks, skillPointsLeft)
 
     #dictionary used to be converted to list
     #   list will be used as parameters for the character object's
@@ -121,7 +124,12 @@ def characterCreation(fCharacter):
 
 
     #give instructions for adding points to skill ranks
-    skillBanner = str("Skills:")        #TODO
+    skillBanner = str("Skills:\nYou have " + str(skillPointsLeft) + " "+ 
+                      "points to distribute amongst your skill ranks.\n" + 
+                      "Each rank starts at " + str(minSkillRanks) + ".\n" +
+                      "The maximum for each rank is " + str(maxSkillRanks) + ".\n" +
+                      "In addition to ranks, each skill gains a bonus from " +
+                      "each of its two link Abilities.")
     label = tkinter.Label(text = skillBanner).pack()
 
 
@@ -165,7 +173,7 @@ def characterCreation(fCharacter):
         label = tkinter.Label(text = eachSkill[0].capitalize() + " (" +
                               eachSkill[1].capitalize() + ", " +
                               eachSkill[2].capitalize() + "):").pack()
-        skillBonusSpinboxes[eachSkill[0]] = tkinter.Spinbox(ccWindow, from_ = 0, to = maxSkillRanks,
+        skillBonusSpinboxes[eachSkill[0]] = tkinter.Spinbox(characterCreationWindow, from_ = 0, to = maxSkillRanks,
                                                            command = skillSpinboxUpdate)
         skillBonusSpinboxes[eachSkill[0]].pack()
     #
@@ -176,11 +184,11 @@ def characterCreation(fCharacter):
 
 
 
-    ccWindow.mainloop()
+    characterCreationWindow.mainloop()
     #end character creation window
         
     #debugging
-    print(abilityBonuses)
+    #print(abilityBonuses)
 
 
 
