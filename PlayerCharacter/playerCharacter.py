@@ -1,4 +1,5 @@
 #Author:        Dylan E. Wheeler
+#Email:         dylan.wheeler@usm.edu
 #Date:          2019 01 30
 #Course:        CSC242 - Software Engineering II
 #Prof.:         Dr. A. Louise Perkins
@@ -21,7 +22,9 @@
 
 import tkinter
 import species 
-
+import sys
+sys.path.append('./PlayerCharacter/Skills')
+import skills
 
 
 #list of core ability scores
@@ -30,11 +33,12 @@ coreAbilityScores = ["strength", "constitution", "dexterity", "intelligence", "c
 
 
 #list of main skills, each skill is followed by its two associated abilities
+"""
 coreSkills = [["athletics", "strength", "dexterity"], 
               ["medicine", "intelligence", "dexterity"], 
               ["perception", "charisma", "intelligence"],
               ["acrobatics", "dexterity", "constitution"]]
-
+"""
 
 
 import characterCreation
@@ -57,18 +61,19 @@ class playerCharacter:
 
         #skill bases (sum of two linked abilities)
         self.skillBases = {}
-        for eachSkill in coreSkills:                #set each skill to the sum of its two linked abilities
-            self.skillBases[eachSkill[0]] = self.abilityScores[eachSkill[1]] + self.abilityScores[eachSkill[2]]
+        for eachSkill in skills.coreSkills.values():                #set each skill to the sum of its two linked abilities
+            self.skillBases[eachSkill.ID] = (self.abilityScores[eachSkill.mainAbility] + 
+                                             self.abilityScores[eachSkill.secondaryAbility])
 
         #skill ranks (points added to skills at character chreation and level up)
         self.skillRanks = {}
-        for eachSkill in coreSkills:
-            self.skillRanks[eachSkill[0]] = 0
+        for eachSkill in skills.coreSkills.values():
+            self.skillRanks[eachSkill.ID] = 0
 
         #skill totals (sum of skill bases and skill ranks)
         self.skills = {}
-        for eachSkill in coreSkills:
-            self.skills[eachSkill[0]] = self.skillBases[eachSkill[0]] + self.skillRanks[eachSkill[0]]
+        for eachSkill in skills.coreSkills.values():
+            self.skills[eachSkill.ID] = self.skillBases[eachSkill.ID] + self.skillRanks[eachSkill.ID]
 
         #combat stats
         self.hitPointTotal = (self.abilityScores["strength"] + self. abilityScores["constitution"]) * 2
@@ -102,8 +107,8 @@ class playerCharacter:
     #update skill ranks
     def updateSkillRanks(self, fNewRanks):
         i = 0
-        for eachSkill in coreSkills:
-            self.skillRanks[eachSkill[0]] += fNewRanks[i]
+        for eachSkill in skills.coreSkills.values():
+            self.skillRanks[eachSkill.ID] += fNewRanks[i]
             i += 1
         #update skills
         self.refreshSkills()
@@ -111,16 +116,17 @@ class playerCharacter:
 
     #refresh skill bases, used if ability scores are changed
     def refreshSkillBases(self):
-        for eachSkill in coreSkills:
-            self.skillBases[eachSkill[0]] = self.abilityScores[eachSkill[1]] + self.abilityScores[eachSkill[2]]
+        for eachSkill in skills.coreSkills.values():
+            self.skillBases[eachSkill.ID] = (self.abilityScores[eachSkill.mainAbility] + 
+                                             self.abilityScores[eachSkill.secondaryAbility])
         #update skill totals
         self.refreshSkills() 
     #end refresh skill bases
 
     #refresh skill totals, used if ability scores, skill bases, or skill ranks are changed 
     def refreshSkills(self):
-        for eachSkill in coreSkills:
-            self.skills[eachSkill[0]] = self.skillBases[eachSkill[0]] + self.skillRanks[eachSkill[0]]
+        for eachSkill in skills.coreSkills.values():
+            self.skills[eachSkill.ID] = self.skillBases[eachSkill.ID] + self.skillRanks[eachSkill.ID]
     #end skill refresh
 
 
