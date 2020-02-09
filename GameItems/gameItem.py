@@ -49,6 +49,7 @@ class gameItem():
                 print(str(eachItem.name))
         #print("\n-------------------------\n")
 
+
     #open an item stored in host device
     def loadItemFromFile(self, fFile):
         for eachLine in fFile:
@@ -83,6 +84,7 @@ class gameItem():
 
     #end load item from file
 
+
     #save item to a file on host device
     def saveItemToFile(self):
         fileName = "./GameItems/" + str(self.name).lower().replace(" ", "") + ".gmitm"
@@ -96,12 +98,15 @@ class gameItem():
             file.write(", ")
         file.write("\n")
         file.write("subitems: ")
+    #end save item
+
 
     #generate an item with only a name and description
     def quickBuild(self):
         self.name = input("Enter item name:")
         self.description = input("Describe the item:") 
     #end quick build
+
 
 #end game item class
 
@@ -118,13 +123,17 @@ def loadItemsList():
     #
 
     return itemsList
-#
+#end load item list
 
 
 
 
 ##### Game Item Creation Window (GUI) #####
 def gameItemCreation(fGameItem):
+
+    #variables to store updated item information
+    newName = ""
+    newDescription = ""
 
     gameItemCreationWindow = tkinter.Tk()
     gameItemCreationWindow.title("Game Item Creation")
@@ -143,13 +152,51 @@ def gameItemCreation(fGameItem):
     #select item actions
     label = tkinter.Label(text = "Actions:").pack()
 
-    #load selectable actions into list for display
-    actionsList = []
+    #load selectable actions into list
+    actionList = []
     actionCheckboxes = {}
     for eachAction in gameItemActionDictionary.validActions:
-        actionsList.append(eachAction)
-        actionCheckboxes[eachAction] = tkinter.Checkbutton(text = str(eachAction))
+        actionCheckboxes[eachAction] = ttk.Checkbutton(text = str(eachAction))
+        actionCheckboxes[eachAction].state(['!alternate'])
         actionCheckboxes[eachAction].pack()
+
+    #select subitems
+    label = tkinter.Label(text = "Subitems:").pack()
+
+    #load selectable subitems into list
+    subitemList = []
+    subitemCheckboxes = {}
+    allItems = loadItemsList()
+    for eachItem in allItems:
+        subitemCheckboxes[eachItem.name] = ttk.Checkbutton(
+            text = str(eachItem.name))
+        subitemCheckboxes[eachItem.name].state(['!alternate'])
+        subitemCheckboxes[eachItem.name].pack()
+
+    #when window is closed
+    def windowExit():
+        #save inputs
+        fGameItem.name = nameInput.get()
+        fGameItem.description = descriptionInput.get()
+        
+        #save actions
+        for eachAction in gameItemActionDictionary.validActions:
+            if (actionCheckboxes[eachAction].instate(['selected'])):
+                fGameItem.actions.append(
+                    gameItemActionDictionary.validActions[eachAction])
+
+        #save subitems
+        for eachItem in allItems:
+            if (subitemCheckboxes[eachItem.name].instate(['selected'])):
+                fGameItem.subitems.append(eachItem)
+        
+        #close window
+        gameItemCreationWindow.destroy()
+    #called on close
+    gameItemCreationWindow.protocol("WM_DELETE_WINDOW", windowExit) 
     
 
+    #execute window
+    gameItemCreationWindow.mainloop()
 
+#end game item creation GUI

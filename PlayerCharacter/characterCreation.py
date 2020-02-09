@@ -14,7 +14,7 @@ maxAbilityScore = 20                    #maximum ability score bonus at characte
 
 
 #skill rank parameters
-minSkillRank = 0                #minimum additional points added to each skill besides linked abilities
+minSkillRanks = 0                #minimum additional points added to each skill besides linked abilities
 startingSkillPoints = 40        #total character creation points added to skill ranks
 maxSkillRanks = 40              #maximux skill bonus allowed at character creation
 
@@ -113,7 +113,7 @@ def characterCreation(fCharacter):
     #remaining points to spend on skills
     skillPointsLeft = startingSkillPoints
     #highest bonus that can be added to skill ranks
-    skillMaxBonus = min(maxSkillRanks - minSkillRank, skillPointsLeft)
+    skillMaxBonus = min(maxSkillRanks - minSkillRanks, skillPointsLeft)
 
     #dictionary used to be converted to list
     #   list will be used as parameters for the character object's
@@ -124,7 +124,12 @@ def characterCreation(fCharacter):
 
 
     #give instructions for adding points to skill ranks
-    skillBanner = str("Skills:")        #TODO
+    skillBanner = str("Skills:\nYou have " + str(skillPointsLeft) + " "+ 
+                      "points to distribute amongst your skill ranks.\n" + 
+                      "Each rank starts at " + str(minSkillRanks) + ".\n" +
+                      "The maximum for each rank is " + str(maxSkillRanks) + ".\n" +
+                      "In addition to ranks, each skill gains a bonus from " +
+                      "each of its two link Abilities.")
     label = tkinter.Label(text = skillBanner).pack()
 
 
