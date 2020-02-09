@@ -30,10 +30,12 @@ class skill:
 
 
 #load skills from game configuration file
-gameSkills = {}
+coreSkills = {}
 skillsConfig = open("./PlayerCharacter/Skills/skills.gameconfig")
 for eachLine in skillsConfig:
     skillData = str(eachLine.replace("\n", "")).split(", ")
     thisSkill = skill(skillData[0], skillData[1], skillData[2], skillData[3], skillData[4])
-    gameSkills[thisSkill.ID] = thisSkill
+    coreSkills[thisSkill.ID] = thisSkill
 #end load
+
+

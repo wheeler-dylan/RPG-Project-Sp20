@@ -6,6 +6,9 @@
 
 import playerCharacter
 import tkinter
+import sys
+sys.path.append('./PlayerCharacter/Skills')
+import skills
 
 #ability score parameters
 minAbilityScore = 5                     #minimum score, starting score at initialization
@@ -120,8 +123,8 @@ def characterCreation(fCharacter):
     #   list will be used as parameters for the character object's
     #   update abilites function
     skillBonuses = {}
-    for eachSkill in playerCharacter.coreSkills:
-        skillBonuses[eachSkill[0]] = 0
+    for eachSkill in skills.coreSkills.values():
+        skillBonuses[eachSkill.ID] = 0
 
 
     #give instructions for adding points to skill ranks
@@ -137,15 +140,15 @@ def characterCreation(fCharacter):
     #update skill bonuses when skill spinbox arrows are clicked
     def skillSpinboxUpdate():
         #update skill bonuses based off values in the spinboxes
-        for eachSkill in playerCharacter.coreSkills:
+        for eachSkill in skills.coreSkills.values():
             #if (int(skillBonusSpinboxes[eachSkill[0]].get()) > int(maxSkillRanks)):   #input validation
             #    skillBonusSpinboxes[eachSkill[0]].set(int(maxSkillRanks))
-            skillBonuses[eachSkill[0]] = int(skillBonusSpinboxes[eachSkill[0]].get())
+            skillBonuses[eachSkill.ID] = int(skillBonusSpinboxes[eachSkill.ID].get())
 
         #check how many points are left for skills
         skillBonusSum = 0
-        for eachSkill in playerCharacter.coreSkills:
-            skillBonusSum += skillBonuses[eachSkill[0]]
+        for eachSkill in skills.coreSkills.values():
+            skillBonusSum += skillBonuses[eachSkill.ID]
         skillPointsLeft = startingSkillPoints - skillBonusSum
 
         #don't let player spend more points than they have, reset spinbox max values
@@ -160,23 +163,24 @@ def characterCreation(fCharacter):
                     to = min(skillMaxBonus, 
                              int(skillBonusSpinboxes[eachSkill[0]].get()) + skillPointsLeft))
         """
-        for eachSkill in playerCharacter.coreSkills:
-            skillBonusSpinboxes[eachSkill[0]].config(
+        for eachSkill in skills.coreSkills.values():
+            skillBonusSpinboxes[eachSkill.ID].config(
                 to = min(skillMaxBonus, 
-                         int(skillBonusSpinboxes[eachSkill[0]].get()) + skillPointsLeft))
+                         int(skillBonusSpinboxes[eachSkill.ID].get()) + skillPointsLeft))
 
 
     #end skill spinbox update
 
     #add a spinbox user uses to allocate points to each skill rank
     skillBonusSpinboxes = {}
-    for eachSkill in playerCharacter.coreSkills:
-        label = tkinter.Label(text = eachSkill[0].capitalize() + " (" +
-                              eachSkill[1].capitalize() + ", " +
-                              eachSkill[2].capitalize() + "):").pack()
-        skillBonusSpinboxes[eachSkill[0]] = tkinter.Spinbox(characterCreationWindow, from_ = 0, to = maxSkillRanks,
-                                                           command = skillSpinboxUpdate)
-        skillBonusSpinboxes[eachSkill[0]].pack()
+    for eachSkill in skills.coreSkills.values():
+        label = tkinter.Label(text = str(eachSkill.name) + " (" +
+                              str(eachSkill.mainAbility) + ", " +
+                              str(eachSkill.secondaryAbility) + "):").pack()
+        skillBonusSpinboxes[eachSkill.ID] = tkinter.Spinbox(characterCreationWindow, from_ = 0, 
+                                                            to = maxSkillRanks,
+                                                            command = skillSpinboxUpdate)
+        skillBonusSpinboxes[eachSkill.ID].pack()
     #
     label = tkinter.Label(text="").pack() #blank line
     
@@ -202,8 +206,8 @@ def characterCreation(fCharacter):
     fCharacter.updateAbilityScores(newAbilityScores)
 
     newSkillRanks = []
-    for eachSkill in playerCharacter.coreSkills:
-        newSkillRanks.append(skillBonuses[eachSkill[0]])
+    for eachSkill in skills.coreSkills.values():
+        newSkillRanks.append(skillBonuses[eachSkill.ID])
     fCharacter.updateSkillRanks(newSkillRanks)
 
 #end character creation function

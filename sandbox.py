@@ -12,6 +12,7 @@ import gameItemActionDictionary
 sys.path.append('./PlayerCharacter/Skills')
 import skills
 
+
 print("-------------------------Running sandbox.py-------------------------\n\n")
 
 command = ""
@@ -72,8 +73,8 @@ while(command != "exit"):
     #ensures skills have been updated
     elif (command == "skills"):     
         print("-------------------------\n")
-        for eachSkill in playerCharacter.coreSkills:
-            print(str(eachSkill[0])+"\t"+str(player1.skills[eachSkill[0]]))
+        for eachSkill in skills.coreSkills.values():
+            print(str(eachSkill.name)+":\t"+str(player1.skills[eachSkill.ID]))
         print("\n-------------------------\n")
 
     #view characters inventory
@@ -121,8 +122,8 @@ while(command != "exit"):
     elif (command == "printskills"):
         print("-------------------------\n")
         #print(skills.gameSkills)
-        for eachSkill in skills.gameSkills:
-            skills.gameSkills[eachSkill].printSkill()
+        for eachSkill in skills.coreSkills.values():
+            eachSkill.printSkill()
             print("\n----------\n")
         print("\n-------------------------\n")
 
