@@ -9,7 +9,8 @@ import characterCreation
 sys.path.append('./GameItems')
 import gameItem
 import gameItemActionDictionary
-
+sys.path.append('./PlayerCharacter/Skills')
+import skills
 
 print("-------------------------Running sandbox.py-------------------------\n\n")
 
@@ -34,6 +35,9 @@ instructions = ("\n\nsandbox commands:\n" +
                 "look:\tview a list of all items in the game items folder\n" +
                 "find:\tload some example items and add to inventory\n" +
                 "craft:\tbuild a new item with gui\n" +
+
+                "\n----- Game Engine Commands -----\n" +
+                "printskills:\tview all skills in the skills.gameconfig file" +
                 "\n")
 print(instructions)
 
@@ -52,6 +56,8 @@ while(command != "exit"):
         print(instructions)
         print("\n-------------------------\n")
 
+
+    ##### PC Commands #####
     #tests Character Creation GUI
     elif (command == "create"):     
         characterCreation.characterCreation(player1)
@@ -77,6 +83,8 @@ while(command != "exit"):
             print(eachItem.name)
         print("\n-------------------------\n")
 
+
+    ##### Game Item Commands #####
     #tests function to get a list of game items from folder
     elif (command == "look"):       
         print("-------------------------\n")
@@ -107,6 +115,17 @@ while(command != "exit"):
         newItem.printItem()
         player1.collectItem(newItem) #add to inventory
         print("\n-------------------------\n")
+
+
+    ##### Game Engine Commands #####
+    elif (command == "printskills"):
+        print("-------------------------\n")
+        #print(skills.gameSkills)
+        for eachSkill in skills.gameSkills:
+            skills.gameSkills[eachSkill].printSkill()
+            print("\n----------\n")
+        print("\n-------------------------\n")
+
 
     #invalid command
     else:
