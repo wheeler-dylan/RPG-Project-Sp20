@@ -8,6 +8,10 @@
 #   skills are used by player characters and NPCs to 
 #   determine the success of tasks performed in the game
 
+import sys
+sys.path.append('./PlayerCharacter/Abilities')
+import abilities
+
 class skill:
     def __init__(self, fID, fName, fMainAbility, fSecondaryAbility, fCategory):
         self.ID = fID
@@ -21,8 +25,8 @@ class skill:
     def printSkill(self):
         print("Skill:\t\t" + str(self.ID) + "\n" +
               "Name:\t\t" + str(self.name) + "\n" +
-              "Main Abil:\t" + str(self.mainAbility) + "\n" +
-              "Sec Abil:\t" + str(self.secondaryAbility) + "\n" +
+              "Main Abil:\t" + str(self.mainAbility.name) + "\n" +
+              "Sec Abil:\t" + str(self.secondaryAbility.name) + "\n" +
               "Type:\t\t" + str(self.category) + "\n")
     #end print skill
 
@@ -34,7 +38,11 @@ coreSkills = {}
 skillsConfig = open("./PlayerCharacter/Skills/skills.gameconfig")
 for eachLine in skillsConfig:
     skillData = str(eachLine.replace("\n", "")).split(", ")
-    thisSkill = skill(skillData[0], skillData[1], skillData[2], skillData[3], skillData[4])
+    thisSkill = skill(skillData[0], 
+                      skillData[1], 
+                      abilities.coreAbilities[skillData[2]], 
+                      abilities.coreAbilities[skillData[3]], 
+                      skillData[4])
     coreSkills[thisSkill.ID] = thisSkill
 #end load
 
