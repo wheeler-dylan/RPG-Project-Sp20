@@ -1,6 +1,7 @@
 #Author:        John P Armentor
 #email:     johnparmentor@gmail.com
 #Date:      2020 01 30
+#Modified:      2020 02 10
 #Course:        CSC424 - Software Engineering II
 #Prof:      Dr. A. Louise Perkins
 
@@ -39,7 +40,9 @@ class Network:
         # we create an ID that we can use to easily identify our connection
         #
         self.clientID = self.connect()
-        
+    
+    # Function to return our unique client ID as an established connection
+    #
     def getClientID(self):
         return self.clientID
 
@@ -48,7 +51,7 @@ class Network:
     def connect(self):
         try:
             self.client.connect(self.address)
-            return pickle.loads(self.client.recv(2048))
+            return pickle.loads(self.client.recv(2048*20))
         except:
             pass
 
@@ -57,10 +60,6 @@ class Network:
     def send(self, data):
         try:
             self.client.send(pickle.dumps(data))
+            return pickle.loads(self.client.recv(2048*20))
         except socket.error:
-            print(str(socket.error))
-    
-    # we create a recieve data function that uses pickling to recieve serialized objects from the server
-    #
-    def recieve(self):
-        return pickle.loads(self.client.recv(2048))
+            print(socket.error)

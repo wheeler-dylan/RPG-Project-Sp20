@@ -1,7 +1,7 @@
 #Author:        John P Armentor
 #email:     johnparmentor@gmail.com
 #Date:      2020 01 30
-#Modified:      2020 02 09
+#Modified:      2020 02 10
 #Course:        CSC424 - Software Engineering II
 #Prof:      Dr. A. Louise Perkins
 
@@ -22,35 +22,22 @@ def main():
     #
     currentNetwork = Network()
     
-    # We create an ID using the network as an identifier for ourself
-    #
-    myClientID = currentNetwork.getClientID()
-    
-    gameObjects = [Adventurer("Chronos", "Diety", 1, "I am")]
-    objectExists = False
+    gameObjects = currentNetwork.getClientID()
 
     # Main Game Loop
     #
     while run:
-        for i in gameObjects:
-            currentNetwork.send(i)
-            
-        inboundData = currentNetwork.recieve()
-
-        for i in gameObjects:
-            if(i.getObjectID() == inboundData.getObjectID()):
-                i = inboundData
-                objectExists = True
-                break
-
-            if objectExists == False:
-                gameObjects.append(inboundData)
-
-            objectExists = False
+    
+        gameObjects = currentNetwork.send(gameObjects)
         
         for i in gameObjects:
             i.introduce()
             i.speak()
-
-
+        
+        name = input("Name.")
+        tmp = Adventurer(name, "Peasant", 10, "work work")
+        
+        gameObjects.append(tmp)
+        
+        
 main()

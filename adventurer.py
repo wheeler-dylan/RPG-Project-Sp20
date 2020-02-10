@@ -7,6 +7,8 @@
 #
 #Rudamentary player object file for network testing purposes 
 
+# for creating a unique ID for each object
+#
 import uuid
 
 # Basic player class

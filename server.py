@@ -1,7 +1,7 @@
 #Author:        John P Armentor
 #email:     johnparmentor@gmail.com
 #Date:      2020 01 30
-#Modified:      2019 02 10
+#Modified:      2020 02 10
 #Course:        CSC424 - Software Engineering II
 #Prof:      Dr. A. Louise Perkins
 
@@ -18,29 +18,18 @@ from settings import *
 # We create a function that acts as a threaded client that accepts the connection as an object and additionally accepts an object
 # that is to be pickled and transfered, which is the Game objects in this case
 #
-def threaded_client(connection, gameObject):
-    connection.send(pickle.dumps(gameObjects[gameObject]))
+def threaded_client(connection, gameObjects):
+    connection.send(pickle.dumps(gameObjects))
     reply = ""
     while True:
         try:
             
             # we attempt to recieve 2048 bits of data that was pickled and we can increase the size of the data using the multiplier
             #
-            inboundData = pickle.loads(connection.recv(2048*1))
+            inboundData = pickle.loads(connection.recv(2048*20))
+            print("Incoming: ", inboundData)
             
-            # We search through the gameObjects list and if we find the ID of the object coming in, we just update it, otherwise
-            # we add the new object to the list
-            #
-            for i in gameObjects:
-                if(i.getObjectID() == inboundData.getObjectID()):
-                    i = inboundData
-                    objectExists = True
-                    break
-
-            if objectExists == False:
-                gameObjects.append(inboundData)
-
-            objectExists = False
+            gameObjects = inboundData
 
             # this is to show that we are disconnecting and the break out once the client stops sending information and loses connection
             #
@@ -51,11 +40,9 @@ def threaded_client(connection, gameObject):
             # else we send back the updated list of gameObjects
             #            
             else:
-                print("Incoming: ", inboundData)
-                for i in gameObjects:
-                    outboundData = i
-                    connection.sendall(pickle.dumps(outboundData))
-                    print("Outgoing : ", outboundData)
+                outboundData = gameObjects
+                connection.sendall(pickle.dumps(outboundData))
+                print("Outgoing : ", outboundData)
                     
         except:
             break
@@ -92,16 +79,14 @@ print("--Server Initialized--")
 print("Listening for Connections...")
 
 # We create a list of Game objects to track and store all game-related information from the clients to the server, and then
-# transmit that information back to the clients.  objectExists will keep track of whether the incoming object exists in the list
+# transmit that information back to the clients.
 #
 gameObjects = [Adventurer("Chronos", "Diety", 1, "I am")]
-objectExists = False
 
-# we create a loop that constantly checks for new connections to be accepted and increments the current player count
-# as it recieves connections
+# we create a loop that constantly checks for new connections to be accepted and establishes a threaded client connection
 #
 while True:
     connection, address = currentSocket.accept()
     print("Connected established with:", address)
 
-    start_new_thread(threaded_client, (connection, 0))
+    start_new_thread(threaded_client, (connection, gameObjects))
