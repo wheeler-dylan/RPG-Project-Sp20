@@ -1,18 +1,26 @@
 #Author:        John P Armentor
-#Date:          2019 01 30
-#Course:        CSC242 - Software Engineering II
-#Prof:         Dr. A. Louise Perkins
-
+#email:     johnparmentor@gmail.com
+#Date:      2020 01 30
+#Modified:  2020 02 10
+#Course:        CSC424 - Software Engineering II
+#Prof:      Dr. A. Louise Perkins
+#
 #Rudamentary player object file for network testing purposes 
+
+import uuid
 
 # Basic player class
 #
 class Adventurer():
     def __init__(self, name, fate, hitpoints, onTheMind):
+        self.ObjectID = uuid.uuid1()
         self.name = name
         self.fate = fate
         self.hitpoints = hitpoints
         self.onTheMind = onTheMind
+        
+    def getObjectID(self):
+        return self.ObjectID
     
     # Function for setting what will be spoken next
     #

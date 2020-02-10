@@ -1,8 +1,9 @@
 #Author:        John P Armentor
-#Date:          2019 01 30
-#Course:        CSC242 - Software Engineering II
-#Prof:         Dr. A. Louise Perkins
-
+#email:     johnparmentor@gmail.com
+#Date:      2020 01 30
+#Course:        CSC424 - Software Engineering II
+#Prof:      Dr. A. Louise Perkins
+#
 #File for designating settings intended across the entire game.
 
 # Multiplayer settings
