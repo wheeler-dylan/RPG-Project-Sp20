@@ -1,7 +1,9 @@
 #Author:        John P Armentor
-#Date:          2019 01 30
-#Course:        CSC242 - Software Engineering II
-#Prof:         Dr. A. Louise Perkins
+#email:     johnparmentor@gmail.com
+#Date:      2020 01 30
+#Modified:      2020 02 10
+#Course:        CSC424 - Software Engineering II
+#Prof:      Dr. A. Louise Perkins
 
 # Main game method of our project.
 
@@ -20,30 +22,22 @@ def main():
     #
     currentNetwork = Network()
     
-    # We create an ID using the network as an identifier for ourself
-    #
-    myAdventurerID = currentNetwork.getAdventurerID()
+    gameObjects = currentNetwork.getClientID()
 
     # Main Game Loop
     #
     while run:
     
-        # We get the ID of the other player's character
-        #
-        otherAdventurerID = currentNetwork.send(myAdventurerID)
-
-        # We prompt the player to update what their character is thinking
-        #
-        myAdventurerID.think()
+        gameObjects = currentNetwork.send(gameObjects)
         
-        # We call the Adventurer introduce method to demonstrate it works 
-        #
-        myAdventurerID.introduce()
-        otherAdventurerID.introduce()
+        for i in gameObjects:
+            i.introduce()
+            i.speak()
         
-        # We have both characters speak their mind
-        #
-        myAdventurerID.speak()
-        otherAdventurerID.speak()
-
+        name = input("Name.")
+        tmp = Adventurer(name, "Peasant", 10, "work work")
+        
+        gameObjects.append(tmp)
+        
+        
 main()
