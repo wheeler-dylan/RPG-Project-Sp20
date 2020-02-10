@@ -20,7 +20,7 @@ class Adventurer():
         self.fate = fate
         self.hitpoints = hitpoints
         self.onTheMind = onTheMind
-        
+    
     def getObjectID(self):
         return self.ObjectID
     

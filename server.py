@@ -15,18 +15,27 @@ from network import Network
 from adventurer import Adventurer
 from settings import *
 
+# We create a list of Game objects to track and store all game-related information from the clients to the server, and then
+# transmit that information back to the clients.
+#
+gameObjects = [Adventurer("Chronos", "Diety", 1, "I am")]
+
 # We create a function that acts as a threaded client that accepts the connection as an object and additionally accepts an object
 # that is to be pickled and transfered, which is the Game objects in this case
 #
-def threaded_client(connection, gameObjects):
+def threaded_client(connection):
+
+    # Uses the gameObjects list as a global variable so we can still employ multi-threading for the multiple clients
+    #
+    global gameObjects
+
     connection.send(pickle.dumps(gameObjects))
-    reply = ""
     while True:
         try:
             
             # we attempt to recieve 2048 bits of data that was pickled and we can increase the size of the data using the multiplier
             #
-            inboundData = pickle.loads(connection.recv(2048*20))
+            inboundData = pickle.loads(connection.recv(1024*4))
             print("Incoming: ", inboundData)
             
             gameObjects = inboundData
@@ -72,16 +81,11 @@ try:
 except socket.error:
     str(socket.error)
 
-# We listen for 6 total connections, limiting how many can connect to the server, this dictates the server size limit
+# We listen for connections, this can accept an integer, limiting how many can connect to the server, this dictates the server size limit
 #
-currentSocket.listen(6)
+currentSocket.listen()
 print("--Server Initialized--")
 print("Listening for Connections...")
-
-# We create a list of Game objects to track and store all game-related information from the clients to the server, and then
-# transmit that information back to the clients.
-#
-gameObjects = [Adventurer("Chronos", "Diety", 1, "I am")]
 
 # we create a loop that constantly checks for new connections to be accepted and establishes a threaded client connection
 #
@@ -89,4 +93,4 @@ while True:
     connection, address = currentSocket.accept()
     print("Connected established with:", address)
 
-    start_new_thread(threaded_client, (connection, gameObjects))
+    start_new_thread(threaded_client, (connection,))
