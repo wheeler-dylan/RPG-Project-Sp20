@@ -18,7 +18,7 @@ import abilities
 print("-------------------------Running sandbox.py-------------------------\n\n")
 
 command = ""
-player1 = playerCharacter.playerCharacter()
+player1 = playerCharacter.player_character()
 
 
 
@@ -65,28 +65,28 @@ while(command != "exit"):
 
     #tests Character Creation GUI
     elif (command == "create"):     
-        characterCreation.characterCreation(player1)
+        characterCreation.character_creation(player1)
     
     #ensures ability scores have been updated
     elif (command == "abils"):      
         print("-------------------------\n")
-        for eachAbility in abilities.coreAbilities.values():
-            print(str(eachAbility.name)+":\t" + 
-                  str(player1.abilityScores[eachAbility.ID]))
+        for each_ability in abilities.core_abilities.values():
+            print(str(each_ability.name)+":\t" + 
+                  str(player1.ability_scores[each_ability.id]))
         print("\n-------------------------\n")
 
     #ensures skills have been updated
     elif (command == "skills"):     
         print("-------------------------\n")
-        for eachSkill in skills.coreSkills.values():
-            print(str(eachSkill.name)+":\t"+str(player1.skills[eachSkill.ID]))
+        for each_skill in skills.core_skills.values():
+            print(str(each_skill.name)+":\t"+str(player1.skills[each_skill.id]))
         print("\n-------------------------\n")
 
     #view characters inventory
     elif (command == "bags"):       
         print("-------------------------\n")
-        for eachItem in player1.inventory:
-            print(eachItem.name)
+        for each_item in player1.inventory:
+            print(each_item.name)
         print("\n-------------------------\n")
 
 
@@ -95,32 +95,32 @@ while(command != "exit"):
     #tests function to get a list of game items from folder
     elif (command == "look"):       
         print("-------------------------\n")
-        itemList = gameItem.loadItemsList()
-        for eachItem in itemList:
-            print(eachItem.name)
+        item_list = gameItem.load_items_list()
+        for each_item in item_list:
+            print(each_item.name)
         print("\n-------------------------\n")
 
     #tests game item load and print
     elif (command == "find"):       
         print("-------------------------\n")
-        ironSword = gameItem.gameItem()
-        ironSword.loadItemFromFile(open("./GameItems/ironsword.gmitm"))
-        ironSword.printItem()
-        player1.collectItem(ironSword)
+        ironSword = gameItem.game_item()
+        ironSword.load_item_from_file(open("./GameItems/ironsword.gmitm"))
+        ironSword.print_item()
+        player1.collect_item(ironSword)
         print("\n")
-        journal = gameItem.gameItem()
-        journal.loadItemFromFile(open("./GameItems/journal.gmitm"))
-        journal.printItem()
-        player1.collectItem(journal)
+        journal = gameItem.game_item()
+        journal.load_item_from_file(open("./GameItems/journal.gmitm"))
+        journal.print_item()
+        player1.collect_item(journal)
         print("\n-------------------------\n")
 
     #tests GUI item creation
     elif (command == "craft"):      
         print("-------------------------\n")
-        newItem = gameItem.gameItem()
-        gameItem.gameItemCreation(newItem)
-        newItem.printItem()
-        player1.collectItem(newItem) #add to inventory
+        new_item = gameItem.game_item()
+        gameItem.game_item_creation(new_item)
+        new_item.print_item()
+        player1.collect_item(new_item) #add to inventory
         print("\n-------------------------\n")
 
 
@@ -129,16 +129,16 @@ while(command != "exit"):
     #confirm skills loaded from game config file
     elif (command == "printskills"):
         print("-------------------------\n")
-        for eachSkill in skills.coreSkills.values():
-            eachSkill.printSkill()
+        for each_skill in skills.core_skills.values():
+            each_skill.print_skill()
             print("\n----------\n")
         print("\n-------------------------\n")
 
     #confirm skills loaded from game config file
     elif (command == "printabils"):
         print("-------------------------\n")
-        for eachAbility in abilities.coreAbilities.values():
-            eachAbility.printAbility()
+        for each_ability in abilities.core_abilities.values():
+            each_ability.print_ability()
             print("\n----------\n")
         print("\n-------------------------\n")
 

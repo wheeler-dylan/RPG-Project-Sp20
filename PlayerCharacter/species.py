@@ -7,8 +7,8 @@
 #this file contains species playabel by player characters
 
 class species: 
-    def __init__(self, fName):
-        self.name = fName
+    def __init__(self, f_name):
+        self.name = f_name
 
         #possible target zones, 
         #   dictionary with string key value for each tragetable body part
@@ -18,12 +18,12 @@ class species:
         #   that area contains
         self.hitboxes = {}
 
-        self.nativeLanguages = []
+        self.native_languages = []
 
 #end species definition
 
 #list of all species
-speciesList = {}
+species_list = {}
 
 #list of all languages
 languages = {"vernacular": "vernacular"}
@@ -37,7 +37,7 @@ human.hitboxes["leftArm"] = 15
 human.hitboxes["rightArm"] = 15
 human.hitboxes["leftLeg"] = 10
 human.hitboxes["rightLeg"] = 10
-human.nativeLanguages.append(languages["vernacular"])
-speciesList["human"] = human
+human.native_languages.append(languages["vernacular"])
+species_list["human"] = human
 
 

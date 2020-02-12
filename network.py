@@ -39,12 +39,12 @@ class Network:
         
         # we create an ID that we can use to easily identify our connection
         #
-        self.clientID = self.connect()
+        self.client_id = self.connect()
     
     # Function to return our unique client ID as an established connection
     #
-    def getClientID(self):
-        return self.clientID
+    def get_client_id(self):
+        return self.client_id
 
     # our function to attempt to connect to the server 
     #
