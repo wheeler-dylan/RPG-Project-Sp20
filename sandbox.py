@@ -13,12 +13,16 @@ sys.path.append('./PlayerCharacter/Skills')
 import skills
 sys.path.append('./PlayerCharacter/Abilities')
 import abilities
+sys.path.append('./GameState')
+import tabletop
 
 
 print("-------------------------Running sandbox.py-------------------------\n\n")
 
 command = ""
-player1 = playerCharacter.player_character()
+player1 = playerCharacter.playerCharacter()
+game_table = tabletop.tabletop()
+
 
 
 
@@ -42,6 +46,7 @@ instructions = ("\n\nsandbox commands:\n" +
                 "\n----- Game Engine Commands -----\n" +
                 "printskills:\tview all skills in the skills.gameconfig file\n" +
                 "printabils:\tview all abilities in the abilities.gameconfig file\n" +
+                "table:\tplace the character on the table and confirm\n" +
                 "\n")
 print(instructions)
 
@@ -140,6 +145,25 @@ while(command != "exit"):
         for each_ability in abilities.core_abilities.values():
             each_ability.print_ability()
             print("\n----------\n")
+        print("\n-------------------------\n")
+
+    #put the PC on the table
+    elif (command == "table"):
+        print("-------------------------\n")
+        temp_pcuuid = "123456"       #use until a uid has been added to pc class
+        game_table.put_on_table(temp_pcuuid, player1) 
+
+        temp_giuuid = "654321"
+        some_item = gameItem.gameItem()
+        some_item.quickBuild()
+        game_table.put_on_table(temp_giuuid, some_item)
+        
+        for each_character in game_table.player_characters.values():
+            print(each_character.name) 
+
+        for each_item in game_table.game_items.values():
+            print(each_item.name)
+
         print("\n-------------------------\n")
 
 
