@@ -13,16 +13,16 @@
 #       Game Master (GM) wants to present to the players.
 
 import sys
-sys.path.append('./PlayerCharacter/')
-sys.path.append('./PlayerCharacter/Abilities')
-sys.path.append('./PlayerCharacter/Skills')
-sys.path.append('./GameItems')
+sys.path.append('./player_character/')
+sys.path.append('./player_character/abilities')
+sys.path.append('./player_character/skills')
+sys.path.append('./game_items')
 
-import playerCharacter
+import player_character
 import abilities
 import skills
-import gameItem
-import gameItemActionDictionary
+import game_item
+import game_item_actions
 
 import tkinter
 import uuid
@@ -32,7 +32,7 @@ import uuid
 #   non player characters
 #   game items
 
-class tabletop:
+class Tabletop:
     def __init__(self):
         self.gamemaster_id = ""     #stores unique identifier of game master
         
@@ -54,16 +54,16 @@ class tabletop:
        
     #auto add to table function, determines the class type and stores in proper dictionary
     def put_on_table(self, f_token):
-        if fToken.__class__.__name__ == "player_character":
+        if f_token.__class__.__name__ == "PlayerCharacter":
             self.player_characters[f_token.object_id] = f_token
 
-        elif fToken.__class__.__name__ == "nonplayer_character":
+        elif f_token.__class__.__name__ == "NonplayerCharacter":
             self.nonplayer_characters[f_token.object_id] = f_token
 
-        elif fToken.__class__.__name__ == "game_item":
+        elif f_token.__class__.__name__ == "GameItem":
             self.game_items[f_token.object_id] = f_token
 
-        elif fToken.__class__.__name__ == "chat_message":
+        elif f_token.__class__.__name__ == "ChatMessage":
             self.chatlog[f_token.object_id] = f_token
 
         else:
