@@ -27,6 +27,7 @@ sys.path.append('./PlayerCharacter/Skills')
 import skills
 sys.path.append('./PlayerCharacter/Abilities')
 import abilities
+import uuid
 
 
 #list of core ability scores
@@ -41,41 +42,42 @@ import characterCreation
 
 
 #player character class
-class playerCharacter:
+class player_character:
 
     def __init__(self):
         #demographics
+        self.object_id = uuid.uuid1()
         self.name = "Newguy McCharacter"
-        self.species = species.speciesList["human"]
-        self.languages = self.species.nativeLanguages
+        self.species = species.species_list["human"]
+        self.languages = self.species.native_languages
 
 
         #abilities
-        self.abilityScores = {}
-        for eachAbility in abilities.coreAbilities.values():         #set each score to its minumum
-            self.abilityScores[eachAbility.ID] = characterCreation.minAbilityScore
+        self.ability_scores = {}
+        for each_ability in abilities.core_abilities.values():         #set each score to its minumum
+            self.ability_scores[each_ability.id] = characterCreation.min_ability_score
 
         #skill bases (sum of two linked abilities)
-        self.skillBases = {}
-        for eachSkill in skills.coreSkills.values():                #set each skill to the sum of its two linked abilities
-            self.skillBases[eachSkill.ID] = (self.abilityScores[eachSkill.mainAbility.ID] + 
-                                             self.abilityScores[eachSkill.secondaryAbility.ID])
+        self.skill_bases = {}
+        for each_skill in skills.core_skills.values():                #set each skill to the sum of its two linked abilities
+            self.skill_bases[each_skill.id] = (self.ability_scores[each_skill.main_ability.id] + 
+                                             self.ability_scores[each_skill.secondary_ability.id])
 
         #skill ranks (points added to skills at character chreation and level up)
-        self.skillRanks = {}
-        for eachSkill in skills.coreSkills.values():
-            self.skillRanks[eachSkill.ID] = 0
+        self.skill_ranks = {}
+        for each_skill in skills.core_skills.values():
+            self.skill_ranks[each_skill.id] = 0
 
         #skill totals (sum of skill bases and skill ranks)
         self.skills = {}
-        for eachSkill in skills.coreSkills.values():
-            self.skills[eachSkill.ID] = self.skillBases[eachSkill.ID] + self.skillRanks[eachSkill.ID]
+        for each_skill in skills.core_skills.values():
+            self.skills[each_skill.id] = self.skill_bases[each_skill.id] + self.skill_ranks[each_skill.id]
 
         #combat stats
-        self.hitPointTotal = (self.abilityScores["strength"] + self. abilityScores["constitution"]) * 2
-        self.hitPoints = {}
-        for eachHitbox in self.species.hitboxes:
-            self.hitPoints[eachHitbox] = int(self.hitPointTotal * (self.species.hitboxes[eachHitbox]/100))
+        self.hit_point_total = (self.ability_scores["strength"] + self. ability_scores["constitution"]) * 2
+        self.hit_points = {}
+        for each_hitbox in self.species.hitboxes:
+            self.hit_points[each_hitbox] = int(self.hit_point_total * (self.species.hitboxes[each_hitbox]/100))
         speed = 1
 
         #inventory
@@ -86,59 +88,59 @@ class playerCharacter:
 
 
     #update ability scores
-    def updateAbilityScores(self, fnewAbilityScores):
+    def update_ability_scores(self, fnew_ability_scores):
         i = 0
-        for eachAbility in abilities.coreAbilities.values():
-            self.abilityScores[eachAbility.ID] += fnewAbilityScores[i]
+        for each_ability in abilities.core_abilities.values():
+            self.ability_scores[each_ability.id] += fnew_ability_scores[i]
             i += 1
         
         #update skills
-        self.refreshSkillBases()
+        self.refresh_skill_bases()
         #update hitpoints
-        self.refreshHitPoints()
+        self.refresh_hit_points()
     #end update ability scores
 
 
 
     #update skill ranks
-    def updateSkillRanks(self, fNewRanks):
+    def update_skill_ranks(self, f_new_ranks):
         i = 0
-        for eachSkill in skills.coreSkills.values():
-            self.skillRanks[eachSkill.ID] += fNewRanks[i]
+        for each_skill in skills.core_skills.values():
+            self.skill_ranks[each_skill.id] += f_new_ranks[i]
             i += 1
         #update skills
-        self.refreshSkills()
+        self.refresh_skills()
     #end update skill ranks
 
     #refresh skill bases, used if ability scores are changed
-    def refreshSkillBases(self):
-        for eachSkill in skills.coreSkills.values():
-            self.skillBases[eachSkill.ID] = (self.abilityScores[eachSkill.mainAbility.ID] + 
-                                             self.abilityScores[eachSkill.secondaryAbility.ID])
+    def refresh_skill_bases(self):
+        for each_skill in skills.core_skills.values():
+            self.skill_bases[each_skill.id] = (self.ability_scores[each_skill.main_ability.id] + 
+                                             self.ability_scores[each_skill.secondary_ability.id])
         #update skill totals
-        self.refreshSkills() 
+        self.refresh_skills() 
     #end refresh skill bases
 
     #refresh skill totals, used if ability scores, skill bases, or skill ranks are changed 
-    def refreshSkills(self):
-        for eachSkill in skills.coreSkills.values():
-            self.skills[eachSkill.ID] = self.skillBases[eachSkill.ID] + self.skillRanks[eachSkill.ID]
+    def refresh_skills(self):
+        for each_skill in skills.core_skills.values():
+            self.skills[each_skill.id] = self.skill_bases[each_skill.id] + self.skill_ranks[each_skill.id]
     #end skill refresh
 
 
 
     #refresh hitpoints, used if ability scores change
-    def refreshHitPoints(self):
-        self.hitPointTotal = (self.abilityScores["strength"] + self. abilityScores["constitution"])
-        for eachHitbox in self.species.hitboxes:
-            self.hitPoints[eachHitbox] = int(self.hitPointTotal * (self.species.hitboxes[eachHitbox]/100))
+    def refresh_hit_points(self):
+        self.hit_point_total = (self.ability_scores["strength"] + self. ability_scores["constitution"])
+        for each_hitbox in self.species.hitboxes:
+            self.hit_points[each_hitbox] = int(self.hit_point_total * (self.species.hitboxes[each_hitbox]/100))
     #end refresh hitpoints
 
 
 
     #add item to inventory
-    def collectItem(self, fItem):
-        self.inventory.append(fItem)
+    def collect_item(self, f_item):
+        self.inventory.append(f_item)
     #end add item to inventory
 
 #end player character class

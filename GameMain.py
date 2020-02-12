@@ -20,24 +20,24 @@ def main():
     
     # We initialize a network object to communicate with the server
     #
-    currentNetwork = Network()
+    current_network = Network()
     
-    gameObjects = currentNetwork.getClientID()
+    game_objects = current_network.get_client_id()
 
     # Main Game Loop
     #
     while run:
     
-        gameObjects = currentNetwork.send(gameObjects)
+        game_objects = current_network.send(game_objects)
         
-        for i in gameObjects:
+        for i in game_objects:
             i.introduce()
             i.speak()
         
         name = input("Name.")
         tmp = Adventurer(name, "Peasant", 10, "work work")
         
-        gameObjects.append(tmp)
+        game_objects.append(tmp)
         
         
 main()
