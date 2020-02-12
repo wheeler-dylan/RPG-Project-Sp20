@@ -14,25 +14,25 @@ import uuid
 # Basic player class
 #
 class Adventurer():
-    def __init__(self, name, fate, hitpoints, onTheMind):
-        self.ObjectID = uuid.uuid1()
+    def __init__(self, name, fate, hitpoints, on_the_mind):
+        self.object_id = uuid.uuid1()
         self.name = name
         self.fate = fate
         self.hitpoints = hitpoints
-        self.onTheMind = onTheMind
+        self.on_the_mind = on_the_mind
     
-    def getObjectID(self):
-        return self.ObjectID
+    def get_object_id(self):
+        return self.object_id
     
     # Function for setting what will be spoken next
     #
     def think(self):
-        self.onTheMind = input("Enter what you wish to say.")
+        self.on_the_mind = input("Enter what you wish to say.")
     
     # Function for the player to speak what is queued on their mind
     #
     def speak(self):
-        print(self.onTheMind)
+        print(self.on_the_mind)
     
     # Basic player introduction to be spoken
     #

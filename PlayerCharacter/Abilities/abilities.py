@@ -10,15 +10,15 @@
 #   Abilities also provide bonuses to skills
 
 class ability:
-    def __init__(self, fID, fName, fCategory):
-        self.ID = fID
-        self.name = fName
-        self.category = fCategory
+    def __init__(self, f_id, f_name, f_category):
+        self.id = f_id
+        self.name = f_name
+        self.category = f_category
     #end initializer
 
     #print a skill to the console
-    def printAbility(self):
-        print("Ability:\t" + str(self.ID) + "\n" +
+    def print_ability(self):
+        print("Ability:\t" + str(self.id) + "\n" +
               "Name:\t\t" + str(self.name) + "\n" +
               "Type:\t\t" + str(self.category) + "\n")
     #end print skill
@@ -27,12 +27,12 @@ class ability:
 
 
 #load skills from game configuration file
-coreAbilities = {}
-abilityConfig = open("./PlayerCharacter/Abilities/abilities.gameconfig")
-for eachLine in abilityConfig:
-    abilityData = str(eachLine.replace("\n", "")).split(", ")
-    thisAbility = ability(abilityData[0], abilityData[1], abilityData[2])
-    coreAbilities[thisAbility.ID] = thisAbility
+core_abilities = {}
+ability_config = open("./PlayerCharacter/Abilities/abilities.gameconfig")
+for each_line in ability_config:
+    ability_data = str(each_line.replace("\n", "")).split(", ")
+    this_ability = ability(ability_data[0], ability_data[1], ability_data[2])
+    core_abilities[this_ability.id] = this_ability
 #end load
 
 

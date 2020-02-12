@@ -17,6 +17,6 @@ def parry():
 def explode():
     print("EXPLODE!")
 
-validActions = {"attack": attack, 
+valid_actions = {"attack": attack, 
                 "parry": parry,
                 "explode": explode} 
