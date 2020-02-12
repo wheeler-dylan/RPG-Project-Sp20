@@ -25,3 +25,8 @@ import tkinter
 import uuid
 
 
+class main_menu():
+    def __init__(self):
+        self.object_id = uuid.uuid1() 
+
+    #end initializer
