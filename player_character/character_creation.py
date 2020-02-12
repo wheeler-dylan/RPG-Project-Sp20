@@ -4,12 +4,12 @@
 #Course:        CSC242 - Software Engineering II
 #Prof.:         Dr. A. Louise Perkins
 
-import playerCharacter
+import player_character
 import tkinter
 import sys
-sys.path.append('./PlayerCharacter/Abilities')
+sys.path.append('./player_character/abilities')
 import abilities
-sys.path.append('./PlayerCharacter/Skills')
+sys.path.append('./player_character/skills')
 import skills
 
 #ability score parameters
@@ -133,7 +133,7 @@ def character_creation(f_character):
 
 
     #give instructions for adding points to skill ranks
-    skil_banner = str("Skills:\nYou have " + str(skill_points_left) + " "+ 
+    skill_banner = str("Skills:\nYou have " + str(skill_points_left) + " "+ 
                       "points to distribute amongst your skill ranks.\n" + 
                       "Each rank starts at " + str(min_skill_ranks) + ".\n" +
                       "The maximum for each rank is " + str(max_skill_ranks) + ".\n" +

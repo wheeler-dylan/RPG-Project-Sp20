@@ -10,23 +10,25 @@
 
 
 import sys
-sys.path.append('./PlayerCharacter/')
-sys.path.append('./PlayerCharacter/Abilities')
-sys.path.append('./PlayerCharacter/Skills')
-sys.path.append('./GameItems')
+sys.path.append('./player_character/')
+sys.path.append('./player_character/abilities')
+sys.path.append('./player_character/skills')
+sys.path.append('./game_items')
 
-import playerCharacter
+import player_character
 import abilities
 import skills
-import gameItem
-import gameItemActionDictionary
+import game_item
+import game_item_actions
 
 import tkinter
 import uuid
 
 
-class main_menu():
+class MainMenu():
     def __init__(self):
         self.object_id = uuid.uuid1() 
 
     #end initializer
+
+#end class

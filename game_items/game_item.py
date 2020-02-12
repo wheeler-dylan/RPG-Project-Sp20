@@ -17,18 +17,18 @@
 import tkinter 
 from tkinter import ttk
 
-import gameItemActionDictionary
+import game_item_actions
 
 import uuid
 
 #item class 
-class gameItem():
+class GameItem():
     def __init__(self):
         self.object_id = uuid.uuid1()
         self.name = "item"
         self.description = "description"
         self.actions = []
-        self.sub_items = []
+        self.subitems = []
     #end initializer
 
 
@@ -46,11 +46,11 @@ class gameItem():
             for each_action in self.actions:
                 print(each_action.__name__)
         print("\nsubitems:")
-        if (len(self.sub_items) == 0):
+        if (len(self.subitems) == 0):
             print("None")
         else:
-            for each_item in self.sub_items:
-                print(str(each_tem.name))
+            for each_item in self.subitems:
+                print(str(each_item.name))
         #print("\n-------------------------\n")
 
 
@@ -71,8 +71,8 @@ class gameItem():
                 these_actions = this_line.split(", ")
 
                 for each_action in these_actions:
-                    if each_action in game_item_action_dictionary.valid_actions:
-                        self.actions.append(game_item_action_dictionary.valid_actions[each_action]) 
+                    if each_action in game_item_actions.valid_actions:
+                        self.actions.append(game_item_actions.valid_actions[each_action]) 
 
             if "subitems: " in each_line: 
                 this_line = str(each_line.replace("subitems: ", "").replace("\n", "").replace(" ", ""))
@@ -80,18 +80,18 @@ class gameItem():
 
                 for each_item in these_items:
                     if (len(each_item) > 0):
-                        this_item = game_item()
-                        this_item_file = open("./GameItems/" + str(each_item) + ".gmitm")
+                        this_item = GameItem()
+                        this_item_file = open("./game_items/" + str(each_item) + ".gmitm")
                         if (this_item_file):
                             this_item.load_item_from_file(this_item_file)
-                            self.sub_items.append(this_item) 
+                            self.subitems.append(this_item) 
 
     #end load item from file
 
 
     #save item to a file on host device
     def save_item_to_file(self):
-        file_name = "./GameItems/" + str(self.name).lower().replace(" ", "") + ".gmitm"
+        file_name = "./game_items/" + str(self.name).lower().replace(" ", "") + ".gmitm"
         print(file_name)
         file = open(file_name, "w+")
         file.write("name: " + str(self.name) + "\n")
@@ -120,8 +120,8 @@ from glob import glob
 def load_items_list():
     items_list = []
     
-    for each_file in glob("./GameItems/*.gmitm"): #search game items directory for all gmitm files
-        this_item = game_item()
+    for each_file in glob("./game_items/*.gmitm"): #search game items directory for all gmitm files
+        this_item = GameItem()
         this_item.load_item_from_file(open(each_file))
         items_list.append(this_item)
     #
@@ -159,7 +159,7 @@ def game_item_creation(f_game_item):
     #load selectable actions into list
     action_list = []
     action_checkboxes = {}
-    for each_action in game_item_action_dictionary.valid_actions:
+    for each_action in game_item_actions.valid_actions:
         action_checkboxes[each_action] = ttk.Checkbutton(text = str(each_action))
         action_checkboxes[each_action].state(['!alternate'])
         action_checkboxes[each_action].pack()
@@ -184,10 +184,10 @@ def game_item_creation(f_game_item):
         f_game_item.description = description_input.get()
         
         #save actions
-        for each_action in game_item_action_dictionary.valid_actions:
+        for each_action in game_item_actions.valid_actions:
             if (action_checkboxes[each_action].instate(['selected'])):
                 f_game_item.actions.append(
-                    game_item_action_dictionary.valid_actions[each_action])
+                    game_item_actions.valid_actions[each_action])
 
         #save subitems
         for each_item in all_items:
