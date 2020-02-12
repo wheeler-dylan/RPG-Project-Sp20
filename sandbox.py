@@ -3,22 +3,32 @@
 ############################
 
 import sys
-sys.path.append('./PlayerCharacter')
-import playerCharacter
-import characterCreation 
-sys.path.append('./GameItems')
-import gameItem
-import gameItemActionDictionary
-sys.path.append('./PlayerCharacter/Skills')
-import skills
-sys.path.append('./PlayerCharacter/Abilities')
+sys.path.append('./player_character/')
+sys.path.append('./player_character/abilities')
+sys.path.append('./player_character/skills')
+sys.path.append('./game_items')
+sys.path.append('./game_engine')
+
+import player_character
+import character_creation
 import abilities
+import skills
+import game_item
+import game_item_actions
+import tabletop
+import main_menu
+import chat_message
+
+import tkinter
+import uuid
 
 
 print("-------------------------Running sandbox.py-------------------------\n\n")
 
 command = ""
-player1 = playerCharacter.player_character()
+player1 = player_character.PlayerCharacter()
+game_table = tabletop.Tabletop()
+
 
 
 
@@ -42,6 +52,7 @@ instructions = ("\n\nsandbox commands:\n" +
                 "\n----- Game Engine Commands -----\n" +
                 "printskills:\tview all skills in the skills.gameconfig file\n" +
                 "printabils:\tview all abilities in the abilities.gameconfig file\n" +
+                "table:\tplace the character on the table and confirm\n" +
                 "\n")
 print(instructions)
 
@@ -65,7 +76,7 @@ while(command != "exit"):
 
     #tests Character Creation GUI
     elif (command == "create"):     
-        characterCreation.character_creation(player1)
+        character_creation.character_creation(player1)
     
     #ensures ability scores have been updated
     elif (command == "abils"):      
@@ -95,7 +106,7 @@ while(command != "exit"):
     #tests function to get a list of game items from folder
     elif (command == "look"):       
         print("-------------------------\n")
-        item_list = gameItem.load_items_list()
+        item_list = game_item.load_items_list()
         for each_item in item_list:
             print(each_item.name)
         print("\n-------------------------\n")
@@ -103,13 +114,13 @@ while(command != "exit"):
     #tests game item load and print
     elif (command == "find"):       
         print("-------------------------\n")
-        ironSword = gameItem.game_item()
-        ironSword.load_item_from_file(open("./GameItems/ironsword.gmitm"))
+        ironSword = game_item.GameItem()
+        ironSword.load_item_from_file(open("./game_items/ironsword.gmitm"))
         ironSword.print_item()
         player1.collect_item(ironSword)
         print("\n")
-        journal = gameItem.game_item()
-        journal.load_item_from_file(open("./GameItems/journal.gmitm"))
+        journal = game_item.GameItem()
+        journal.load_item_from_file(open("./game_items/journal.gmitm"))
         journal.print_item()
         player1.collect_item(journal)
         print("\n-------------------------\n")
@@ -117,8 +128,8 @@ while(command != "exit"):
     #tests GUI item creation
     elif (command == "craft"):      
         print("-------------------------\n")
-        new_item = gameItem.game_item()
-        gameItem.game_item_creation(new_item)
+        new_item = game_item.GameItem()
+        game_item.game_item_creation(new_item)
         new_item.print_item()
         player1.collect_item(new_item) #add to inventory
         print("\n-------------------------\n")
@@ -140,6 +151,23 @@ while(command != "exit"):
         for each_ability in abilities.core_abilities.values():
             each_ability.print_ability()
             print("\n----------\n")
+        print("\n-------------------------\n")
+
+    #put the PC on the table
+    elif (command == "table"):
+        print("-------------------------\n")
+        game_table.put_on_table(player1) 
+
+        some_item = game_item.GameItem()
+        some_item.quick_build()
+        game_table.put_on_table(some_item)
+        
+        for each_character in game_table.player_characters.values():
+            print(each_character.name) 
+
+        for each_item in game_table.game_items.values():
+            print(each_item.name)
+
         print("\n-------------------------\n")
 
 

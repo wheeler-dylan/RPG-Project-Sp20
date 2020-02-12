@@ -23,10 +23,10 @@
 import tkinter
 import species 
 import sys
-sys.path.append('./PlayerCharacter/Skills')
-import skills
-sys.path.append('./PlayerCharacter/Abilities')
+sys.path.append('./player_character/abilities')
 import abilities
+sys.path.append('./player_character/skills')
+import skills
 import uuid
 
 
@@ -38,11 +38,11 @@ import uuid
 
 
 
-import characterCreation
+import character_creation
 
 
 #player character class
-class player_character:
+class PlayerCharacter:
 
     def __init__(self):
         #demographics
@@ -55,7 +55,7 @@ class player_character:
         #abilities
         self.ability_scores = {}
         for each_ability in abilities.core_abilities.values():         #set each score to its minumum
-            self.ability_scores[each_ability.id] = characterCreation.min_ability_score
+            self.ability_scores[each_ability.id] = character_creation.min_ability_score
 
         #skill bases (sum of two linked abilities)
         self.skill_bases = {}

@@ -9,10 +9,13 @@
 #   determine the success of tasks performed in the game
 
 import sys
-sys.path.append('./PlayerCharacter/Abilities')
+sys.path.append('./player_character/abilities')
 import abilities
 
-class skill:
+#open configuration file
+skills_config = open("./player_character/skills/skills.gameconfig")
+
+class Skill:
     def __init__(self, f_id, f_name, f_main_ability, f_secondary_ability, f_category):
         self.id = f_id
         self.name = f_name
@@ -35,10 +38,9 @@ class skill:
 
 #load skills from game configuration file
 core_skills = {}
-skills_config = open("./PlayerCharacter/Skills/skills.gameconfig")
 for each_line in skills_config:
     skill_data = str(each_line.replace("\n", "")).split(", ")
-    this_skill = skill(skill_data[0], 
+    this_skill = Skill(skill_data[0], 
                       skill_data[1], 
                       abilities.core_abilities[skill_data[2]], 
                       abilities.core_abilities[skill_data[3]], 
