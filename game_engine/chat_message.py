@@ -29,7 +29,7 @@ class ChatMessage:
         self.type = f_type
         self.visibility = f_visibility
 
-        self.message = f_mesage
+        self.message = f_message
         self.language = f_language
 
         self.trunk = {}
@@ -37,6 +37,20 @@ class ChatMessage:
             for each_object in f_objects:
                 self.trunk[each_object.object_id] = each_object
     #end initializer
+
+
+    def print_chat_message(self):
+        print("Chat Message:\n" +
+              "ID:\t" + str(self.object_id) + "\n" +
+              "Speaker:\t" + str(self.speaker_name) + " (" + str(self.speaker_id) + ")\n" +
+              "Type:\t" + str(self.type) + "\tVisibility:\t" + str(self.visibility) + "\n" +
+              "Message:\t" + str(self.message) +
+              "")
+        if (self.language != ""):
+            print("Language:\t" + str(self.language))
+        for each_object in self.trunk.values():
+            print(str(each_object.name))
+    #end print message
 
 
 

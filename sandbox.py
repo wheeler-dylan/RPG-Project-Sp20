@@ -53,6 +53,7 @@ instructions = ("\n\nsandbox commands:\n" +
                 "printskills:\tview all skills in the skills.gameconfig file\n" +
                 "printabils:\tview all abilities in the abilities.gameconfig file\n" +
                 "table:\tplace the character on the table and confirm\n" +
+                "psst:\tput a chat message on the table and output to console\n" +
                 "\n")
 print(instructions)
 
@@ -170,6 +171,16 @@ while(command != "exit"):
 
         print("\n-------------------------\n")
 
+    #create a quick chat message and output to console
+    elif (command == "psst"):
+        print("-------------------------\n")
+        #some_msg = chat_message.ChatMessage(player1, "speech", "public", "Hello World!")
+        game_table.put_on_table(chat_message.ChatMessage(player1, "speech", "public", "Hello World!"))
+
+        for each_chat in game_table.chatlog.values():
+            each_chat.print_chat_message()
+
+        print("\n-------------------------\n")
 
     #invalid command
     else:
