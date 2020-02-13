@@ -54,6 +54,7 @@ instructions = ("\n\nsandbox commands:\n" +
                 "printabils:\tview all abilities in the abilities.gameconfig file\n" +
                 "table:\tplace the character on the table and confirm\n" +
                 "psst:\tput a chat message on the table and output to console\n" +
+                "main:\topen the main game window\n" +
                 "\n")
 print(instructions)
 
@@ -181,6 +182,10 @@ while(command != "exit"):
             each_chat.print_chat_message()
 
         print("\n-------------------------\n")
+
+    elif (command == "main"):
+        window = main_menu.MainMenu(game_table)
+        window.open_window()
 
     #invalid command
     else:

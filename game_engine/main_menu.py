@@ -20,15 +20,28 @@ import abilities
 import skills
 import game_item
 import game_item_actions
+import tabletop
 
 import tkinter
 import uuid
 
 
 class MainMenu():
-    def __init__(self):
+    def __init__(self, f_game_table):
         self.object_id = uuid.uuid1() 
-
+        self.game_table = f_game_table
     #end initializer
 
+
+    #use tkinter to build main window
+    def open_window(self):
+        main_window = tkinter.Tk()
+        main_window.title("Chatquest RPG")
+
+        #chat
+        for each_message in self.game_table.chatlog.values():
+            message_text = tkinter.Label(text = eachMessage.message).pack()
+
+        main_window.mainloop()
+    #end window
 #end class
