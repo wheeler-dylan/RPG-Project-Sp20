@@ -42,7 +42,7 @@ class MainMenu():
 
         #populate chatlog
         chatlog_frame = tkinter.LabelFrame(main_window, text = "Chatlog:", padx = 5, pady = 5)
-        chatlog_frame.pack()
+        chatlog_frame.pack(side = "left", fill = "y")
         for each_message in self.game_table.chatlog.values():
             this_message = self.message_formatter(each_message, chatlog_frame)      #create formatted message
             this_message.pack()                                                     #add to chatlog
@@ -53,9 +53,16 @@ class MainMenu():
 
     #function to format the message text to be added to the chat log
     def message_formatter(self, f_message, f_frame):
-        formatted_text = (str(f_message.speaker.name) + " says:\n" +
-                          "\t" + f_message.message)
-        msg = tkinter.Label(f_frame, text = formatted_text)
+        
+        if (f_message.type == "speech"):        
+            formatted_text = (str(f_message.speaker.name) + " says:\n" +
+                              "\t" + str(f_message.message))
+            msg = tkinter.Label(f_frame, text = formatted_text, foreground = "green")
+
+        elif(f_message.type == "action"):
+            formatted_text = (str(f_message.speaker.name) +" "+ str(f_message.message))
+            msg = tkinter.Label(f_frame, text = formatted_text, foreground = "red")
+
         return msg
     #
 

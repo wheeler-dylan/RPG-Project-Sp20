@@ -53,8 +53,12 @@ instructions = ("\n\nsandbox commands:\n" +
                 "printskills:\tview all skills in the skills.gameconfig file\n" +
                 "printabils:\tview all abilities in the abilities.gameconfig file\n" +
                 "table:\tplace the character and a new item on the table and confirm\n" +
-                "psst:\tput a chat message on the table and output to console\n" +
                 "main:\topen the main game window\n" +
+
+                "\n----- Chatlog -----\n" +
+                "psst:\tput a chat message on the table and output to console\n" +
+                "speak:\tspeak an inputted message and place in chat log\n" + 
+                "walk:\tputs a walking action message into the chat log\n" +
                 "\n")
 print(instructions)
 
@@ -162,6 +166,7 @@ while(command != "exit"):
 
         some_item = game_item.GameItem()
         some_item.quick_build()
+        print("\n")
         game_table.put_on_table(some_item)
         
         for each_character in game_table.player_characters.values():
@@ -172,7 +177,15 @@ while(command != "exit"):
 
         print("\n-------------------------\n")
 
-    #create a quick chat message and output to console
+    #open main window
+    elif (command == "main"):
+        window = main_menu.MainMenu(game_table, "user")
+        window.open_window()
+
+
+    ##### Chatlog Commands #####
+    
+    #create a quick chat message and add to chatlog
     elif (command == "psst"):
         print("-------------------------\n")
         game_table.put_on_table(chat_message.ChatMessage(player1, "speech", "public", "Hello World!"))
@@ -182,9 +195,29 @@ while(command != "exit"):
 
         print("\n-------------------------\n")
 
-    elif (command == "main"):
-        window = main_menu.MainMenu(game_table, "user")
-        window.open_window()
+    #create a custom chat message and add to chatlog
+    elif (command == "speak"):
+        print("-------------------------\n")
+        game_table.put_on_table(chat_message.ChatMessage(player1, "speech", "public", 
+                                                         input("Enter your message...")))
+
+        for each_chat in game_table.chatlog.values():
+            each_chat.print_chat_message()
+
+        print("\n-------------------------\n")
+
+
+    #create a quick chat message and output to console
+    elif (command == "walk"):
+        print("-------------------------\n")
+        game_table.put_on_table(chat_message.ChatMessage(player1, "action", "public", 
+                                                         "walks forward " + 
+                                                         str(player1.speed) + " feet."))
+
+        for each_chat in game_table.chatlog.values():
+            each_chat.print_chat_message()
+
+        print("\n-------------------------\n")
 
     #invalid command
     else:
