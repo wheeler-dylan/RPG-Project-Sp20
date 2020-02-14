@@ -52,7 +52,7 @@ instructions = ("\n\nsandbox commands:\n" +
                 "\n----- Game Engine Commands -----\n" +
                 "printskills:\tview all skills in the skills.gameconfig file\n" +
                 "printabils:\tview all abilities in the abilities.gameconfig file\n" +
-                "table:\tplace the character on the table and confirm\n" +
+                "table:\tplace the character and a new item on the table and confirm\n" +
                 "psst:\tput a chat message on the table and output to console\n" +
                 "main:\topen the main game window\n" +
                 "\n")
@@ -175,7 +175,6 @@ while(command != "exit"):
     #create a quick chat message and output to console
     elif (command == "psst"):
         print("-------------------------\n")
-        #some_msg = chat_message.ChatMessage(player1, "speech", "public", "Hello World!")
         game_table.put_on_table(chat_message.ChatMessage(player1, "speech", "public", "Hello World!"))
 
         for each_chat in game_table.chatlog.values():
@@ -184,7 +183,7 @@ while(command != "exit"):
         print("\n-------------------------\n")
 
     elif (command == "main"):
-        window = main_menu.MainMenu(game_table)
+        window = main_menu.MainMenu(game_table, "user")
         window.open_window()
 
     #invalid command

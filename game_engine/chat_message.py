@@ -23,8 +23,7 @@ class ChatMessage:
     def __init__(self, f_speaker, f_type, f_visibility, f_message = "", f_language = "", f_objects = None): 
         self.object_id = uuid.uuid1()
 
-        self.speaker_id = f_speaker.object_id
-        self.speaker_name = f_speaker.name
+        self.speaker = f_speaker
 
         self.type = f_type
         self.visibility = f_visibility
@@ -42,7 +41,7 @@ class ChatMessage:
     def print_chat_message(self):
         print("Chat Message:\n" +
               "ID:\t" + str(self.object_id) + "\n" +
-              "Speaker:\t" + str(self.speaker_name) + " (" + str(self.speaker_id) + ")\n" +
+              "Speaker:\t" + str(self.speaker.name) + " (" + str(self.speaker.object_id) + ")\n" +
               "Type:\t" + str(self.type) + "\tVisibility:\t" + str(self.visibility) + "\n" +
               "Message:\t" + str(self.message) +
               "")
