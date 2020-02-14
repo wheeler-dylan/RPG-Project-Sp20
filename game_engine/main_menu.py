@@ -32,17 +32,20 @@ class MainMenu(tkinter.Tk):
         tkinter.Tk.__init__(self, *args, **kwargs)
         self.object_id = uuid.uuid1() 
         self.game_table = f_game_table
-        self.player = f_player  #user who opens the game
+        self.player = f_player  #user who opens the game window
     
         #main_window = tkinter.Tk()
         self.title("Chatquest RPG")
         self.geometry("800x500")
 
-        #populate chatlog
+        #populate chatlog (initializes with welcome message)
+        self.game_table.put_on_table(chat_message.ChatMessage(self.player, "technical", "public", "Welcome to Chatquest RPG!"))
+
+        #build frame
         self.chatlog_frame = tkinter.LabelFrame(self, text = "Chatlog:", 
                                                 padx = 5, pady = 5)
         self.chatlog_frame.pack(fill = "y")
-        self.welcome_message = tkinter.Label(self.chatlog_frame, text = "Welcome to Chatquest RPG!").pack()
+        self.refresh_chatlog() #keep up to date
 
         for each_message in self.game_table.chatlog.values():
             this_message = self.message_formatter(each_message, self.chatlog_frame)      #create formatted message
@@ -76,6 +79,9 @@ class MainMenu(tkinter.Tk):
             formatted_text = (str(f_message.speaker.name) +" "+ str(f_message.message))
             msg = tkinter.Label(f_frame, text = formatted_text, foreground = "red")
 
+        elif (f_message.type == "technical"):
+            msg = tkinter.Label(f_frame, text = f_message.message)
+
         return msg
     #
 
@@ -86,9 +92,9 @@ class MainMenu(tkinter.Tk):
             msg = chat_message.ChatMessage(self.player.active_character, "speech", "public", 
                                     self.chat_entry.get())
             self.game_table.put_on_table(msg)
-            #self.game_table.chatlog[msg.object_id].print_chat_message()  #debugging
+            self.game_table.chatlog[msg.object_id].print_chat_message()  #debugging
         self.chat_entry.delete(0, "end")        #clear the entry field
-        self.refresh_chatlog()
+        #self.refresh_chatlog()
 
     #
 
@@ -100,7 +106,9 @@ class MainMenu(tkinter.Tk):
 
         for each_message in self.game_table.chatlog.values():
             this_message = self.message_formatter(each_message, self.chatlog_frame)      #create formatted message
-            this_message.pack()                                                     #add to chatlog
+            this_message.pack()       #add to chatlog
+
+        self.after(250, self.refresh_chatlog)   #refresh 4 times per second
     #end refresh chatlog
 
 

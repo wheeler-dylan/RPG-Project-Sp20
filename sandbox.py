@@ -44,10 +44,10 @@ instructions = ("\n\nsandbox commands:\n" +
 
                 "\n----- Player Character Commands -----\n" +
                 "create:\tcreate a new character with gui\n" +
-                #"quick:\tinstantly create a basic character\n" +
                 "abils:\toutput the character's abilities\n" +
                 "skills:\toutput the character's skills\n" +
                 "bags:\tview the character's inventory\n" +
+                #"quick:\tinstantly create a basic character\n" +
                 #"sheet:\toutput all the character's stats\n" +
 
                 "\n----- Game Item Commands -----\n" +
@@ -60,7 +60,6 @@ instructions = ("\n\nsandbox commands:\n" +
                 "printabils:\tview all abilities in the abilities.gameconfig file\n" +
                 "table:\tplace the character and a new item on the table and confirm\n" +
                 "main:\topen the main game window\n" +
-                #"wiki:\ttest refreshing window (proof of concept)\n" +
 
                 "\n----- Chatlog -----\n" +
                 "psst:\tput a chat message on the table and output to console\n" +
@@ -237,31 +236,3 @@ while(command != "exit"):
 
 
 
-
-"""
-    #wiki
-    elif (command == "wiki"):
-        #proof of concept of a refreshing window
-        def wikiwiki():
-            wiki = tkinter.Tk()
-            wiki.title("Testing refreshing window")
-            wiki.geometry("500x500")
-
-            thing = tkinter.StringVar()
-            number = 10
-            thing.set(str(number))
-
-            def callback():
-                global number 
-                number += 1
-                thing.set(str(number))
-
-            butt = tkinter.Button(wiki, text="+1", command=callback)
-            butt.pack()
-
-            lab = tkinter.Label(wiki, text = thing)
-            lab.pack()
-
-            wiki.mainloop()
-        wikiwiki()
-"""
