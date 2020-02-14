@@ -21,33 +21,46 @@ import skills
 import game_item
 import game_item_actions
 import tabletop
+import chat_message
 
 import tkinter
 import uuid
 
 
-class MainMenu():
-    def __init__(self, f_game_table, f_player):
+class MainMenu(tkinter.Tk):
+    def __init__(self, f_game_table, f_player, *args, **kwargs):
+        tkinter.Tk.__init__(self, *args, **kwargs)
         self.object_id = uuid.uuid1() 
         self.game_table = f_game_table
         self.player = f_player  #user who opens the game
-    #end initializer
-
-
-    #use tkinter to build main window
-    def open_window(self):
-        main_window = tkinter.Tk()
-        main_window.title("Chatquest RPG")
-        main_window.geometry("800x500")
+    
+        #main_window = tkinter.Tk()
+        self.title("Chatquest RPG")
+        self.geometry("800x500")
 
         #populate chatlog
-        chatlog_frame = tkinter.LabelFrame(main_window, text = "Chatlog:", padx = 5, pady = 5)
-        chatlog_frame.pack(side = "left", fill = "y")
-        for each_message in self.game_table.chatlog.values():
-            this_message = self.message_formatter(each_message, chatlog_frame)      #create formatted message
-            this_message.pack()                                                     #add to chatlog
+        self.chatlog_frame = tkinter.LabelFrame(self, text = "Chatlog:", 
+                                                padx = 5, pady = 5)
+        self.chatlog_frame.pack(fill = "y")
+        self.welcome_message = tkinter.Label(self.chatlog_frame, text = "Welcome to Chatquest RPG!").pack()
 
-        main_window.mainloop()
+        for each_message in self.game_table.chatlog.values():
+            this_message = self.message_formatter(each_message, self.chatlog_frame)      #create formatted message
+            this_message.pack()                                                     #add to chatlog
+        #end populate chatlog
+
+        #text entry to create chat message
+        self.chat_entry = tkinter.Entry(self)     #text entry field
+        self.chat_entry.pack()
+
+
+        self.chat_submit = tkinter.Button(self, text = "Send", command = self.send_chat_message)
+        self.chat_submit.pack()
+        #end text entry chat message
+
+        #self.update()
+        #self.update_idletasks()
+        #main_window.mainloop()
     #end window
 
 
@@ -65,6 +78,31 @@ class MainMenu():
 
         return msg
     #
+
+
+    #controller for chat entry send button
+    def send_chat_message(self):
+        if (len(self.chat_entry.get()) > 0):
+            msg = chat_message.ChatMessage(self.player.active_character, "speech", "public", 
+                                    self.chat_entry.get())
+            self.game_table.put_on_table(msg)
+            #self.game_table.chatlog[msg.object_id].print_chat_message()  #debugging
+        self.chat_entry.delete(0, "end")        #clear the entry field
+        self.refresh_chatlog()
+
+    #
+
+
+    #refresh the chatlog
+    def refresh_chatlog(self):
+        for each_message in self.chatlog_frame.winfo_children():
+            each_message.destroy()
+
+        for each_message in self.game_table.chatlog.values():
+            this_message = self.message_formatter(each_message, self.chatlog_frame)      #create formatted message
+            this_message.pack()                                                     #add to chatlog
+    #end refresh chatlog
+
 
 
 

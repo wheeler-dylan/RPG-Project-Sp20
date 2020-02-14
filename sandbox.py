@@ -15,6 +15,7 @@ import abilities
 import skills
 import game_item
 import game_item_actions
+import user
 import tabletop
 import main_menu
 import chat_message
@@ -26,9 +27,14 @@ import uuid
 print("-------------------------Running sandbox.py-------------------------\n\n")
 
 command = ""
-player1 = player_character.PlayerCharacter()
-game_table = tabletop.Tabletop()
 
+player1 = player_character.PlayerCharacter()
+user1 = user.Player()
+user1.character.append(player1)
+user1.active_character = user1.character[0]
+
+game_table = tabletop.Tabletop()
+game_table.put_on_table(user1)
 
 
 
@@ -54,6 +60,7 @@ instructions = ("\n\nsandbox commands:\n" +
                 "printabils:\tview all abilities in the abilities.gameconfig file\n" +
                 "table:\tplace the character and a new item on the table and confirm\n" +
                 "main:\topen the main game window\n" +
+                #"wiki:\ttest refreshing window (proof of concept)\n" +
 
                 "\n----- Chatlog -----\n" +
                 "psst:\tput a chat message on the table and output to console\n" +
@@ -96,7 +103,7 @@ while(command != "exit"):
     elif (command == "skills"):     
         print("-------------------------\n")
         for each_skill in skills.core_skills.values():
-            print(str(each_skill.name)+":\t"+str(player1.skills[each_skill.id]))
+            print(str(each_skill.name)+":\t" + str(player1.skills[each_skill.id]))
         print("\n-------------------------\n")
 
     #view characters inventory
@@ -179,8 +186,8 @@ while(command != "exit"):
 
     #open main window
     elif (command == "main"):
-        window = main_menu.MainMenu(game_table, "user")
-        window.open_window()
+        window = main_menu.MainMenu(game_table, user1)
+        window.mainloop()
 
 
     ##### Chatlog Commands #####
@@ -188,34 +195,33 @@ while(command != "exit"):
     #create a quick chat message and add to chatlog
     elif (command == "psst"):
         print("-------------------------\n")
-        game_table.put_on_table(chat_message.ChatMessage(player1, "speech", "public", "Hello World!"))
 
-        for each_chat in game_table.chatlog.values():
-            each_chat.print_chat_message()
+        msg = chat_message.ChatMessage(player1, "speech", "public", "Hello World!")
+        game_table.put_on_table(msg)
+        game_table.chatlog[msg.object_id].print_chat_message()
 
         print("\n-------------------------\n")
 
     #create a custom chat message and add to chatlog
     elif (command == "speak"):
         print("-------------------------\n")
-        game_table.put_on_table(chat_message.ChatMessage(player1, "speech", "public", 
-                                                         input("Enter your message...")))
 
-        for each_chat in game_table.chatlog.values():
-            each_chat.print_chat_message()
+        msg = chat_message.ChatMessage(player1, "speech", "public", 
+                                       input("Enter your message..."))
+        game_table.put_on_table(msg)
+        game_table.chatlog[msg.object_id].print_chat_message()
 
         print("\n-------------------------\n")
 
 
-    #create a quick chat message and output to console
+    #create an action message and add to chatlog
     elif (command == "walk"):
         print("-------------------------\n")
-        game_table.put_on_table(chat_message.ChatMessage(player1, "action", "public", 
-                                                         "walks forward " + 
-                                                         str(player1.speed) + " feet."))
 
-        for each_chat in game_table.chatlog.values():
-            each_chat.print_chat_message()
+        msg = chat_message.ChatMessage(player1, "action", "public", 
+                                       "walks forward " + str(player1.speed) + " feet.")
+        game_table.put_on_table(msg)
+        game_table.chatlog[msg.object_id].print_chat_message()
 
         print("\n-------------------------\n")
 
@@ -228,3 +234,34 @@ while(command != "exit"):
 
 
 
+
+
+
+
+"""
+    #wiki
+    elif (command == "wiki"):
+        #proof of concept of a refreshing window
+        def wikiwiki():
+            wiki = tkinter.Tk()
+            wiki.title("Testing refreshing window")
+            wiki.geometry("500x500")
+
+            thing = tkinter.StringVar()
+            number = 10
+            thing.set(str(number))
+
+            def callback():
+                global number 
+                number += 1
+                thing.set(str(number))
+
+            butt = tkinter.Button(wiki, text="+1", command=callback)
+            butt.pack()
+
+            lab = tkinter.Label(wiki, text = thing)
+            lab.pack()
+
+            wiki.mainloop()
+        wikiwiki()
+"""
