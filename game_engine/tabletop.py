@@ -34,7 +34,10 @@ import uuid
 
 class Tabletop:
     def __init__(self):
-        self.gamemaster_id = ""     #stores unique identifier of game master
+        self.object_id = uuid.uuid1()
+        self.gamemaster_id = ""     #stores unique identifier of game master (GM)
+
+        self.players = {}
         
         #store characters
         self.player_characters = {}         #controlled by players (remote users)
@@ -65,6 +68,9 @@ class Tabletop:
 
         elif f_token.__class__.__name__ == "ChatMessage":
             self.chatlog[f_token.object_id] = f_token
+
+        elif f_token.__class__.__name__ == "Player":
+            self.players[f_token.object_id] = f_token
 
         else:
             self.trunk[f_token.object_id] = f_token

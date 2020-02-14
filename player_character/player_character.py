@@ -78,7 +78,7 @@ class PlayerCharacter:
         self.hit_points = {}
         for each_hitbox in self.species.hitboxes:
             self.hit_points[each_hitbox] = int(self.hit_point_total * (self.species.hitboxes[each_hitbox]/100))
-        speed = 1
+        self.speed = self.ability_scores["constitution"] * 2
 
         #inventory
         self.inventory = []
