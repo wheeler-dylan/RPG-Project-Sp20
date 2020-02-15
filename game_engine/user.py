@@ -11,15 +11,14 @@
 #   their IP address,
 #   etd
 
+import socket    
 import uuid
-import settings
 
 class Player:
-    def __init__(self, f_ip = settings.LOCALHOST, 
-                 f_is_gamemaster = False, 
+    def __init__(self, f_is_gamemaster = False, 
                  f_character = None): 
         self.object_id = uuid.uuid1()
-        self.ip_address = f_ip
+        self.ip_address = socket.gethostbyname(socket.gethostname())
         self.is_gamemaster = f_is_gamemaster
 
         self.character = []
@@ -30,3 +29,4 @@ class Player:
             self.active_character = None
     #end initializer
 #end player class
+

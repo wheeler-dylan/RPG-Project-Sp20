@@ -38,8 +38,6 @@ class MainMenu(tkinter.Tk):
         self.title("Chatquest RPG")
         self.geometry("800x500")
 
-        #populate chatlog (initializes with welcome message)
-        self.game_table.put_on_table(chat_message.ChatMessage(self.player, "technical", "public", "Welcome to Chatquest RPG!"))
 
         #build frame
         self.chatlog_frame = tkinter.LabelFrame(self, text = "Chatlog:", 
@@ -49,7 +47,7 @@ class MainMenu(tkinter.Tk):
 
         for each_message in self.game_table.chatlog.values():
             this_message = self.message_formatter(each_message, self.chatlog_frame)      #create formatted message
-            this_message.pack()                                                     #add to chatlog
+            this_message.pack()                                                     #add to chatlog frame
         #end populate chatlog
 
         #text entry to create chat message
