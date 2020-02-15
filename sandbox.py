@@ -33,14 +33,18 @@ user1 = user.Player()
 user1.character.append(player1)
 user1.active_character = user1.character[0]
 
-game_table = tabletop.Tabletop()
-game_table.put_on_table(user1)
+gm1 = user.Player()
+gm1.is_gamemaster = True
+
+table1 = tabletop.Tabletop(gm1)
+table1.put_on_table(user1)
 
 
 
 instructions = ("\n\nsandbox commands:\n" +
                 "exit:\tclose the program\n" +
                 "help:\tprint list of commands\n" +
+                #"AAAAAH!:\trun every command\n" +
 
                 "\n----- Player Character Commands -----\n" +
                 "create:\tcreate a new character with gui\n" +
@@ -168,24 +172,24 @@ while(command != "exit"):
     #put the PC on the table
     elif (command == "table"):
         print("-------------------------\n")
-        game_table.put_on_table(player1) 
+        table1.put_on_table(player1) 
 
         some_item = game_item.GameItem()
         some_item.quick_build()
         print("\n")
-        game_table.put_on_table(some_item)
+        table1.put_on_table(some_item)
         
-        for each_character in game_table.player_characters.values():
+        for each_character in table1.player_characters.values():
             print(each_character.name) 
 
-        for each_item in game_table.game_items.values():
+        for each_item in table1.game_items.values():
             print(each_item.name)
 
         print("\n-------------------------\n")
 
     #open main window
     elif (command == "main"):
-        window = main_menu.MainMenu(game_table, user1)
+        window = main_menu.MainMenu(table1, user1)
         window.mainloop()
 
 
@@ -196,8 +200,8 @@ while(command != "exit"):
         print("-------------------------\n")
 
         msg = chat_message.ChatMessage(player1, "speech", "public", "Hello World!")
-        game_table.put_on_table(msg)
-        game_table.chatlog[msg.object_id].print_chat_message()
+        table1.put_on_table(msg)
+        table1.chatlog[msg.object_id].print_chat_message()
 
         print("\n-------------------------\n")
 
@@ -207,8 +211,8 @@ while(command != "exit"):
 
         msg = chat_message.ChatMessage(player1, "speech", "public", 
                                        input("Enter your message..."))
-        game_table.put_on_table(msg)
-        game_table.chatlog[msg.object_id].print_chat_message()
+        table1.put_on_table(msg)
+        table1.chatlog[msg.object_id].print_chat_message()
 
         print("\n-------------------------\n")
 
@@ -219,8 +223,8 @@ while(command != "exit"):
 
         msg = chat_message.ChatMessage(player1, "action", "public", 
                                        "walks forward " + str(player1.speed) + " feet.")
-        game_table.put_on_table(msg)
-        game_table.chatlog[msg.object_id].print_chat_message()
+        table1.put_on_table(msg)
+        table1.chatlog[msg.object_id].print_chat_message()
 
         print("\n-------------------------\n")
 

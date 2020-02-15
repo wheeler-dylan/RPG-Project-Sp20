@@ -23,6 +23,7 @@ import abilities
 import skills
 import game_item
 import game_item_actions
+import chat_message
 
 import tkinter
 import uuid
@@ -33,9 +34,9 @@ import uuid
 #   game items
 
 class Tabletop:
-    def __init__(self):
+    def __init__(self, f_gamemaster):
         self.object_id = uuid.uuid1()
-        self.gamemaster_id = ""     #stores unique identifier of game master (GM)
+        self.gamemaster = f_gamemaster     #stores unique identifier of game master (GM)
 
         self.players = {}
         
@@ -48,6 +49,8 @@ class Tabletop:
 
         #store chatlog messages
         self.chatlog = {}
+        #populate chatlog (initializes with welcome message)
+        self.put_on_table(chat_message.ChatMessage(self.gamemaster, "technical", "public", "Welcome to Chatquest RPG!"))
 
         #store anything that doesn't match a predefined class,
         #   used when put_on_table can't find the object's class type
