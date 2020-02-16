@@ -27,25 +27,63 @@ critical_target = 4     #rolling lower than this always succeeds
 fumble_target = 96      #rolling higher than this always fails
 
 
+
 #roll dice against a given probablity and return success/fail result (boolean)
 def roll_check(f_probability, f_difficulty = "standard"):
     target = int(math.floor(float(f_probability) * difficulty_grades[f_difficulty]))
-    print("Target:\t" + str(target))        #debugging
+    #print("Target:\t" + str(target))        #debugging
 
     roll = random.randrange(100) #produces a pseudorandom integer between 0 and 99 inclusively
-    print("Roll:\t" + str(roll))            #debugging
+    #print("Roll:\t" + str(roll))            #debugging
 
     if (roll > fumble_target):
-        print("Fumble!")        #debugging
+        #print("Fumble!")        #debugging
         return False
     elif (roll < critical_target):
-        print("Crit!")          #debugging
+        #print("Crit!")          #debugging
         return True
     elif (roll < target):
-        print("Success!")       #debugging
+        #print("Success!")       #debugging
         return True
     else:
-        print("Fail!")          #debugging
+        #print("Fail!")          #debugging
         return False
 
 #end roll check
+
+
+
+#make a skill check given the character, skill name, and optional difficulty
+def skill_check(f_character, f_skill, f_difficulty = "standard"):
+    prob = f_character.skills[f_skill]
+    return roll_check(prob, f_difficulty)
+#end skill check
+
+
+
+#roll a plain die, not related to a check,
+#   useful for damage dice
+def roll_d(f_die_size):
+    return int((random.randrange(f_die_size-1))+1) #rolls between 1 and die size, inclusively
+#end roll d_ 
+
+
+
+"""TODO: WIP
+#make opposed check
+#   both players must roll a success,
+#   if only one does then that player wins,
+#   else the player who rolls the closest to their 
+#   skill but less than their skill wins
+def opposed_check(f_p1, f_p2, f_skill1, f_skill2 = f_skill1):
+    victor = None
+    
+    p1_roll = random.randrange(100)
+    p2_roll = random.randrange(100)
+
+    #if (p1_roll
+    
+    return victor
+"""
+
+

@@ -8,15 +8,35 @@
 #   they are then stored in a dictionary to be added to individual
 #   items actions list
 
-def attack():
+import sys
+sys.path.append('./game_engine')
+import dice
+
+
+def attack(f_subject = None):
     print("ATTACK!")
 
-def parry():
+
+def parry(f_subject = None):
     print("PARRY!")
 
-def explode():
+
+def explode(f_subject = None):
     print("EXPLODE!")
 
-valid_actions = {"attack": attack, 
+
+def drink_healing_potion(f_subject = None):
+    if (f_subject != None):
+        print(f_subject.name)
+        for each_hitbox in f_subject.max_hitpoints:
+            f_subject.heal_damage(dice.roll_d(3), each_hitbox)
+    print("CHUG!")
+#end healing potion
+
+
+valid_actions = {
+                "attack": attack, 
                 "parry": parry,
-                "explode": explode} 
+                "explode": explode,
+                "drink_healing_potion": drink_healing_potion
+                } 

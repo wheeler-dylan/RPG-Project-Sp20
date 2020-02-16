@@ -93,7 +93,7 @@ class PlayerCharacter:
             self.current_hitpoints[each_hitbox] = self.max_hitpoints[each_hitbox]
 
         #inventory
-        self.inventory = []
+        self.inventory = {}
 
     #end initializer
 
@@ -105,6 +105,9 @@ class PlayerCharacter:
         for each_ability in abilities.core_abilities.values():
             self.ability_scores[each_ability.id] += fnew_ability_scores[i]
             i += 1
+
+        #refresh speed
+        self.speed = self.ability_scores["constitution"] * 2
         
         #update skills
         self.refresh_skill_bases()
@@ -152,7 +155,23 @@ class PlayerCharacter:
 
     #add item to inventory
     def collect_item(self, f_item):
-        self.inventory.append(f_item)
+        self.inventory[f_item.object_id] = f_item
     #end add item to inventory
+
+
+    
+    #takes damage, subtracts damage from current HP of one hitbox
+    def take_damage(self, f_damage, f_hitbox):
+        self.current_hitpoints[f_hitbox] -= f_damage
+    #end take damage
+
+    #removes damage, adds to current HP
+    def heal_damage(self, f_heal, f_hitbox):
+        if (int(self.current_hitpoints[f_hitbox] + f_heal) >= 
+            int(self.max_hitpoints[f_hitbox]) ):
+            self.current_hitpoints[f_hitbox] = self.max_hitpoints[f_hitbox]
+        else:
+            self.current_hitpoints[f_hitbox] += f_heal
+    #end heal
 
 #end player character class

@@ -27,7 +27,7 @@ class GameItem():
         self.object_id = uuid.uuid1()
         self.name = "item"
         self.description = "description"
-        self.actions = []
+        self.actions = {}
         self.subitems = []
     #end initializer
 
@@ -43,7 +43,7 @@ class GameItem():
         if (len(self.actions) == 0):
             print("None")
         else:
-            for each_action in self.actions:
+            for each_action in self.actions.values():
                 print(each_action.__name__)
         print("\nsubitems:")
         if (len(self.subitems) == 0):
@@ -72,7 +72,7 @@ class GameItem():
 
                 for each_action in these_actions:
                     if each_action in game_item_actions.valid_actions:
-                        self.actions.append(game_item_actions.valid_actions[each_action]) 
+                        self.actions[each_action] = game_item_actions.valid_actions[each_action] 
 
             if "subitems: " in each_line: 
                 this_line = str(each_line.replace("subitems: ", "").replace("\n", "").replace(" ", ""))
@@ -97,7 +97,7 @@ class GameItem():
         file.write("name: " + str(self.name) + "\n")
         file.write("description: " + str(self.description) + "\n")
         file.write("actions: ")
-        for each_action in self.actions:
+        for each_action in self.actions.values():
             file.write(each_action.__name__)
             file.write(", ")
         file.write("\n")
