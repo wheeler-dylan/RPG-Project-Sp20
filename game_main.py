@@ -1,8 +1,8 @@
-#Author:        John P Armentor
+#Author:    John P Armentor
 #email:     johnparmentor@gmail.com
 #Date:      2020 01 30
-#Modified:      2020 02 10
-#Course:        CSC425 - Software Engineering II
+#Modified:  2020 02 10
+#Course:    CSC425 - Software Engineering II
 #Prof:      Dr. A. Louise Perkins
 
 # Main game method of our project.
