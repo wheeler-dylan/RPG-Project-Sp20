@@ -33,10 +33,10 @@ human = species("human")
 human.hitboxes["head"] = 10
 human.hitboxes["chest"] = 20
 human.hitboxes["abdomen"] = 20
-human.hitboxes["leftArm"] = 15
-human.hitboxes["rightArm"] = 15
-human.hitboxes["leftLeg"] = 10
-human.hitboxes["rightLeg"] = 10
+human.hitboxes["left_arm"] = 15
+human.hitboxes["right_arm"] = 15
+human.hitboxes["left_leg"] = 10
+human.hitboxes["right_leg"] = 10
 human.native_languages.append(languages["vernacular"])
 species_list["human"] = human
 

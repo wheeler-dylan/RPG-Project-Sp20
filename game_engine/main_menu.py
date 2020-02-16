@@ -28,15 +28,11 @@ import uuid
 
 
 class MainMenu(tkinter.Tk):
-    def __init__(self, f_game_table, f_player = None, *args, **kwargs):
-        tkinter.Tk.__init__(self, *args, **kwargs)
+    def __init__(self, f_game_table, f_player):
+        tkinter.Tk.__init__(self)
         self.object_id = uuid.uuid1() 
         self.game_table = f_game_table
-        
-        if (f_player == None):
-            f_player = player_character.PlayerCharacter()
-        else:
-            self.player = f_player  #user who opens the game window
+        self.player = f_player
     
         self.title("Chatquest RPG")
         self.geometry("800x500")
@@ -46,14 +42,14 @@ class MainMenu(tkinter.Tk):
 
         ##### CHAT ##### 
         #build frame
-        self.chatlog_frame = tkinter.LabelFrame(self, text = "Chatlog:", 
-                                                padx = 5, pady = 5)
+        self.chatlog_frame = tkinter.LabelFrame(self, text = "Chatlog:", padx = 5, pady = 5)
         self.chatlog_frame.pack(fill = "y")
         self.refresh_chatlog() #keep up to date
 
         for each_message in self.game_table.chatlog.values():
-            this_message = self.message_formatter(each_message, self.chatlog_frame)      #create formatted message
-            this_message.pack()                                                     #add to chatlog frame
+            #create formatted message
+            this_message = self.message_formatter(each_message, self.chatlog_frame)      
+            this_message.pack()
         #end populate chatlog
 
         #text entry to create chat message
@@ -69,8 +65,25 @@ class MainMenu(tkinter.Tk):
 
 
 
-        ##### Character Stats #####
+        ##### HITPOINTS #####
+        
+        #output current HP
+        #build frame
+        self.hitpoint_frame = tkinter.LabelFrame(self, text = "Hitpoints:", 
+                                              padx = 5, pady = 5)
+        self.hitpoint_frame.pack()
 
+        #get hitpoint maximums from player's character
+        for each_hitbox in self.player.active_character.max_hitpoints:  
+            hitpoint_string = (str(each_hitbox) + ": " +
+                               str(self.player.active_character.current_hitpoints[each_hitbox]) +
+                               "/" +
+                               str(self.player.active_character.current_hitpoints[each_hitbox]) )
+            
+            hitpoint_label = tkinter.Label(self.hitpoint_frame, text = hitpoint_string)
+            hitpoint_label.pack()
+
+        ##### END HITPOINTS #####
 
 
     #end window
@@ -89,7 +102,8 @@ class MainMenu(tkinter.Tk):
             msg = tkinter.Label(f_frame, text = formatted_text, foreground = "green")
 
         elif(f_message.type == "action"):
-            formatted_text = (str(f_message.speaker.name) +" "+ str(f_message.message))
+            formatted_text = (str(f_message.speaker.name) + " " + 
+                              str(f_message.message))
             msg = tkinter.Label(f_frame, text = formatted_text, foreground = "red")
 
         elif (f_message.type == "technical"):
@@ -102,8 +116,9 @@ class MainMenu(tkinter.Tk):
     #controller for chat entry send button
     def send_chat_message(self):
         if (len(self.chat_entry.get()) > 0):
-            msg = chat_message.ChatMessage(self.player.active_character, "speech", "public", 
-                                    self.chat_entry.get())
+            msg = chat_message.ChatMessage(self.player.active_character, 
+                                           "speech", "public", 
+                                           self.chat_entry.get())
             self.game_table.put_on_table(msg)
             self.game_table.chatlog[msg.object_id].print_chat_message()  #debugging
         self.chat_entry.delete(0, "end")        #clear the entry field
@@ -118,8 +133,8 @@ class MainMenu(tkinter.Tk):
             each_message.destroy()
 
         for each_message in self.game_table.chatlog.values():
-            this_message = self.message_formatter(each_message, self.chatlog_frame)      #create formatted message
-            this_message.pack()       #add to chatlog
+            this_message = self.message_formatter(each_message, self.chatlog_frame)
+            this_message.pack()
 
         self.after(250, self.refresh_chatlog)   #refresh 4 times per second
     #end refresh chatlog

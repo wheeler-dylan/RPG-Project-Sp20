@@ -19,6 +19,7 @@ import user
 import tabletop
 import main_menu
 import chat_message
+import dice
 
 import tkinter
 import uuid
@@ -64,6 +65,7 @@ instructions = ("\n\nsandbox commands:\n" +
                 "printabils:\tview all abilities in the abilities.gameconfig file\n" +
                 "table:\tplace the character and a new item on the table and confirm\n" +
                 "main:\topen the main game window\n" +
+                "roll:\tmake a quick dice check (non-skill based)\n" +
 
                 "\n----- Chatlog -----\n" +
                 "psst:\tput a chat message on the table and output to console\n" +
@@ -86,6 +88,11 @@ while(command != "exit"):
         print("-------------------------\n")
         print(instructions)
         print("\n-------------------------\n")
+
+
+
+
+
 
 
     ##### PC Commands #####
@@ -115,6 +122,11 @@ while(command != "exit"):
         for each_item in player1.inventory:
             print(each_item.name)
         print("\n-------------------------\n")
+
+
+
+
+
 
 
     ##### Game Item Commands #####
@@ -149,6 +161,11 @@ while(command != "exit"):
         new_item.print_item()
         player1.collect_item(new_item) #add to inventory
         print("\n-------------------------\n")
+
+
+
+
+
 
 
     ##### Game Engine Commands #####
@@ -191,6 +208,20 @@ while(command != "exit"):
     elif (command == "main"):
         window = main_menu.MainMenu(table1, user1)
         window.mainloop()
+
+    #make a non skill based check
+    elif (command == "roll"):
+        print("-------------------------\n")
+        prob = input("Enter probability of success:")
+        diff = input("Enter difficulty grade:")
+        dice.roll_check(prob, diff)
+        print("\n-------------------------\n")
+
+
+
+
+
+
 
 
     ##### Chatlog Commands #####

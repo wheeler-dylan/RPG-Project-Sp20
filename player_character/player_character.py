@@ -47,7 +47,13 @@ class PlayerCharacter:
     def __init__(self):
         #demographics
         self.object_id = uuid.uuid1()
-        self.name = "Newguy McCharacter"
+
+        self.first_name = "NewGuy"
+        self.middle_name = ""
+        self.family_name = "McCharacter"
+        self.name = str(self.first_name + " " + self.family_name)
+        self.title = ""
+
         self.species = species.species_list["human"]
         self.languages = self.species.native_languages
 
@@ -74,11 +80,17 @@ class PlayerCharacter:
             self.skills[each_skill.id] = self.skill_bases[each_skill.id] + self.skill_ranks[each_skill.id]
 
         #combat stats
-        self.hit_point_total = (self.ability_scores["strength"] + self. ability_scores["constitution"]) * 2
-        self.hit_points = {}
-        for each_hitbox in self.species.hitboxes:
-            self.hit_points[each_hitbox] = int(self.hit_point_total * (self.species.hitboxes[each_hitbox]/100))
         self.speed = self.ability_scores["constitution"] * 2
+        
+        self.hitpoint_total = (self.ability_scores["strength"] + self. ability_scores["constitution"]) * 2
+        
+        self.max_hitpoints = {}
+        for each_hitbox in self.species.hitboxes:
+            self.max_hitpoints[each_hitbox] = int(self.hitpoint_total * (self.species.hitboxes[each_hitbox]/100))
+
+        self.current_hitpoints = {}
+        for each_hitbox in self.species.hitboxes:
+            self.current_hitpoints[each_hitbox] = self.max_hitpoints[each_hitbox]
 
         #inventory
         self.inventory = []
@@ -131,9 +143,9 @@ class PlayerCharacter:
 
     #refresh hitpoints, used if ability scores change
     def refresh_hit_points(self):
-        self.hit_point_total = (self.ability_scores["strength"] + self. ability_scores["constitution"])
+        self.hitpoint_total = (self.ability_scores["strength"] + self. ability_scores["constitution"])
         for each_hitbox in self.species.hitboxes:
-            self.hit_points[each_hitbox] = int(self.hit_point_total * (self.species.hitboxes[each_hitbox]/100))
+            self.max_hitpoints[each_hitbox] = int(self.hitpoint_total * (self.species.hitboxes[each_hitbox]/100))
     #end refresh hitpoints
 
 

@@ -41,7 +41,7 @@ class ChatMessage:
     def print_chat_message(self):
         print("Chat Message:\n" +
               "ID:\t" + str(self.object_id) + "\n" +
-              "Speaker:\t" + str(self.speaker.name) + " (" + str(self.speaker.object_id) + ")\n" +
+              "Speaker:\t" + str(self.speaker.first_name) + " (" + str(self.speaker.object_id) + ")\n" +
               "Type:\t" + str(self.type) + "\tVisibility:\t" + str(self.visibility) + "\n" +
               "Message:\t" + str(self.message) +
               "")
