@@ -35,7 +35,13 @@ def roll_check(f_probability, f_difficulty = "standard"):
     roll = random.randrange(100) #produces a pseudorandom integer between 0 and 99 inclusively
     print("Roll:\t" + str(roll))            #debugging
 
-    if (roll < target):
+    if (roll > fumble_target):
+        print("Fumble!")        #debugging
+        return False
+    elif (roll < critical_target):
+        print("Crit!")          #debugging
+        return True
+    elif (roll < target):
         print("Success!")       #debugging
         return True
     else:

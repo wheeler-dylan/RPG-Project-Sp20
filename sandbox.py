@@ -66,6 +66,7 @@ instructions = ("\n\nsandbox commands:\n" +
                 "table:\tplace the character and a new item on the table and confirm\n" +
                 "main:\topen the main game window\n" +
                 "roll:\tmake a quick dice check (non-skill based)\n" +
+                "dicetower:\troll a ton of dice for fun\n" +
 
                 "\n----- Chatlog -----\n" +
                 "psst:\tput a chat message on the table and output to console\n" +
@@ -217,6 +218,13 @@ while(command != "exit"):
         dice.roll_check(prob, diff)
         print("\n-------------------------\n")
 
+    #make a bunch of rolls
+    elif (command == "dicetower"):
+        print("-------------------------\n")
+        for i in range(100):
+            dice.roll_check(50)
+            print()
+        print("\n-------------------------\n")
 
 
 
