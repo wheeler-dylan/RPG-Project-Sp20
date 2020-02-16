@@ -19,9 +19,11 @@ import user
 import tabletop
 import main_menu
 import chat_message
+import dice
 
 import tkinter
 import uuid
+from functools import partial
 
 
 print("-------------------------Running sandbox.py-------------------------\n\n")
@@ -35,6 +37,9 @@ user1.active_character = user1.character[0]
 
 gm1 = user.Player()
 gm1.is_gamemaster = True
+gm1.active_character = player_character.PlayerCharacter()
+gm1.active_character.name = "Gamemaster"
+
 
 table1 = tabletop.Tabletop(gm1)
 table1.put_on_table(user1)
@@ -65,6 +70,15 @@ instructions = ("\n\nsandbox commands:\n" +
                 "table:\tplace the character and a new item on the table and confirm\n" +
                 "main:\topen the main game window\n" +
 
+                "\n----- Dice Commands -----\n" +
+                "roll:\tmake a quick dice check (non-skill based)\n" +
+                "dicetower:\troll a ton of dice for fun\n" +
+                "skillcheck:\tmake a skill check\n" +
+
+                "\n----- Combat Commands -----\n" +
+                "thwack:\tattack the PC\n" +
+                "chug:\tdrink a healing potion\n" +
+
                 "\n----- Chatlog -----\n" +
                 "psst:\tput a chat message on the table and output to console\n" +
                 "speak:\tspeak an inputted message and place in chat log\n" + 
@@ -86,6 +100,11 @@ while(command != "exit"):
         print("-------------------------\n")
         print(instructions)
         print("\n-------------------------\n")
+
+
+
+
+
 
 
     ##### PC Commands #####
@@ -112,9 +131,14 @@ while(command != "exit"):
     #view characters inventory
     elif (command == "bags"):       
         print("-------------------------\n")
-        for each_item in player1.inventory:
+        for each_item in player1.inventory.values():
             print(each_item.name)
         print("\n-------------------------\n")
+
+
+
+
+
 
 
     ##### Game Item Commands #####
@@ -149,6 +173,11 @@ while(command != "exit"):
         new_item.print_item()
         player1.collect_item(new_item) #add to inventory
         print("\n-------------------------\n")
+
+
+
+
+
 
 
     ##### Game Engine Commands #####
@@ -191,6 +220,85 @@ while(command != "exit"):
     elif (command == "main"):
         window = main_menu.MainMenu(table1, user1)
         window.mainloop()
+
+
+
+
+
+
+
+    ##### Dice Commands #####
+
+    #make a non skill based check
+    elif (command == "roll"):
+        print("-------------------------\n")
+        prob = input("Enter probability of success:")
+        diff = input("Enter difficulty grade:")
+        dice.roll_check(prob, diff)
+        print("\n-------------------------\n")
+
+    #make a bunch of rolls
+    elif (command == "dicetower"):
+        print("-------------------------\n")
+        for i in range(100):
+            dice.roll_check(50)
+            print()
+        print("\n-------------------------\n")
+
+    #make a skill check
+    elif (command == "skillcheck"):
+        print("-------------------------\n")
+        skill = input("Enter skill to check:")
+        dice.skill_check(player1, skill)
+        print("\n-------------------------\n")
+
+
+
+
+
+
+
+
+    ##### Combat Commands #####
+    
+    #attack the PC
+    elif (command == "thwack"):
+        print("-------------------------\n")
+        
+        dmg = dice.roll_d(4)
+        player1.take_damage(dmg, "abdomen") 
+        msg_str = str(player1.first_name + " has taken " + str(dmg) + " damage!")
+        msg = chat_message.ChatMessage(gm1.active_character, "technical", "public", msg_str)
+        table1.put_on_table(msg)
+        table1.chatlog[msg.object_id].print_chat_message()
+    
+        print("\n-------------------------\n")
+
+    #drink a healing potion
+    elif (command == "chug"):
+        print("-------------------------\n")
+        
+        #make and collect a potion
+        potion = game_item.GameItem()
+        potion.load_item_from_file(open("./game_items/healingpotion.gmitm"))
+        potion.print_item()
+        player1.collect_item(potion)
+        print("\n")
+
+        #take the drink action
+        player1.inventory[potion.object_id].actions["drink_healing_potion"](player1)
+        print()
+        
+        #add action to chatlog
+        msg = chat_message.ChatMessage(player1, "action", "public", 
+                                       "drank a healing potion.")
+        table1.put_on_table(msg)
+        table1.chatlog[msg.object_id].print_chat_message()
+        
+        print("\n-------------------------\n")
+
+
+
 
 
     ##### Chatlog Commands #####

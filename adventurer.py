@@ -1,8 +1,8 @@
-#Author:        John P Armentor
+#Author:    John P Armentor
 #email:     johnparmentor@gmail.com
 #Date:      2020 01 30
 #Modified:  2020 02 10
-#Course:        CSC424 - Software Engineering II
+#Course:    CSC425 - Software Engineering II
 #Prof:      Dr. A. Louise Perkins
 #
 #Rudamentary player object file for network testing purposes 
