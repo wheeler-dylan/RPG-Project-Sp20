@@ -1,7 +1,7 @@
 #Author:        Dylan E. Wheeler
 #Email:         dylan.wheeler@usm.edu
 #Date:          2019 02 11
-#Course:        CSC242 - Software Engineering II
+#Course:        CSC425 - Software Engineering II
 #Prof.:         Dr. A. Louise Perkins
 
 #This file contains the class and methods for generating 
@@ -28,17 +28,23 @@ import uuid
 
 
 class MainMenu(tkinter.Tk):
-    def __init__(self, f_game_table, f_player, *args, **kwargs):
+    def __init__(self, f_game_table, f_player = None, *args, **kwargs):
         tkinter.Tk.__init__(self, *args, **kwargs)
         self.object_id = uuid.uuid1() 
         self.game_table = f_game_table
-        self.player = f_player  #user who opens the game window
+        
+        if (f_player == None):
+            f_player = player_character.PlayerCharacter()
+        else:
+            self.player = f_player  #user who opens the game window
     
-        #main_window = tkinter.Tk()
         self.title("Chatquest RPG")
         self.geometry("800x500")
+        
+        
 
 
+        ##### CHAT ##### 
         #build frame
         self.chatlog_frame = tkinter.LabelFrame(self, text = "Chatlog:", 
                                                 padx = 5, pady = 5)
@@ -59,10 +65,19 @@ class MainMenu(tkinter.Tk):
         self.chat_submit.pack()
         #end text entry chat message
 
-        #self.update()
-        #self.update_idletasks()
-        #main_window.mainloop()
+        ##### END CHAT #####
+
+
+
+        ##### Character Stats #####
+
+
+
     #end window
+
+
+
+
 
 
     #function to format the message text to be added to the chat log

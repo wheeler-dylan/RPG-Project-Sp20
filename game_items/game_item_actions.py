@@ -1,7 +1,7 @@
 #Author:        Dylan E. Wheeler
 #Email:         dylan.wheeler@usm.edu
 #Date:          2019 02 01
-#Course:        CSC242 - Software Engineering II
+#Course:        CSC425 - Software Engineering II
 #Prof.:         Dr. A. Louise Perkins
 
 #This file contains the all valid actions for game items

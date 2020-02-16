@@ -1,7 +1,7 @@
 #Author:        Dylan E. Wheeler
 #Email:         dylan.wheeler@usm.edu
 #Date:          2019 02 02
-#Course:        CSC242 - Software Engineering II
+#Course:        CSC425 - Software Engineering II
 #Prof.:         Dr. A. Louise Perkins
 
 #this file contains species playabel by player characters
