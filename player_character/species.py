@@ -1,14 +1,14 @@
 #Author:        Dylan E. Wheeler
 #Email:         dylan.wheeler@usm.edu
 #Date:          2019 02 02
-#Course:        CSC242 - Software Engineering II
+#Course:        CSC425 - Software Engineering II
 #Prof.:         Dr. A. Louise Perkins
 
 #this file contains species playabel by player characters
 
 class species: 
-    def __init__(self, fName):
-        self.name = fName
+    def __init__(self, f_name):
+        self.name = f_name
 
         #possible target zones, 
         #   dictionary with string key value for each tragetable body part
@@ -18,12 +18,12 @@ class species:
         #   that area contains
         self.hitboxes = {}
 
-        self.nativeLanguages = []
+        self.native_languages = []
 
 #end species definition
 
 #list of all species
-speciesList = {}
+species_list = {}
 
 #list of all languages
 languages = {"vernacular": "vernacular"}
@@ -33,11 +33,11 @@ human = species("human")
 human.hitboxes["head"] = 10
 human.hitboxes["chest"] = 20
 human.hitboxes["abdomen"] = 20
-human.hitboxes["leftArm"] = 15
-human.hitboxes["rightArm"] = 15
-human.hitboxes["leftLeg"] = 10
-human.hitboxes["rightLeg"] = 10
-human.nativeLanguages.append(languages["vernacular"])
-speciesList["human"] = human
+human.hitboxes["left_arm"] = 15
+human.hitboxes["right_arm"] = 15
+human.hitboxes["left_leg"] = 10
+human.hitboxes["right_leg"] = 10
+human.native_languages.append(languages["vernacular"])
+species_list["human"] = human
 
 
