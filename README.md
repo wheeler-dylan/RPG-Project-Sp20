@@ -9,5 +9,5 @@ When we as a team reach a solid development point within our joint testing branc
 After a new master branch is established the Story will be considered complete and move into its resting place of In Main.  The process continues until the master branch reaches the point of being a sufficient product in relation to the outlined product requirements.
 
 Process Author: John P Armentor
-#email:     johnparmentor@gmail.com
-#Date:      2020 02 17
+email:     johnparmentor@gmail.com
+Date:      2020 02 17
