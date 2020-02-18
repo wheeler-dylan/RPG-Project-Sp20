@@ -1,6 +1,7 @@
 strength, Strength, physical
 constitution, Constitution, physical
+size, Size, physical
 dexterity, Dexterity, physical
 intelligence, Intelligence, mental
-wisdom, Wisdom, mental
 charisma, Charisma, mental
+soul, Soul, spiritual

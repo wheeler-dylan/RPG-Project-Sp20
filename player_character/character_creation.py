@@ -21,7 +21,7 @@ max_ability_score = 20                    #maximum ability score bonus at charac
 
 #skill rank parameters
 min_skill_ranks = 0                #minimum additional points added to each skill besides linked abilities
-starting_skill_points = 40        #total character creation points added to skill ranks
+starting_skill_points = 150        #total character creation points added to skill ranks
 max_skill_ranks = 40              #maximux skill bonus allowed at character creation
 
 
