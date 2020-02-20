@@ -16,12 +16,13 @@ import abilities
 skills_config = open("./player_character/skills/skills.gameconfig")
 
 class Skill:
-    def __init__(self, f_id, f_name, f_main_ability, f_secondary_ability, f_category):
+    def __init__(self, f_id, f_name, f_main_ability, f_secondary_ability, f_category, f_specialty = ""):
         self.id = f_id
         self.name = f_name
-        self.main_ability = f_main_ability
-        self.secondary_ability = f_secondary_ability
+        self.main_ability = abilities.core_abilities[f_main_ability]
+        self.secondary_ability = abilities.core_abilities[f_secondary_ability]
         self.category = f_category
+        self.specialty = f_specialty
     #end initializer
 
     #print a skill to the console
@@ -30,7 +31,10 @@ class Skill:
               "Name:\t\t" + str(self.name) + "\n" +
               "Main Abil:\t" + str(self.main_ability.name) + "\n" +
               "Sec Abil:\t" + str(self.secondary_ability.name) + "\n" +
-              "Type:\t\t" + str(self.category) + "\n")
+              "Type:\t\t" + str(self.category))
+        if (len(self.specialty) > 0):
+            print("Specialty:\t" + str(self.specialty))
+        print()
     #end print skill
 
 #end skill definition
@@ -40,12 +44,18 @@ class Skill:
 core_skills = {}
 for each_line in skills_config:
     skill_data = str(each_line.replace("\n", "")).split(", ")
+    skill_traits = []
+    for each_item in skill_data:
+        skill_traits.append(each_item)
+    this_skill = Skill(*skill_traits)
+    core_skills[this_skill.id] = this_skill
+#end load
+
+"""
     this_skill = Skill(skill_data[0], 
                       skill_data[1], 
                       abilities.core_abilities[skill_data[2]], 
                       abilities.core_abilities[skill_data[3]], 
                       skill_data[4])
-    core_skills[this_skill.id] = this_skill
-#end load
 
-
+"""
