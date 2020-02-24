@@ -1,7 +1,7 @@
 #Author:        Dylan E. Wheeler
 #Email:         dylan.wheeler@usm.edu
 #Date:          2019 01 30
-#Course:        CSC242 - Software Engineering II
+#Course:        CSC425 - Software Engineering II
 #Prof.:         Dr. A. Louise Perkins
 
 #This file contains the class and methods for initializing a 
@@ -47,7 +47,13 @@ class PlayerCharacter:
     def __init__(self):
         #demographics
         self.object_id = uuid.uuid1()
-        self.name = "Newguy McCharacter"
+
+        self.first_name = "NewGuy"
+        self.middle_name = ""
+        self.family_name = "McCharacter"
+        self.name = str(self.first_name + " " + self.family_name)
+        self.title = ""
+
         self.species = species.species_list["human"]
         self.languages = self.species.native_languages
 
@@ -74,14 +80,20 @@ class PlayerCharacter:
             self.skills[each_skill.id] = self.skill_bases[each_skill.id] + self.skill_ranks[each_skill.id]
 
         #combat stats
-        self.hit_point_total = (self.ability_scores["strength"] + self. ability_scores["constitution"]) * 2
-        self.hit_points = {}
+        self.speed = self.ability_scores["constitution"] * 2
+        
+        self.hitpoint_total = (self.ability_scores["strength"] + self. ability_scores["constitution"]) * 2
+        
+        self.max_hitpoints = {}
         for each_hitbox in self.species.hitboxes:
-            self.hit_points[each_hitbox] = int(self.hit_point_total * (self.species.hitboxes[each_hitbox]/100))
-        speed = 1
+            self.max_hitpoints[each_hitbox] = int(self.hitpoint_total * (self.species.hitboxes[each_hitbox]/100))
+
+        self.current_hitpoints = {}
+        for each_hitbox in self.species.hitboxes:
+            self.current_hitpoints[each_hitbox] = self.max_hitpoints[each_hitbox]
 
         #inventory
-        self.inventory = []
+        self.inventory = {}
 
     #end initializer
 
@@ -93,6 +105,9 @@ class PlayerCharacter:
         for each_ability in abilities.core_abilities.values():
             self.ability_scores[each_ability.id] += fnew_ability_scores[i]
             i += 1
+
+        #refresh speed
+        self.speed = self.ability_scores["constitution"] * 2
         
         #update skills
         self.refresh_skill_bases()
@@ -131,16 +146,32 @@ class PlayerCharacter:
 
     #refresh hitpoints, used if ability scores change
     def refresh_hit_points(self):
-        self.hit_point_total = (self.ability_scores["strength"] + self. ability_scores["constitution"])
+        self.hitpoint_total = (self.ability_scores["strength"] + self. ability_scores["constitution"])
         for each_hitbox in self.species.hitboxes:
-            self.hit_points[each_hitbox] = int(self.hit_point_total * (self.species.hitboxes[each_hitbox]/100))
+            self.max_hitpoints[each_hitbox] = int(self.hitpoint_total * (self.species.hitboxes[each_hitbox]/100))
     #end refresh hitpoints
 
 
 
     #add item to inventory
     def collect_item(self, f_item):
-        self.inventory.append(f_item)
+        self.inventory[f_item.object_id] = f_item
     #end add item to inventory
+
+
+    
+    #takes damage, subtracts damage from current HP of one hitbox
+    def take_damage(self, f_damage, f_hitbox):
+        self.current_hitpoints[f_hitbox] -= f_damage
+    #end take damage
+
+    #removes damage, adds to current HP
+    def heal_damage(self, f_heal, f_hitbox):
+        if (int(self.current_hitpoints[f_hitbox] + f_heal) >= 
+            int(self.max_hitpoints[f_hitbox]) ):
+            self.current_hitpoints[f_hitbox] = self.max_hitpoints[f_hitbox]
+        else:
+            self.current_hitpoints[f_hitbox] += f_heal
+    #end heal
 
 #end player character class

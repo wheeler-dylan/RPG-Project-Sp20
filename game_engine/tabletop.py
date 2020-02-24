@@ -1,7 +1,7 @@
 #Author:        Dylan E. Wheeler
 #Email:         dylan.wheeler@usm.edu
 #Date:          2019 02 11
-#Course:        CSC242 - Software Engineering II
+#Course:        CSC425 - Software Engineering II
 #Prof.:         Dr. A. Louise Perkins
 
 #This class will act as the game state of a game station. 
@@ -23,6 +23,7 @@ import abilities
 import skills
 import game_item
 import game_item_actions
+import chat_message
 
 import tkinter
 import uuid
@@ -33,8 +34,11 @@ import uuid
 #   game items
 
 class Tabletop:
-    def __init__(self):
-        self.gamemaster_id = ""     #stores unique identifier of game master
+    def __init__(self, f_gamemaster):
+        self.object_id = uuid.uuid1()
+        self.gamemaster = f_gamemaster     #stores unique identifier of game master (GM)
+
+        self.players = {}
         
         #store characters
         self.player_characters = {}         #controlled by players (remote users)
@@ -45,6 +49,8 @@ class Tabletop:
 
         #store chatlog messages
         self.chatlog = {}
+        #populate chatlog (initializes with welcome message)
+        self.put_on_table(chat_message.ChatMessage(self.gamemaster, "technical", "public", "Welcome to Chatquest RPG!"))
 
         #store anything that doesn't match a predefined class,
         #   used when put_on_table can't find the object's class type
@@ -65,6 +71,9 @@ class Tabletop:
 
         elif f_token.__class__.__name__ == "ChatMessage":
             self.chatlog[f_token.object_id] = f_token
+
+        elif f_token.__class__.__name__ == "Player":
+            self.players[f_token.object_id] = f_token
 
         else:
             self.trunk[f_token.object_id] = f_token
