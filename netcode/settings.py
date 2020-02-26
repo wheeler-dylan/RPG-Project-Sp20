@@ -6,6 +6,10 @@
 #
 #File for designating settings intended across the entire game.
 
+import socket  
+
 # Multiplayer settings
 #
+MYIP = socket.gethostbyname(socket.gethostname())
+
 LOCALHOST = "192.168.1.64"

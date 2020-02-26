@@ -10,6 +10,7 @@
 
 import socket
 import pickle
+import queue
 from _thread import *
 from network import Network
 from adventurer import Adventurer
@@ -18,7 +19,11 @@ from settings import *
 # We create a list of Game objects to track and store all game-related information from the clients to the server, and then
 # transmit that information back to the clients.
 #
-game_objects = [Adventurer("Chronos", "Diety", 1, "I am")]
+game_objects = []
+
+# queue of functions that are incoming from players and applying to the current game table
+#
+function_queue = queue.Queue()
 
 # We create a function that acts as a threaded client that accepts the connection as an object and additionally accepts an object
 # that is to be pickled and transfered, which is the Game objects in this case
@@ -38,7 +43,17 @@ def threaded_client(connection):
             inbound_data = pickle.loads(connection.recv(1024*4))
             print("Incoming: ", inbound_data)
             
-            game_objects = inbound_data
+            if not game_objects:
+                gm1 = user.Player()
+                gm1.is_gamemaster = True
+                gm1.active_character = player_character.PlayerCharacter()
+                gm1.active_character.name = "Gamemaster"
+                
+                table1 = tabletop.Tabletop(gm1)
+                
+            else
+                current_function = inbound_data
+                function_queue.put(current_function)
 
             # this is to show that we are disconnecting and the break out once the client stops sending information and loses connection
             #

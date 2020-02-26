@@ -22,7 +22,7 @@ def main():
     #
     current_network = Network()
     
-    game_objects = current_network.get_client_id()
+    game_objects = current_network.get_initial_data()
 
     # Main Game Loop
     #

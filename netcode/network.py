@@ -37,14 +37,14 @@ class Network:
         #
         self.address = (self.server, self.port)
         
-        # we create an ID that we can use to easily identify our connection
+        # we store the initial data recieved from out connection
         #
-        self.client_id = self.connect()
+        self.initial_data = self.connect()
     
-    # Function to return our unique client ID as an established connection
+    # Function to return the initial data from our connection
     #
-    def get_client_id(self):
-        return self.client_id
+    def get_initial_data(self):
+        return self.initial_data
 
     # our function to attempt to connect to the server 
     #
@@ -55,7 +55,7 @@ class Network:
         except:
             pass
 
-    # we create a send data functiong that uses pickling to serialize objects and send data as needed
+    # we create a send data function that uses pickling to serialize objects and send data as needed
     #
     def send(self, data):
         try:
