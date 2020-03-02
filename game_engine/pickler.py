@@ -13,9 +13,15 @@
 import pickle
 
 #save object
-def save_object(f_token):
+def save_object(f_token, f_filename = None):
     folder = "./savefiles/"
-    filename = str(str(folder) + str(f_token.object_id) + ".gamesave")
+
+    if(f_filename == None):
+        filename = str(f_token.object_id)
+    else:
+        filename = str(f_filename)
+    
+    filename = str(str(folder) + str(filename) + ".gamesave")
 
     file = open(filename, "wb")
 
@@ -24,7 +30,12 @@ def save_object(f_token):
 
 #load object
 def load_object(f_filename):
-    file = open(f_filename, 'rb')
+
+    folder = "./savefiles/"
+    filename = str(str(folder) + str(f_filename) + ".gamesave")
+
+    file = open(filename, 'rb')
     object = pickle.load(file)
+
     return object
 #

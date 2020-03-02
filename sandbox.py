@@ -31,6 +31,8 @@ print("-------------------------Running sandbox.py-------------------------\n\n"
 
 command = ""
 
+campaign_title = "The Chronicles of Testing"
+
 player1 = player_character.PlayerCharacter()
 user1 = user.User()
 user1.character.append(player1)
@@ -44,6 +46,7 @@ gm1.active_character.name = "Gamemaster"
 
 table1 = tabletop.Tabletop(gm1)
 table1.put_on_table(user1)
+table1.campaign_name = campaign_title
 
 
 
@@ -242,7 +245,9 @@ while(command != "exit"):
     elif (command == "savetable"):
         print("-------------------------\n")
 
-        pickler.save_object(table1)
+        filename = str(table1.campaign_name.replace(" ", "_"))
+        pickler.save_object(table1, filename)
+
         print("Table Saved!")
 
         print("\n-------------------------\n")
@@ -251,7 +256,7 @@ while(command != "exit"):
     elif (command == "loadtable"):
         print("-------------------------\n")
 
-        filename = "./savefiles/" + str(table1.object_id) + ".gamesave"
+        filename = str(table1.campaign_name.replace(" ", "_"))
         table2 = pickler.load_object(filename)
         table2.print_object_ids()
 
