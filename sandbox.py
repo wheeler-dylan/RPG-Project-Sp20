@@ -18,6 +18,7 @@ import game_item_actions
 import user
 import tabletop
 import main_menu
+import pickler
 import chat_message
 import dice
 
@@ -30,12 +31,14 @@ print("-------------------------Running sandbox.py-------------------------\n\n"
 
 command = ""
 
+campaign_title = "The Chronicles of Testing"
+
 player1 = player_character.PlayerCharacter()
-user1 = user.Player()
+user1 = user.User()
 user1.character.append(player1)
 user1.active_character = user1.character[0]
 
-gm1 = user.Player()
+gm1 = user.User()
 gm1.is_gamemaster = True
 gm1.active_character = player_character.PlayerCharacter()
 gm1.active_character.name = "Gamemaster"
@@ -43,6 +46,7 @@ gm1.active_character.name = "Gamemaster"
 
 table1 = tabletop.Tabletop(gm1)
 table1.put_on_table(user1)
+table1.campaign_name = campaign_title
 
 
 
@@ -56,6 +60,7 @@ instructions = ("\n\nsandbox commands:\n" +
                 "abils:\toutput the character's abilities\n" +
                 "skills:\toutput the character's skills\n" +
                 "bags:\tview the character's inventory\n" +
+                "wielded:\tview character's worn and wielded items\n" +
                 #"quick:\tinstantly create a basic character\n" +
                 #"sheet:\toutput all the character's stats\n" +
 
@@ -68,6 +73,9 @@ instructions = ("\n\nsandbox commands:\n" +
                 "printskills:\tview all skills in the skills.gameconfig file\n" +
                 "printabils:\tview all abilities in the abilities.gameconfig file\n" +
                 "table:\tplace the character and a new item on the table and confirm\n" +
+                "printtable:\tprint the object ids of al objects on the table\n" +
+                "savetable:\tsaves the table to a local file\n" +
+                "loadtable:\tloads the table from a local file\n" +
                 "main:\topen the main game window\n" +
 
                 "\n----- Dice Commands -----\n" +
@@ -135,6 +143,11 @@ while(command != "exit"):
             print(each_item.name)
         print("\n-------------------------\n")
 
+    elif (command == "wielded"):
+        print("-------------------------\n")
+        for each_item in player1.item_slots:
+            print(str(each_item) + ":\t" + str(player1.item_slots[each_item]))
+        print("\n-------------------------\n")
 
 
 
@@ -154,10 +167,11 @@ while(command != "exit"):
     #tests game item load and print
     elif (command == "find"):       
         print("-------------------------\n")
-        ironSword = game_item.GameItem()
-        ironSword.load_item_from_file(open("./game_items/ironsword.gmitm"))
-        ironSword.print_item()
-        player1.collect_item(ironSword)
+        iron_sword = game_item.GameItem()
+        iron_sword.load_item_from_file(open("./game_items/ironsword.gmitm"))
+        iron_sword.print_item()
+        player1.collect_item(iron_sword)
+        player1.item_slots["left_hand"] = player1.inventory[iron_sword.object_id]
         print("\n")
         journal = game_item.GameItem()
         journal.load_item_from_file(open("./game_items/journal.gmitm"))
@@ -218,9 +232,42 @@ while(command != "exit"):
 
     #open main window
     elif (command == "main"):
+        print("-------------------------\n")
+
         window = main_menu.MainMenu(table1, user1)
         window.mainloop()
 
+        print("\n-------------------------\n")
+
+
+    #print object ids of all objects on the table
+    elif (command == "printtable"):
+        print("-------------------------\n")
+
+        table1.print_object_ids()
+
+        print("\n-------------------------\n")
+
+    #save table
+    elif (command == "savetable"):
+        print("-------------------------\n")
+
+        filename = str(table1.campaign_name.replace(" ", "_"))
+        pickler.save_object(table1, filename)
+
+        print("Table Saved!")
+
+        print("\n-------------------------\n")
+
+    #load table
+    elif (command == "loadtable"):
+        print("-------------------------\n")
+
+        filename = str(table1.campaign_name.replace(" ", "_"))
+        table2 = pickler.load_object(filename)
+        table2.print_object_ids()
+
+        print("\n-------------------------\n")
 
 
 

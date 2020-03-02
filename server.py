@@ -2,7 +2,7 @@
 #email:     johnparmentor@gmail.com
 #Date:      2020 01 30
 #Modified:      2020 02 10
-#Course:    CSC425 - Software Engineering II
+#Course:    CSC424 - Software Engineering II
 #Prof:      Dr. A. Louise Perkins
 
 # File that acts as the server for our game.  Intended to be launchable by
