@@ -208,8 +208,8 @@ while(command != "exit"):
         new_story = story_item.story_item()
         #new_story.title = input("Enter Story Item Title:")
         #new_story.message = input("Enter Story Message:")
-        new_story.title = "Entering the Castle"
-        new_story.message = "You see a large castle before you."
+        new_story.title = "Discovering the Druiddagger"
+        new_story.message = "You see a large, mysterious blade before you."
         
         new_story.image_filename = "./images/img001.png"
         new_story.open_frame()

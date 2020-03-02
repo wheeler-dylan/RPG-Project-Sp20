@@ -35,11 +35,13 @@ class story_item():
         frame_title = tkinter.Label(frame, text = self.message)
         frame_title.pack()
         
+        #if image exists, load it and pack it
         if(self.image_filename != ""):
-            load = Image.open(self.image_filename)
-            render = ImageTk.PhotoImage(load)
-            frame_image = tkinter.Label(self, image=render)
-            frame_image.image = render
+            image = Image.open(self.image_filename)
+            image.thumbnail((400,400), Image.ANTIALIAS) #resize to fit in window, TODO: update to resize automatically
+            tk_image = ImageTk.PhotoImage(image)
+            frame_image = tkinter.Label(frame, image=tk_image)
+            frame_image.image = tk_image
             frame_image.pack()
 
             #print("A!") #debugging
@@ -56,7 +58,7 @@ class story_item():
         self.tkinter_frame = self.build_frame(frame_window)
 
         frame_window.title(self.title)
-        frame_window.geometry("600x400")
+        frame_window.geometry("400x600")
 
         self.tkinter_frame.pack()
 
