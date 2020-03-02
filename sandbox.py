@@ -51,7 +51,7 @@ table1 = tabletop.Tabletop(gm1)
 table1.put_on_table(user1)
 table1.campaign_name = campaign_title
 
-start_tkinter_engine = tkinter.Tk()
+#start_tkinter_engine = tkinter.Tk()
 
 
 
@@ -206,10 +206,14 @@ while(command != "exit"):
     #make a story item
     elif (command == "story"):
         new_story = story_item.story_item()
-        new_story.title = input("Enter Story Item Title:")
-        new_story.title = input("Enter Story Message:")
+        #new_story.title = input("Enter Story Item Title:")
+        #new_story.message = input("Enter Story Message:")
+        new_story.title = "Entering the Castle"
+        new_story.message = "You see a large castle before you."
+        
         new_story.image_filename = "./images/img001.png"
         new_story.open_frame()
+
 
 
 

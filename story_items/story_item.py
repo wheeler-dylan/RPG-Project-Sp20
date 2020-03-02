@@ -12,6 +12,7 @@
 
 import uuid
 import tkinter
+from PIL import Image, ImageTk #image handling for various file types
 
 class story_item():
     def __init__(self):
@@ -35,9 +36,16 @@ class story_item():
         frame_title.pack()
         
         if(self.image_filename != ""):
-            frame_image = tkinter.Label(frame, 
-                                        image = tkinter.PhotoImage(file = self.image_filename))
+            load = Image.open(self.image_filename)
+            render = ImageTk.PhotoImage(load)
+            frame_image = tkinter.Label(self, image=render)
+            frame_image.image = render
             frame_image.pack()
+
+            #print("A!") #debugging
+            #frame_image = tkinter.Label(frame, 
+            #                            image = tkinter.PhotoImage(file = self.image_filename))
+            #frame_image.pack()
 
         return frame
     #
