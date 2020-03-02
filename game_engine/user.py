@@ -14,7 +14,7 @@
 import socket    
 import uuid
 
-class Player:
+class User:
     def __init__(self, f_is_gamemaster = False, 
                  f_character = None): 
         self.object_id = uuid.uuid1()

@@ -80,4 +80,31 @@ class Tabletop:
     #
 
 
+    #print object IDs
+    def print_object_ids(self):
+        #get each attribute of the table
+        for each_attribute in self.__dict__.values():
+
+            #print(type(each_attribute)) #debugging
+
+            if (type(each_attribute) == dict):  #if its a dictionary
+                
+                #print("A") #debugging
+
+                for each_token in each_attribute.values():
+
+                    if (hasattr(each_token, "object_id")):  #if it has an object id
+                        #print("B") #debugging
+                        print(each_token.object_id)
+
+                    else:
+                        #print("C") #debugging
+                        print(str(each_token.__name__))
+
+            else:   #if not a dictionary
+                #print("D") #debugging
+                print(str(each_attribute))
+
+    #end print object IDs
+
 #end tabletop class

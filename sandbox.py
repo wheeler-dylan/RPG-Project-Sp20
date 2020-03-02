@@ -18,6 +18,7 @@ import game_item_actions
 import user
 import tabletop
 import main_menu
+import pickler
 import chat_message
 import dice
 
@@ -31,11 +32,11 @@ print("-------------------------Running sandbox.py-------------------------\n\n"
 command = ""
 
 player1 = player_character.PlayerCharacter()
-user1 = user.Player()
+user1 = user.User()
 user1.character.append(player1)
 user1.active_character = user1.character[0]
 
-gm1 = user.Player()
+gm1 = user.User()
 gm1.is_gamemaster = True
 gm1.active_character = player_character.PlayerCharacter()
 gm1.active_character.name = "Gamemaster"
@@ -68,6 +69,9 @@ instructions = ("\n\nsandbox commands:\n" +
                 "printskills:\tview all skills in the skills.gameconfig file\n" +
                 "printabils:\tview all abilities in the abilities.gameconfig file\n" +
                 "table:\tplace the character and a new item on the table and confirm\n" +
+                "printtable:\tprint the object ids of al objects on the table\n" +
+                "savetable:\tsaves the table to a local file\n" +
+                "loadtable:\tloads the table from a local file\n" +
                 "main:\topen the main game window\n" +
 
                 "\n----- Dice Commands -----\n" +
@@ -218,9 +222,40 @@ while(command != "exit"):
 
     #open main window
     elif (command == "main"):
+        print("-------------------------\n")
+
         window = main_menu.MainMenu(table1, user1)
         window.mainloop()
 
+        print("\n-------------------------\n")
+
+
+    #print object ids of all objects on the table
+    elif (command == "printtable"):
+        print("-------------------------\n")
+
+        table1.print_object_ids()
+
+        print("\n-------------------------\n")
+
+    #save table
+    elif (command == "savetable"):
+        print("-------------------------\n")
+
+        pickler.save_object(table1)
+        print("Table Saved!")
+
+        print("\n-------------------------\n")
+
+    #load table
+    elif (command == "loadtable"):
+        print("-------------------------\n")
+
+        filename = "./savefiles/" + str(table1.object_id) + ".gamesave"
+        table2 = pickler.load_object(filename)
+        table2.print_object_ids()
+
+        print("\n-------------------------\n")
 
 
 
