@@ -1,7 +1,7 @@
 #Author:        Dylan E. Wheeler
 #Email:         dylan.wheeler@usm.edu
 #Date:          2019 01 30
-#Course:        CSC425 - Software Engineering II
+#Course:        CSC424 - Software Engineering II
 #Prof.:         Dr. A. Louise Perkins
 
 #This file contains the class and methods for initializing a 
@@ -54,8 +54,10 @@ class PlayerCharacter:
         self.name = str(self.first_name + " " + self.family_name)
         self.title = ""
 
+        #add attributes from species
         self.species = species.species_list["human"]
         self.languages = self.species.native_languages
+        self.item_slots = self.species.item_slots
 
 
         #abilities
@@ -82,7 +84,7 @@ class PlayerCharacter:
         #combat stats
         self.speed = self.ability_scores["constitution"] * 2
         
-        self.hitpoint_total = (self.ability_scores["strength"] + self. ability_scores["constitution"]) * 2
+        self.hitpoint_total = (self.ability_scores["size"] + self. ability_scores["constitution"]) * 2
         
         self.max_hitpoints = {}
         for each_hitbox in self.species.hitboxes:
@@ -146,7 +148,7 @@ class PlayerCharacter:
 
     #refresh hitpoints, used if ability scores change
     def refresh_hit_points(self):
-        self.hitpoint_total = (self.ability_scores["strength"] + self. ability_scores["constitution"])
+        self.hitpoint_total = (self.ability_scores["size"] + self. ability_scores["constitution"])
         for each_hitbox in self.species.hitboxes:
             self.max_hitpoints[each_hitbox] = int(self.hitpoint_total * (self.species.hitboxes[each_hitbox]/100))
     #end refresh hitpoints
