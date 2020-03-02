@@ -1,7 +1,7 @@
 #Author:        Dylan E. Wheeler
 #Email:         dylan.wheeler@usm.edu
 #Date:          2019 01 30
-#Course:        CSC425 - Software Engineering II
+#Course:        CSC424 - Software Engineering II
 #Prof.:         Dr. A. Louise Perkins
 
 #This file contains the class and methods for initializing a 
@@ -54,8 +54,10 @@ class PlayerCharacter:
         self.name = str(self.first_name + " " + self.family_name)
         self.title = ""
 
+        #add attributes from species
         self.species = species.species_list["human"]
         self.languages = self.species.native_languages
+        self.item_slots = self.species.item_slots
 
 
         #abilities

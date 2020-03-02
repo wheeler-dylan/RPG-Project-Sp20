@@ -60,6 +60,7 @@ instructions = ("\n\nsandbox commands:\n" +
                 "abils:\toutput the character's abilities\n" +
                 "skills:\toutput the character's skills\n" +
                 "bags:\tview the character's inventory\n" +
+                "wielded:\tview character's worn and wielded items\n" +
                 #"quick:\tinstantly create a basic character\n" +
                 #"sheet:\toutput all the character's stats\n" +
 
@@ -142,6 +143,11 @@ while(command != "exit"):
             print(each_item.name)
         print("\n-------------------------\n")
 
+    elif (command == "wielded"):
+        print("-------------------------\n")
+        for each_item in player1.item_slots:
+            print(str(each_item) + ":\t" + str(player1.item_slots[each_item]))
+        print("\n-------------------------\n")
 
 
 
@@ -161,10 +167,11 @@ while(command != "exit"):
     #tests game item load and print
     elif (command == "find"):       
         print("-------------------------\n")
-        ironSword = game_item.GameItem()
-        ironSword.load_item_from_file(open("./game_items/ironsword.gmitm"))
-        ironSword.print_item()
-        player1.collect_item(ironSword)
+        iron_sword = game_item.GameItem()
+        iron_sword.load_item_from_file(open("./game_items/ironsword.gmitm"))
+        iron_sword.print_item()
+        player1.collect_item(iron_sword)
+        player1.item_slots["left_hand"] = player1.inventory[iron_sword.object_id]
         print("\n")
         journal = game_item.GameItem()
         journal.load_item_from_file(open("./game_items/journal.gmitm"))

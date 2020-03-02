@@ -1,7 +1,7 @@
 #Author:        Dylan E. Wheeler
 #Email:         dylan.wheeler@usm.edu
 #Date:          2019 02 14
-#Course:        CSC242 - Software Engineering II
+#Course:        CSC424 - Software Engineering II
 #Prof.:         Dr. A. Louise Perkins
 
 #This class defines a player object 
