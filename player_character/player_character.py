@@ -82,7 +82,7 @@ class PlayerCharacter:
         #combat stats
         self.speed = self.ability_scores["constitution"] * 2
         
-        self.hitpoint_total = (self.ability_scores["strength"] + self. ability_scores["constitution"]) * 2
+        self.hitpoint_total = (self.ability_scores["size"] + self. ability_scores["constitution"]) * 2
         
         self.max_hitpoints = {}
         for each_hitbox in self.species.hitboxes:
@@ -146,7 +146,7 @@ class PlayerCharacter:
 
     #refresh hitpoints, used if ability scores change
     def refresh_hit_points(self):
-        self.hitpoint_total = (self.ability_scores["strength"] + self. ability_scores["constitution"])
+        self.hitpoint_total = (self.ability_scores["size"] + self. ability_scores["constitution"])
         for each_hitbox in self.species.hitboxes:
             self.max_hitpoints[each_hitbox] = int(self.hitpoint_total * (self.species.hitboxes[each_hitbox]/100))
     #end refresh hitpoints
