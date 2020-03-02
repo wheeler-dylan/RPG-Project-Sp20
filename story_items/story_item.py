@@ -1,0 +1,57 @@
+#Author:        Dylan E. Wheeler
+#Email:         dylan.wheeler@usm.edu
+#Date:          2019 03 01
+#Course:        CSC424 - Software Engineering II
+#Prof.:         Dr. A. Louise Perkins
+
+#This file contains the story item class.
+#   a story item is a text entity made by the GM in preperation
+#   to share with the players. It can be shared in the chatlog and 
+#   kept open in a special section of the main window so that it 
+#   remains visible to the players.
+
+import uuid
+import tkinter
+
+class story_item():
+    def __init__(self):
+        self.object_id = uuid.uuid1()
+        self.title = ""
+        self.message = ""
+        self.next_item = None   #can store another story_item
+        self.image_filename = ""       #stores a picture
+        self.trunk = {}         #stores any other objects as needed
+
+        self.tkinter_frame = None
+    #end initializer
+    
+
+
+    #build a tkinter formatted frame from item attributes
+    def build_frame(self, f_window):
+        frame = tkinter.LabelFrame(f_window, text = self.title)
+
+        frame_title = tkinter.Label(frame, text = self.message)
+        frame_title.pack()
+        
+        if(self.image_filename != ""):
+            frame_image = tkinter.Label(frame, 
+                                        image = tkinter.PhotoImage(file = self.image_filename))
+            frame_image.pack()
+
+        return frame
+    #
+
+    #open the frame in a window
+    def open_frame(self):
+        frame_window = tkinter.Tk()
+        self.tkinter_frame = self.build_frame(frame_window)
+
+        frame_window.title(self.title)
+        frame_window.geometry("600x400")
+
+        self.tkinter_frame.pack()
+
+        frame_window.mainloop()
+
+#end story item class
