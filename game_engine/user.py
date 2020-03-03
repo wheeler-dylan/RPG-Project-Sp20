@@ -1,7 +1,7 @@
 #Author:        Dylan E. Wheeler
 #Email:         dylan.wheeler@usm.edu
 #Date:          2019 02 14
-#Course:        CSC242 - Software Engineering II
+#Course:        CSC424 - Software Engineering II
 #Prof.:         Dr. A. Louise Perkins
 
 #This class defines a player object 
@@ -14,7 +14,7 @@
 import socket    
 import uuid
 
-class Player:
+class User:
     def __init__(self, f_is_gamemaster = False, 
                  f_character = None): 
         self.object_id = uuid.uuid1()
