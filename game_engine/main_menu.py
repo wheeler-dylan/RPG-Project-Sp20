@@ -29,11 +29,11 @@ from functools import partial
 
 
 class MainMenu(tkinter.Tk):
-    def __init__(self, f_game_table, f_player):
+    def __init__(self, f_game_table, f_user):
         tkinter.Tk.__init__(self)
         self.object_id = uuid.uuid1() 
         self.tabletop = f_game_table
-        self.player = f_player
+        self.user = f_user
     
         self.title("Chatquest RPG")
         self.geometry("800x500")
@@ -76,19 +76,19 @@ class MainMenu(tkinter.Tk):
         self.refresh_hitpoints()
 
         #get hitpoint maximums from player's character
-        for each_hitbox in self.player.active_character.max_hitpoints:  
+        for each_hitbox in self.user.active_character.max_hitpoints:  
             hitpoint_string = (str(each_hitbox) + ": " +
-                               str(self.player.active_character.current_hitpoints[each_hitbox]) +
+                               str(self.user.active_character.current_hitpoints[each_hitbox]) +
                                "/" +
-                               str(self.player.active_character.max_hitpoints[each_hitbox]) )
+                               str(self.user.active_character.max_hitpoints[each_hitbox]) )
             
             hitpoint_label = tkinter.Label(self.hitpoint_frame, text = hitpoint_string)
             
             #format to highlight damage
-            if (self.player.active_character.current_hitpoints[each_hitbox] < 0):
+            if (self.user.active_character.current_hitpoints[each_hitbox] < 0):
                 hitpoint_label.config(foreground = "red")
-            elif (self.player.active_character.current_hitpoints[each_hitbox] <
-                self.player.active_character.max_hitpoints[each_hitbox]):
+            elif (self.user.active_character.current_hitpoints[each_hitbox] <
+                self.user.active_character.max_hitpoints[each_hitbox]):
                 hitpoint_label.config(foreground = "orange")
 
             hitpoint_label.pack()
@@ -105,7 +105,7 @@ class MainMenu(tkinter.Tk):
         self.inventory_frame.pack()
 
         #get items from player
-        for each_item in self.player.active_character.inventory.values():
+        for each_item in self.user.active_character.inventory.values():
             #add item labels
             item_label =  tkinter.Label(self.inventory_frame, 
                                         text = each_item.name)
@@ -116,13 +116,13 @@ class MainMenu(tkinter.Tk):
 
 
                 def action_function(f_item, f_action):
-                    action_message = chat_message.ChatMessage(self.player.active_character, 
+                    action_message = chat_message.ChatMessage(self.user.active_character, 
                                         "action", "public", 
                                         "uses " + 
                                         str(f_item.name) +
                                         " to perform " + str(f_action.__name__) + ".")
                     self.tabletop.put_on_table(action_message)
-                    f_action(f_subject = self.player.active_character) 
+                    f_action(f_subject = self.user.active_character) 
 
                 action_button = tkinter.Button(self.inventory_frame, 
                                                 text = str(each_action.__name__), 
@@ -164,7 +164,7 @@ class MainMenu(tkinter.Tk):
     #controller for chat entry send button
     def send_chat_message(self):
         if (len(self.chat_entry.get()) > 0):
-            msg = chat_message.ChatMessage(self.player.active_character, 
+            msg = chat_message.ChatMessage(self.user.active_character, 
                                            "speech", "public", 
                                            self.chat_entry.get())
             self.tabletop.put_on_table(msg)
@@ -193,19 +193,19 @@ class MainMenu(tkinter.Tk):
         for each_label in self.hitpoint_frame.winfo_children():
             each_label.destroy()
         
-        for each_hitbox in self.player.active_character.max_hitpoints:  
+        for each_hitbox in self.user.active_character.max_hitpoints:  
             hitpoint_string = (str(each_hitbox) + ": " +
-                               str(self.player.active_character.current_hitpoints[each_hitbox]) +
+                               str(self.user.active_character.current_hitpoints[each_hitbox]) +
                                "/" +
-                               str(self.player.active_character.max_hitpoints[each_hitbox]) )
+                               str(self.user.active_character.max_hitpoints[each_hitbox]) )
             
             hitpoint_label = tkinter.Label(self.hitpoint_frame, text = hitpoint_string)
             
             #format to highlight damage
-            if (self.player.active_character.current_hitpoints[each_hitbox] < 0):
+            if (self.user.active_character.current_hitpoints[each_hitbox] < 0):
                 hitpoint_label.config(foreground = "red")
-            elif (self.player.active_character.current_hitpoints[each_hitbox] <
-                self.player.active_character.max_hitpoints[each_hitbox]):
+            elif (self.user.active_character.current_hitpoints[each_hitbox] <
+                self.user.active_character.max_hitpoints[each_hitbox]):
                 hitpoint_label.config(foreground = "orange")
 
             hitpoint_label.pack()
