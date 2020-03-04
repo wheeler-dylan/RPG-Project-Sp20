@@ -14,7 +14,7 @@
 #           for whom the message is visible
 #       the visibility type (public, whisper, etc)
 #       the language in which the message was spoken
-#       and linked game objects in the message
+#       and linked game objects in the message (trunk)
 
 import uuid
 

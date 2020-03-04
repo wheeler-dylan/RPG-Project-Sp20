@@ -48,10 +48,14 @@ class Tabletop:
         #store game items
         self.game_items = {}
 
+        #store story items
+        self.story_items = {}
+
         #store chatlog messages
         self.chatlog = {}
         #populate chatlog (initializes with welcome message)
-        self.put_on_table(chat_message.ChatMessage(self.gamemaster, "technical", "public", "Welcome to Chatquest RPG!"))
+        self.put_on_table(chat_message.ChatMessage(self.gamemaster, "technical", "public", 
+                                                   "Welcome to Chatquest RPG!"))
 
         #store anything that doesn't match a predefined class,
         #   used when put_on_table can't find the object's class type
