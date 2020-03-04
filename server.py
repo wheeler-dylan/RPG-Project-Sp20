@@ -51,7 +51,7 @@ master_function_queue = multiprocessing.Queue()
 
 # we initialize a game table and GM serverside
 #
-gm1 = user.Player()
+gm1 = user.User()
 gm1.is_gamemaster = True
 gm1.active_character = player_character.PlayerCharacter()
 gm1.active_character.name = "Gamemaster"
