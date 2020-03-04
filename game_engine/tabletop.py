@@ -54,7 +54,8 @@ class Tabletop:
         #store chatlog messages
         self.chatlog = {}
         #populate chatlog (initializes with welcome message)
-        self.put_on_table(chat_message.ChatMessage(self.gamemaster, "technical", "public", 
+        self.put_on_table(chat_message.ChatMessage(self.gamemaster.active_character, 
+                                                   "technical", "public", 
                                                    "Welcome to Chatquest RPG!"))
 
         #store anything that doesn't match a predefined class,

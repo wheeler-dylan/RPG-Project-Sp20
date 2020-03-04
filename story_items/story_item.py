@@ -23,7 +23,8 @@ class StoryItem():
         self.image_filename = ""       #stores a picture
         self.trunk = {}         #stores any other objects as needed
 
-        self.tkinter_frame = None
+        #self.tkinter_frame = None  #outdated, use build_frame() instead 
+
     #end initializer
     
 
@@ -32,8 +33,8 @@ class StoryItem():
     def build_frame(self, f_window):
         frame = tkinter.LabelFrame(f_window, text = self.title)
 
-        frame_title = tkinter.Label(frame, text = self.message)
-        frame_title.pack()
+        frame_message = tkinter.Label(frame, text = self.message)
+        frame_message.pack()
         
         #if image exists, load it and pack it
         if(self.image_filename != ""):
@@ -51,16 +52,17 @@ class StoryItem():
         return frame
     #
 
-    #open the frame in a window
+    #open the frame in a window for testing purposes
     def open_frame(self):
         frame_window = tkinter.Tk()
-        self.tkinter_frame = self.build_frame(frame_window)
+        tkinter_frame = self.build_frame(frame_window)
 
         frame_window.title(self.title)
         frame_window.geometry("400x600")
 
-        self.tkinter_frame.pack()
+        tkinter_frame.pack()
 
         frame_window.mainloop()
+    #
 
 #end story item class

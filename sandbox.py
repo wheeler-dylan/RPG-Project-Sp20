@@ -384,6 +384,8 @@ while(command != "exit"):
         table1.put_on_table(msg)
         table1.chatlog[msg.object_id].print_chat_message()
 
+        table1.chatlog[msg.object_id].open_frame()
+
         print("\n-------------------------\n")
 
     #create a custom chat message and add to chatlog
@@ -394,6 +396,8 @@ while(command != "exit"):
                                        input("Enter your message..."))
         table1.put_on_table(msg)
         table1.chatlog[msg.object_id].print_chat_message()
+
+        table1.chatlog[msg.object_id].open_frame()
 
         print("\n-------------------------\n")
 
@@ -406,6 +410,9 @@ while(command != "exit"):
                                        "walks forward " + str(player1.speed) + " feet.")
         table1.put_on_table(msg)
         table1.chatlog[msg.object_id].print_chat_message()
+
+        table1.chatlog[msg.object_id].open_frame()
+
 
         print("\n-------------------------\n")
 

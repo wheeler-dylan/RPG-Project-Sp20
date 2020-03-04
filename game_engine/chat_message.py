@@ -17,13 +17,15 @@
 #       and linked game objects in the message (trunk)
 
 import uuid
+import tkinter
 
 class ChatMessage:
 
-    def __init__(self, f_speaker, f_type, f_visibility, f_message = "", f_language = "", f_objects = None): 
+    def __init__(self, f_speaker, f_type, f_visibility, 
+                 f_message = "", f_language = "", f_objects = None): 
         self.object_id = uuid.uuid1()
 
-        self.speaker = f_speaker
+        self.speaker = f_speaker #character, not user. whole object, not just name
 
         self.type = f_type
         self.visibility = f_visibility
@@ -38,6 +40,8 @@ class ChatMessage:
     #end initializer
 
 
+
+    #print message to console for testing and debugging
     def print_chat_message(self):
         print("Chat Message:\n" +
               "ID:\t" + str(self.object_id) + "\n" +
@@ -51,6 +55,51 @@ class ChatMessage:
             print(str(each_object.name))
     #end print message
 
+
+
+
+    #frame builder method to place a message into a tkinter window
+    #build a tkinter formatted frame from item attributes
+    def build_frame(self, f_window):
+        frame = tkinter.LabelFrame(f_window, text = self.speaker.name)
+
+        #determine font color based off message type
+        if (self.type == "speech"):        
+            formatted_text = (str(self.speaker.first_name) + " says:\n" +
+                              str(self.message))
+            formatted_color = "green"
+
+        elif (self.type == "action"):
+            formatted_text = (str(self.speaker.name) + " " + 
+                              str(self.message))
+            formatted_color = "red"
+
+        elif (self.type == "technical"):
+            formatted_text = (str(self.message))
+            formatted_color = "black"
+
+        elif (self.type == "die_roll"):
+            None #TODO
+
+        frame_message = tkinter.Label(frame, text = formatted_text, foreground = formatted_color)
+        frame_message.pack()
+
+        return frame
+    #
+
+
+    #open the frame in a window for testing purposes
+    def open_frame(self):
+        frame_window = tkinter.Tk()
+        tkinter_frame = self.build_frame(frame_window)
+
+        frame_window.title(self.speaker)
+        frame_window.geometry("400x600")
+
+        tkinter_frame.pack()
+
+        frame_window.mainloop()
+    #
 
 
 #end clas chat message
