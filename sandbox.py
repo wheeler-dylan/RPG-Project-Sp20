@@ -8,6 +8,7 @@ sys.path.append('./player_character/abilities')
 sys.path.append('./player_character/skills')
 sys.path.append('./game_items')
 sys.path.append('./game_engine')
+sys.path.append('./story_items')
 
 import player_character
 import character_creation
@@ -15,6 +16,7 @@ import abilities
 import skills
 import game_item
 import game_item_actions
+import story_item
 import user
 import tabletop
 import main_menu
@@ -25,6 +27,7 @@ import dice
 import tkinter
 import uuid
 from functools import partial
+
 
 
 print("-------------------------Running sandbox.py-------------------------\n\n")
@@ -48,6 +51,8 @@ table1 = tabletop.Tabletop(gm1)
 table1.put_on_table(user1)
 table1.campaign_name = campaign_title
 
+#start_tkinter_engine = tkinter.Tk()
+
 
 
 instructions = ("\n\nsandbox commands:\n" +
@@ -68,6 +73,9 @@ instructions = ("\n\nsandbox commands:\n" +
                 "look:\tview a list of all items in the game items folder\n" +
                 "find:\tload some example items and add to inventory\n" +
                 "craft:\tbuild a new item with gui\n" +
+
+                "\n----- Story Item Commands -----\n" +
+                "story:\tmake a story item with a test image\n" +
 
                 "\n----- Game Engine Commands -----\n" +
                 "printskills:\tview all skills in the skills.gameconfig file\n" +
@@ -187,6 +195,24 @@ while(command != "exit"):
         new_item.print_item()
         player1.collect_item(new_item) #add to inventory
         print("\n-------------------------\n")
+
+
+
+
+
+
+    ##### Story Item Commands #####
+
+    #make a story item
+    elif (command == "story"):
+        new_story = story_item.StoryItem()
+        #new_story.title = input("Enter Story Item Title:")
+        #new_story.message = input("Enter Story Message:")
+        new_story.title = "Discovering the Druiddagger"
+        new_story.message = "You see a large, mysterious blade before you."
+        
+        new_story.image_filename = "./images/img001.png"
+        new_story.open_frame()
 
 
 
