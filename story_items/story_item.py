@@ -14,7 +14,7 @@ import uuid
 import tkinter
 from PIL import Image, ImageTk #image handling for various file types
 
-class story_item():
+class StoryItem():
     def __init__(self):
         self.object_id = uuid.uuid1()
         self.title = ""

@@ -205,7 +205,7 @@ while(command != "exit"):
 
     #make a story item
     elif (command == "story"):
-        new_story = story_item.story_item()
+        new_story = story_item.StoryItem()
         #new_story.title = input("Enter Story Item Title:")
         #new_story.message = input("Enter Story Message:")
         new_story.title = "Discovering the Druiddagger"
