@@ -7,8 +7,31 @@
 
 # Main game method of our project.
 
+import sys
+sys.path.append('./player_character/')
+sys.path.append('./player_character/abilities')
+sys.path.append('./player_character/skills')
+sys.path.append('./game_items')
+sys.path.append('./game_engine')
+
+import player_character
+import character_creation
+import abilities
+import skills
+import game_item
+import game_item_actions
+import user
+import tabletop
+import main_menu
+import chat_message
+import dice
+
+import tkinter
+import uuid
+from functools import partial
+
 from network import Network
-from adventurer import Adventurer
+import queue
 
 # definition of Main
 #
@@ -21,23 +44,23 @@ def main():
     # We initialize a network object to communicate with the server
     #
     current_network = Network()
+    function_queue = queue.Queue()
     
-    game_objects = current_network.get_initial_data()
+    gm1 = user.Player()
+    gm1.is_gamemaster = True
+    gm1.active_character = player_character.PlayerCharacter()
+    gm1.active_character.name = "Gamemaster"
+
+
+    table1 = tabletop.Tabletop(gm1)
+    
+    table1 = current_network.get_initial_data()
+    
 
     # Main Game Loop
     #
     while run:
     
-        game_objects = current_network.send(game_objects)
-        
-        for i in game_objects:
-            i.introduce()
-            i.speak()
-        
-        name = input("Name.")
-        tmp = Adventurer(name, "Peasant", 10, "work work")
-        
-        game_objects.append(tmp)
-        
+        synced_tabletop = current_network.send(function_queue)
         
 main()
