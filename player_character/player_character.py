@@ -54,6 +54,10 @@ class PlayerCharacter:
         self.name = str(self.first_name + " " + self.family_name)
         self.title = ""
 
+        self.image_filename = ""       #stores a system path to a picture
+        self.description = "A stunning Character."
+
+
         #add attributes from species
         self.species = species.species_list["human"]
         self.languages = self.species.native_languages
@@ -98,6 +102,50 @@ class PlayerCharacter:
         self.inventory = {}
 
     #end initializer
+
+
+
+    #build frame
+    #build a tkinter formatted frame from item attributes
+    def build_frame(self, f_window):
+        frame = tkinter.LabelFrame(f_window, text = self.name)
+
+        frame_message = tkinter.Label(frame, text = self.description)
+        frame_message.pack()
+        
+        #if image exists, load it and pack it
+        if(self.image_filename != ""):
+            image = Image.open(self.image_filename)
+            image.thumbnail((400,400), Image.ANTIALIAS) #resize to fit in window, TODO: update to resize automatically
+            tk_image = ImageTk.PhotoImage(image)
+            frame_image = tkinter.Label(frame, image=tk_image)
+            frame_image.image = tk_image
+            frame_image.pack()
+        #
+
+        #abilities
+        for each_ability in self.ability_scores:
+            ability_string = str(str(abilities.core_abilities[each_ability].name) +
+                                 ":\t" + str(self.ability_scores[each_ability]))
+            ability_label = tkinter.Label(frame, text = ability_string)
+            ability_label.pack()
+
+        return frame
+    #
+
+    #open the frame in a window for testing purposes
+    def open_frame(self):
+        frame_window = tkinter.Tk()
+        tkinter_frame = self.build_frame(frame_window)
+
+        frame_window.title(self.name)
+        frame_window.geometry("400x600")
+
+        tkinter_frame.pack()
+
+        frame_window.mainloop()
+    #
+
 
 
 
