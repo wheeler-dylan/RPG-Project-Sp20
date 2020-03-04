@@ -20,7 +20,7 @@ class StoryItem():
         self.title = ""
         self.message = ""
         self.next_item = None   #can store another story_item
-        self.image_filename = ""       #stores a picture
+        self.image_filename = ""       #stores a system path to a picture
         self.trunk = {}         #stores any other objects as needed
 
         #self.tkinter_frame = None  #outdated, use build_frame() instead 

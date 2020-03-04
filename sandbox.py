@@ -194,6 +194,9 @@ while(command != "exit"):
         game_item.game_item_creation(new_item)
         new_item.print_item()
         player1.collect_item(new_item) #add to inventory
+
+        new_item.open_frame()
+
         print("\n-------------------------\n")
 
 
