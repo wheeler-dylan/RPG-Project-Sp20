@@ -51,8 +51,6 @@ table1 = tabletop.Tabletop(gm1)
 table1.put_on_table(user1)
 table1.campaign_name = campaign_title
 
-#start_tkinter_engine = tkinter.Tk()
-
 
 
 instructions = ("\n\nsandbox commands:\n" +
@@ -66,6 +64,7 @@ instructions = ("\n\nsandbox commands:\n" +
                 "skills:\toutput the character's skills\n" +
                 "bags:\tview the character's inventory\n" +
                 "wielded:\tview character's worn and wielded items\n" +
+                "charframe:\ttest PC frame builder method\n" +
                 #"quick:\tinstantly create a basic character\n" +
                 #"sheet:\toutput all the character's stats\n" +
 
@@ -126,8 +125,10 @@ while(command != "exit"):
     ##### PC Commands #####
 
     #tests Character Creation GUI
-    elif (command == "create"):     
+    elif (command == "create"):    
+        print("-------------------------\n")
         character_creation.character_creation(player1)
+        print("\n-------------------------\n")
     
     #ensures ability scores have been updated
     elif (command == "abils"):      
@@ -155,6 +156,11 @@ while(command != "exit"):
         print("-------------------------\n")
         for each_item in player1.item_slots:
             print(str(each_item) + ":\t" + str(player1.item_slots[each_item]))
+        print("\n-------------------------\n")
+
+    elif (command == "charframe"):
+        print("-------------------------\n")
+        player1.open_frame()
         print("\n-------------------------\n")
 
 
@@ -194,6 +200,9 @@ while(command != "exit"):
         game_item.game_item_creation(new_item)
         new_item.print_item()
         player1.collect_item(new_item) #add to inventory
+
+        new_item.open_frame()
+
         print("\n-------------------------\n")
 
 
@@ -205,6 +214,7 @@ while(command != "exit"):
 
     #make a story item
     elif (command == "story"):
+        print("-------------------------\n")
         new_story = story_item.StoryItem()
         #new_story.title = input("Enter Story Item Title:")
         #new_story.message = input("Enter Story Message:")
@@ -213,6 +223,8 @@ while(command != "exit"):
         
         new_story.image_filename = "./images/img001.png"
         new_story.open_frame()
+        print("\n-------------------------\n")
+
 
 
 
@@ -384,6 +396,8 @@ while(command != "exit"):
         table1.put_on_table(msg)
         table1.chatlog[msg.object_id].print_chat_message()
 
+        table1.chatlog[msg.object_id].open_frame()
+
         print("\n-------------------------\n")
 
     #create a custom chat message and add to chatlog
@@ -394,6 +408,8 @@ while(command != "exit"):
                                        input("Enter your message..."))
         table1.put_on_table(msg)
         table1.chatlog[msg.object_id].print_chat_message()
+
+        table1.chatlog[msg.object_id].open_frame()
 
         print("\n-------------------------\n")
 
@@ -406,6 +422,9 @@ while(command != "exit"):
                                        "walks forward " + str(player1.speed) + " feet.")
         table1.put_on_table(msg)
         table1.chatlog[msg.object_id].print_chat_message()
+
+        table1.chatlog[msg.object_id].open_frame()
+
 
         print("\n-------------------------\n")
 
