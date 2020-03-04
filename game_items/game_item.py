@@ -25,8 +25,10 @@ import uuid
 class GameItem():
     def __init__(self):
         self.object_id = uuid.uuid1()
+        self.table = None   #set by tabletop.py put_on_table()
         self.name = "item"
         self.description = "description"
+        self.image_filename = ""       #stores a system path to a picture
         self.actions = {}
         self.subitems = []
     #end initializer
@@ -112,6 +114,43 @@ class GameItem():
     #end quick build
 
 
+    #frame builder
+    #   build a tkinter formatted frame from item attributes
+    def build_frame(self, f_window):
+        frame = tkinter.LabelFrame(f_window, text = self.name)
+
+        frame_description = tkinter.Label(frame, text = self.description)
+        frame_description.pack()
+        
+        #if image exists, load it and pack it
+        if(self.image_filename != ""):
+            image = Image.open(self.image_filename)
+            image.thumbnail((400,400), Image.ANTIALIAS) #resize to fit in window, TODO: update to resize automatically
+            tk_image = ImageTk.PhotoImage(image)
+            frame_image = tkinter.Label(frame, image=tk_image)
+            frame_image.image = tk_image
+            frame_image.pack()
+
+            #TODO: in a future implementation:
+            #   add subitems and actions
+
+        return frame
+    #
+
+    #open the frame in a window for testing purposes
+    def open_frame(self):
+        frame_window = tkinter.Tk()
+        tkinter_frame = self.build_frame(frame_window)
+
+        frame_window.title(self.name)
+        frame_window.geometry("400x600")
+
+        tkinter_frame.pack()
+
+        frame_window.mainloop()
+    #
+
+
 #end game item class
 
 
@@ -186,8 +225,7 @@ def game_item_creation(f_game_item):
         #save actions
         for each_action in game_item_actions.valid_actions:
             if (action_checkboxes[each_action].instate(['selected'])):
-                f_game_item.actions.append(
-                    game_item_actions.valid_actions[each_action])
+                f_game_item.actions[each_action] = game_item_actions.valid_actions[each_action]
 
         #save subitems
         for each_item in all_items:

@@ -48,8 +48,8 @@ class MainMenu(tkinter.Tk):
         self.refresh_chatlog() #keep up to date
 
         for each_message in self.tabletop.chatlog.values():
-            #create formatted message
-            this_message = self.message_formatter(each_message, self.chatlog_frame)      
+            #build frame from class
+            this_message = self.tabletop.chatlog[each_message.object_id].build_frame(self.chatlog_frame)      
             this_message.pack()
         #end populate chatlog
 
@@ -140,7 +140,8 @@ class MainMenu(tkinter.Tk):
 
 
 
-
+    #Outdated with story #67, build_frame method in chat message class does this now
+    """
     #function to format the message text to be added to the chat log
     def message_formatter(self, f_message, f_frame):
         
@@ -159,7 +160,7 @@ class MainMenu(tkinter.Tk):
 
         return msg
     #
-
+    """
 
     #controller for chat entry send button
     def send_chat_message(self):
@@ -181,7 +182,8 @@ class MainMenu(tkinter.Tk):
             each_message.destroy()
 
         for each_message in self.tabletop.chatlog.values():
-            this_message = self.message_formatter(each_message, self.chatlog_frame)
+            #build frame from class
+            this_message = self.tabletop.chatlog[each_message.object_id].build_frame(self.chatlog_frame)      
             this_message.pack()
 
         self.after(250, self.refresh_chatlog)   #refresh 4 times per second
@@ -210,7 +212,7 @@ class MainMenu(tkinter.Tk):
 
             hitpoint_label.pack()
         
-        self.after(250, self.refresh_hitpoints)   #refresh 4 times per second
+        self.after(250, self.refresh_hitpoints)   #refresh 4 times per second (250 ms)
     #end refresh hitpoints
 
 #end class
