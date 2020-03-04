@@ -1,7 +1,7 @@
 #Author:    John P Armentor
 #email:     johnparmentor@gmail.com
 #Date:      2020 01 30
-#Modified:      2020 02 10
+#Modified:      2020 03 04
 #Course:    CSC425 - Software Engineering II
 #Prof:      Dr. A. Louise Perkins
 
@@ -31,21 +31,21 @@ import tkinter
 import uuid
 from functools import partial
 
+from FunctionPackager import FunctionPackager
 import socket
 import pickle
-import queue
+import multiprocessing
 from _thread import *
 from network import Network
 from settings import *
-
-# We create a list of Game objects to track and store all game-related information from the clients to the server, and then
-# transmit that information back to the clients.
-#
+import time
 
 # queue of functions that are incoming from players and applying to the current game table
 #
-master_function_queue = queue.Queue()
+master_function_queue = multiprocessing.Queue()
 
+# we initialize a game table and GM serverside
+#
 gm1 = user.Player()
 gm1.is_gamemaster = True
 gm1.active_character = player_character.PlayerCharacter()
@@ -53,16 +53,23 @@ gm1.active_character.name = "Gamemaster"
                 
 table1 = tabletop.Tabletop(gm1)
 
-# We create a function that acts as a threaded client that accepts the connection as an object and additionally accepts an object
-# that is to be pickled and transfered, which is the Game objects in this case
+# the test function from client to demonstrate we can pass functions from client to server and 
+# execute them here
+#
+def TestFunction(first_word, second_word):
+    print(first_word + " " + second_word)
+
+# We create a function that acts as a threaded client
 #
 def threaded_client(connection):
 
-    # Uses the function queue as a global variable so we can still employ multi-threading for the multiple clients
+    # we retrieve our global variables that are the master function queue and the game table
     #
     global master_function_queue
     global table1
 
+    # we establish a connection to the client by sending the initial game table copy
+    #
     connection.send(pickle.dumps(table1))
     while True:
         try:
@@ -72,12 +79,9 @@ def threaded_client(connection):
             inbound_data = pickle.loads(connection.recv(1024*4))
             print("Incoming: ", inbound_data)
             
-            tmp_function_queue = queue.Queue()
-            tmp_function_queue = inbound_data
-            
-            while is not tmp_function_queue.empty()
-                master_function_queue.append(tmp_function_queue.pop(0))
-            
+            # we place the recieved fucntion in the master queue
+            #
+            master_function_queue.put(inbound_data)
 
             # this is to show that we are disconnecting and the break out once the client stops sending information and loses connection
             #
@@ -85,7 +89,7 @@ def threaded_client(connection):
                 print("Disconnected")
                 break
                 
-            # else we send back the updated list of gameObjects
+            # else we send back the updated copy of the game table
             #            
             else:
                 outbound_data = table1
@@ -99,6 +103,22 @@ def threaded_client(connection):
     #
     print("Lost connection")
     connection.close()
+
+# this thread acts as our master thread for the server which will be the main game loop
+# running on the server and process the master function queue onto the game table
+#
+def master_controller(x):
+    global master_function_queue
+    global table1
+    
+    while True:
+        if not master_function_queue.empty():
+            next_function = master_function_queue.get()
+            next_function.execute_function()
+
+# we initialize our master controller thread
+#
+start_new_thread(master_controller,(1,))
 
 # We set a variable for the server the same as our local host setting in out settings.py file
 #
@@ -131,5 +151,4 @@ print("Listening for Connections...")
 while True:
     connection, address = current_socket.accept()
     print("Connected established with:", address)
-
     start_new_thread(threaded_client, (connection,))

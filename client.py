@@ -1,7 +1,7 @@
 #Author:    John P Armentor
 #email:     johnparmentor@gmail.com
 #Date:      2020 01 30
-#Modified:  2020 02 10
+#Modified:  2020 03 04
 #Course:    CSC425 - Software Engineering II
 #Prof:      Dr. A. Louise Perkins
 
@@ -31,7 +31,15 @@ import uuid
 from functools import partial
 
 from network import Network
-import queue
+from FunctionPackager import FunctionPackager
+import time
+
+# acts as a function for the sake of demonstrating that one can
+# be passed from client all the way to the master thread in the
+# server
+#
+def TestFunction(first_word, second_word):
+    print(first_word + " " + second_word)
 
 # definition of Main
 #
@@ -44,16 +52,9 @@ def main():
     # We initialize a network object to communicate with the server
     #
     current_network = Network()
-    function_queue = queue.Queue()
     
-    gm1 = user.Player()
-    gm1.is_gamemaster = True
-    gm1.active_character = player_character.PlayerCharacter()
-    gm1.active_character.name = "Gamemaster"
-
-
-    table1 = tabletop.Tabletop(gm1)
-    
+    # our client side copy of the server's game table
+    #
     table1 = current_network.get_initial_data()
     
 
@@ -61,6 +62,19 @@ def main():
     #
     while run:
     
-        synced_tabletop = current_network.send(function_queue)
+        # we demonstrate how to package a function
+        #
+        func = TestFunction
+        args = ("testing", "testing")
+        function_to_send = FunctionPackager(func, args)
+        
+        # the send method both sends our function and recieves an updated 
+        # copy of the game table from the server
+        #
+        table1 = current_network.send(function_to_send)
+        
+        # a way to control server update cycles
+        #
+        time.sleep(.5)
         
 main()
