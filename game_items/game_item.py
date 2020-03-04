@@ -25,6 +25,7 @@ import uuid
 class GameItem():
     def __init__(self):
         self.object_id = uuid.uuid1()
+        self.table = None   #set by tabletop.py put_on_table()
         self.name = "item"
         self.description = "description"
         self.image_filename = ""       #stores a system path to a picture

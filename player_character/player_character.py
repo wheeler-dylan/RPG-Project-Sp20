@@ -47,6 +47,7 @@ class PlayerCharacter:
     def __init__(self):
         #demographics
         self.object_id = uuid.uuid1()
+        self.table = None   #set by tabletop.py put_on_table()
 
         self.first_name = "NewGuy"
         self.middle_name = ""

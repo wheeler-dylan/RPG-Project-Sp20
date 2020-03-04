@@ -17,6 +17,7 @@ from PIL import Image, ImageTk #image handling for various file types
 class StoryItem():
     def __init__(self):
         self.object_id = uuid.uuid1()
+        self.table = None   #set by tabletop.py put_on_table()
         self.title = ""
         self.message = ""
         self.next_item = None   #can store another story_item

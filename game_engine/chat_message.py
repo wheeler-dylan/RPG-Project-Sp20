@@ -24,6 +24,7 @@ class ChatMessage:
     def __init__(self, f_speaker, f_type, f_visibility, 
                  f_message = "", f_language = "", f_objects = None): 
         self.object_id = uuid.uuid1()
+        self.table = None   #set by tabletop.py put_on_table()
 
         self.speaker = f_speaker #character, not user. whole object, not just name
 
