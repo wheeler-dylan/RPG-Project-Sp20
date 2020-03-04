@@ -44,10 +44,9 @@ class story_item():
             frame_image.image = tk_image
             frame_image.pack()
 
-            #print("A!") #debugging
-            #frame_image = tkinter.Label(frame, 
-            #                            image = tkinter.PhotoImage(file = self.image_filename))
-            #frame_image.pack()
+            #TODO: in a future implementation:
+            #   add next_item and trunk
+
 
         return frame
     #
