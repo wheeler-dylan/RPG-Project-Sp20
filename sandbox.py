@@ -51,8 +51,6 @@ table1 = tabletop.Tabletop(gm1)
 table1.put_on_table(user1)
 table1.campaign_name = campaign_title
 
-#start_tkinter_engine = tkinter.Tk()
-
 
 
 instructions = ("\n\nsandbox commands:\n" +
