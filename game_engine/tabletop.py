@@ -61,6 +61,12 @@ class Tabletop:
         #store anything that doesn't match a predefined class,
         #   used when put_on_table can't find the object's class type
         self.trunk = {}
+
+
+        #load skills and abilities, can be modified per campaign by GM (future implementation)
+        self.skills = skills.default_skills
+        self.abilities = abilities.default_abilities
+
     #end initializer
     
        

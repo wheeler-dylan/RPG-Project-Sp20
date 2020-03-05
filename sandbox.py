@@ -134,7 +134,7 @@ while(command != "exit"):
     #ensures ability scores have been updated
     elif (command == "abils"):      
         print("-------------------------\n")
-        for each_ability in abilities.core_abilities.values():
+        for each_ability in table1.abilities.values():
             print(str(each_ability.name)+":\t" + 
                   str(player1.ability_scores[each_ability.id]))
         print("\n-------------------------\n")
@@ -142,7 +142,7 @@ while(command != "exit"):
     #ensures skills have been updated
     elif (command == "skills"):     
         print("-------------------------\n")
-        for each_skill in skills.core_skills.values():
+        for each_skill in table1.skills.values():
             print(str(each_skill.name)+":\t" + str(player1.skills[each_skill.id]))
         print("\n-------------------------\n")
 
@@ -238,7 +238,7 @@ while(command != "exit"):
     #confirm skills loaded from game config file
     elif (command == "printskills"):
         print("-------------------------\n")
-        for each_skill in skills.core_skills.values():
+        for each_skill in table1.skills.values():
             each_skill.print_skill()
             print("\n----------\n")
         print("\n-------------------------\n")
@@ -246,7 +246,7 @@ while(command != "exit"):
     #confirm skills loaded from game config file
     elif (command == "printabils"):
         print("-------------------------\n")
-        for each_ability in abilities.core_abilities.values():
+        for each_ability in table1.abilities.values():
             each_ability.print_ability()
             print("\n----------\n")
         print("\n-------------------------\n")
