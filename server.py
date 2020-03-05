@@ -1,13 +1,10 @@
 #Author:    John P Armentor
 #email:     johnparmentor@gmail.com
 #Date:      2020 01 30
-<<<<<<< HEAD
 #Modified:      2020 02 10
 #Course:    CSC424 - Software Engineering II
-=======
 #Modified:      2020 03 04
 #Course:    CSC425 - Software Engineering II
->>>>>>> John-Workspace
 #Prof:      Dr. A. Louise Perkins
 
 # File that acts as the server for our game.  Intended to be launchable by
