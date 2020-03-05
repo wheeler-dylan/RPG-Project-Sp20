@@ -12,4 +12,4 @@ import socket
 #
 MYIP = socket.gethostbyname(socket.gethostname())
 
-LOCALHOST = "192.168.1.64"
+LOCALHOST = MYIP
