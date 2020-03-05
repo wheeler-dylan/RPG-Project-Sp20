@@ -10,9 +10,6 @@
 # File for the object that acts as the network for our game.  Allows the
 # sending of serialized objects to the server as well as for obtaining the player's ID
 
-import sys
-sys.path.append('./netcode')
-
 import socket
 import pickle
 from settings import *
