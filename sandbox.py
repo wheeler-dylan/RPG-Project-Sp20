@@ -37,20 +37,23 @@ command = ""
 
 campaign_title = "The Chronicles of Testing"
 
-player1 = player_character.PlayerCharacter()
-user1 = user.User()
-user1.character.append(player1)
-user1.active_character = user1.character[0]
-
 gm1 = user.User()
 gm1.is_gamemaster = True
-gm1.active_character = player_character.PlayerCharacter()
+
+table1 = tabletop.Tabletop(gm1)
+table1.campaign_name = campaign_title
+
+character1 = player_character.PlayerCharacter(table1)
+user1 = user.User()
+user1.character.append(character1)
+user1.active_character = user1.character[0]
+table1.put_on_table(user1)
+
+gm1.active_character = player_character.PlayerCharacter(table1)
 gm1.active_character.name = "Gamemaster"
 
 
-table1 = tabletop.Tabletop(gm1)
-table1.put_on_table(user1)
-table1.campaign_name = campaign_title
+
 
 
 
@@ -128,7 +131,7 @@ while(command != "exit"):
     #tests Character Creation GUI
     elif (command == "create"):    
         print("-------------------------\n")
-        character_creation.character_creation(player1)
+        character_creation.character_creation(character1)
         print("\n-------------------------\n")
     
     #ensures ability scores have been updated
@@ -136,32 +139,32 @@ while(command != "exit"):
         print("-------------------------\n")
         for each_ability in table1.abilities.values():
             print(str(each_ability.name)+":\t" + 
-                  str(player1.ability_scores[each_ability.id]))
+                  str(character1.ability_scores[each_ability.id]))
         print("\n-------------------------\n")
 
     #ensures skills have been updated
     elif (command == "skills"):     
         print("-------------------------\n")
         for each_skill in table1.skills.values():
-            print(str(each_skill.name)+":\t" + str(player1.skills[each_skill.id]))
+            print(str(each_skill.name)+":\t" + str(character1.skills[each_skill.id]))
         print("\n-------------------------\n")
 
     #view characters inventory
     elif (command == "bags"):       
         print("-------------------------\n")
-        for each_item in player1.inventory.values():
+        for each_item in character1.inventory.values():
             print(each_item.name)
         print("\n-------------------------\n")
 
     elif (command == "wielded"):
         print("-------------------------\n")
-        for each_item in player1.item_slots:
-            print(str(each_item) + ":\t" + str(player1.item_slots[each_item]))
+        for each_item in character1.item_slots:
+            print(str(each_item) + ":\t" + str(character1.item_slots[each_item]))
         print("\n-------------------------\n")
 
     elif (command == "charframe"):
         print("-------------------------\n")
-        player1.open_frame()
+        character1.open_frame()
         print("\n-------------------------\n")
 
 
@@ -185,13 +188,13 @@ while(command != "exit"):
         iron_sword = game_item.GameItem()
         iron_sword.load_item_from_file(open("./game_items/ironsword.gmitm"))
         iron_sword.print_item()
-        player1.collect_item(iron_sword)
-        player1.item_slots["left_hand"] = player1.inventory[iron_sword.object_id]
+        character1.collect_item(iron_sword)
+        character1.item_slots["left_hand"] = character1.inventory[iron_sword.object_id]
         print("\n")
         journal = game_item.GameItem()
         journal.load_item_from_file(open("./game_items/journal.gmitm"))
         journal.print_item()
-        player1.collect_item(journal)
+        character1.collect_item(journal)
         print("\n-------------------------\n")
 
     #tests GUI item creation
@@ -200,7 +203,7 @@ while(command != "exit"):
         new_item = game_item.GameItem()
         game_item.game_item_creation(new_item)
         new_item.print_item()
-        player1.collect_item(new_item) #add to inventory
+        character1.collect_item(new_item) #add to inventory
 
         new_item.open_frame()
 
@@ -254,7 +257,7 @@ while(command != "exit"):
     #put the PC on the table
     elif (command == "table"):
         print("-------------------------\n")
-        table1.put_on_table(player1) 
+        table1.put_on_table(character1) 
 
         some_item = game_item.GameItem()
         some_item.quick_build()
@@ -335,7 +338,7 @@ while(command != "exit"):
     elif (command == "skillcheck"):
         print("-------------------------\n")
         skill = input("Enter skill to check:")
-        dice.skill_check(player1, skill)
+        dice.skill_check(character1, skill)
         print("\n-------------------------\n")
 
 
@@ -352,8 +355,8 @@ while(command != "exit"):
         print("-------------------------\n")
         
         dmg = dice.roll_d(4)
-        player1.take_damage(dmg, "abdomen") 
-        msg_str = str(player1.first_name + " has taken " + str(dmg) + " damage!")
+        character1.take_damage(dmg, "abdomen") 
+        msg_str = str(character1.first_name + " has taken " + str(dmg) + " damage!")
         msg = chat_message.ChatMessage(gm1.active_character, "technical", "public", msg_str)
         table1.put_on_table(msg)
         table1.chatlog[msg.object_id].print_chat_message()
@@ -368,15 +371,15 @@ while(command != "exit"):
         potion = game_item.GameItem()
         potion.load_item_from_file(open("./game_items/healingpotion.gmitm"))
         potion.print_item()
-        player1.collect_item(potion)
+        character1.collect_item(potion)
         print("\n")
 
         #take the drink action
-        player1.inventory[potion.object_id].actions["drink_healing_potion"](player1)
+        character1.inventory[potion.object_id].actions["drink_healing_potion"](character1)
         print()
         
         #add action to chatlog
-        msg = chat_message.ChatMessage(player1, "action", "public", 
+        msg = chat_message.ChatMessage(character1, "action", "public", 
                                        "drank a healing potion.")
         table1.put_on_table(msg)
         table1.chatlog[msg.object_id].print_chat_message()
@@ -393,7 +396,7 @@ while(command != "exit"):
     elif (command == "psst"):
         print("-------------------------\n")
 
-        msg = chat_message.ChatMessage(player1, "speech", "public", "Hello World!")
+        msg = chat_message.ChatMessage(character1, "speech", "public", "Hello World!")
         table1.put_on_table(msg)
         table1.chatlog[msg.object_id].print_chat_message()
 
@@ -405,7 +408,7 @@ while(command != "exit"):
     elif (command == "speak"):
         print("-------------------------\n")
 
-        msg = chat_message.ChatMessage(player1, "speech", "public", 
+        msg = chat_message.ChatMessage(character1, "speech", "public", 
                                        input("Enter your message..."))
         table1.put_on_table(msg)
         table1.chatlog[msg.object_id].print_chat_message()
@@ -419,8 +422,8 @@ while(command != "exit"):
     elif (command == "walk"):
         print("-------------------------\n")
 
-        msg = chat_message.ChatMessage(player1, "action", "public", 
-                                       "walks forward " + str(player1.speed) + " feet.")
+        msg = chat_message.ChatMessage(character1, "action", "public", 
+                                       "walks forward " + str(character1.speed) + " feet.")
         table1.put_on_table(msg)
         table1.chatlog[msg.object_id].print_chat_message()
 
