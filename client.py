@@ -1,7 +1,7 @@
 #Author:    John P Armentor
 #email:     johnparmentor@gmail.com
 #Date:      2020 01 30
-#Modified:  2020 03 04
+#Modified:  2020 03 05
 #Course:    CSC425 - Software Engineering II
 #Prof:      Dr. A. Louise Perkins
 
@@ -13,6 +13,7 @@ sys.path.append('./player_character/abilities')
 sys.path.append('./player_character/skills')
 sys.path.append('./game_items')
 sys.path.append('./game_engine')
+sys.path.append('./netcode')
 
 import player_character
 import character_creation
