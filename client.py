@@ -13,7 +13,7 @@ sys.path.append('./player_character/abilities')
 sys.path.append('./player_character/skills')
 sys.path.append('./game_items')
 sys.path.append('./game_engine')
-sys.path.append('./netcode')
+sys.path.append('./netcode/')
 
 import player_character
 import character_creation
