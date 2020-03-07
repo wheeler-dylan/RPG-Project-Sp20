@@ -34,10 +34,10 @@ import uuid
 #   game items
 
 class Tabletop:
-    def __init__(self, f_gamemaster):
+    def __init__(self, f_gamemaster, f_campaign_name = "Campaign"):
         self.object_id = uuid.uuid1()
         self.gamemaster = f_gamemaster     #stores unique identifier of game master (GM)
-        self.campaign_name = ""
+        self.campaign_name = f_campaign_name
 
         self.users = {}
         
@@ -54,7 +54,7 @@ class Tabletop:
         #store chatlog messages
         self.chatlog = {}
         #populate chatlog (initializes with welcome message)
-        self.put_on_table(chat_message.ChatMessage(self.gamemaster.active_character, 
+        self.put_on_table(chat_message.ChatMessage(self.gamemaster, 
                                                    "technical", "public", 
                                                    "Welcome to Chatquest RPG!"))
 
@@ -104,14 +104,16 @@ class Tabletop:
         #get each attribute of the table
         for each_attribute in self.__dict__.values():
 
+            #print(each_attribute.__name__)
+            print(str(each_attribute.__class__.__name__))
+
             if (type(each_attribute) == dict):  #if its a dictionary
                 for each_token in each_attribute.values():
 
-                    if (hasattr(each_token, "object_id")):  #if it has an object id
-                        print(each_token.object_id)
+                    print(str(each_token.__class__.__name__))
 
-                    else:
-                        print(str(each_token.__class__.__name__))
+                    if (hasattr(each_token, "object_id")):  #if it has an object id
+                        print(str(each_token.object_id))
 
             else:   #if not a dictionary
                 print(str(each_attribute))
