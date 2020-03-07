@@ -21,6 +21,7 @@ sys.path.append('./game_items')
 import player_character
 import abilities
 import skills
+import species
 import game_item
 import game_item_actions
 import chat_message
@@ -66,6 +67,9 @@ class Tabletop:
         #load skills and abilities, can be modified per campaign by GM (future implementation)
         self.skills = skills.default_skills
         self.abilities = abilities.default_abilities
+
+        #species
+        self.species = species.default_species_list
 
     #end initializer
     

@@ -61,7 +61,7 @@ class PlayerCharacter:
 
 
         #add attributes from species
-        self.species = species.species_list["human"]
+        self.species = self.table.species["human"]
         self.languages = self.species.native_languages
         self.item_slots = self.species.item_slots
 
