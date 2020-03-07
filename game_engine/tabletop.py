@@ -111,7 +111,7 @@ class Tabletop:
                         print(each_token.object_id)
 
                     else:
-                        print(str(each_token.__name__))
+                        print(str(each_token.__class__.__name__))
 
             else:   #if not a dictionary
                 print(str(each_attribute))
