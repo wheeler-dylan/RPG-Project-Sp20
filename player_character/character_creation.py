@@ -58,13 +58,17 @@ def character_creation(f_character):
     for each_ability in abilities.core_abilities.values():
         ability_bonuses[each_ability.id] = 0
 
+    # frame to hold label and spinboxes for abilities
+    ability_frame = tkinter.LabelFrame(character_creation_window, text = "Abilities",
+                                       labelanchor = tkinter.N, padx = 46)
+    ability_frame.grid(row = 0, column = 0, sticky = tkinter.N, padx = 20, pady = 5)
 
     #give instructions for adding points to ability scores
-    ability_banner = str("Abilities:\nYou have " + str(ability_points_left) + 
+    ability_banner = str("You have " + str(ability_points_left) + 
                         " points to distribute amongst your ability scores.\n" + 
                         "Each score starts at " + str(min_ability_score) + ".\n" +
                         "The maximum for each score is " + str(max_ability_score) + ".")
-    label = tkinter.Label(text = ability_banner).pack()
+    label = tkinter.Label(ability_frame, text = ability_banner).pack()
 
 
     #used when the ability score spinbox arrows are clicked, 
@@ -102,13 +106,13 @@ def character_creation(f_character):
     #add a spinbox user uses to allocate points to each ability score
     ability_bonus_spinboxes = {}
     for each_ability in abilities.core_abilities.values():
-        label = tkinter.Label(text = each_ability.name + ":").pack() 
+        label = tkinter.Label(ability_frame, text = each_ability.name + ":").pack() 
         ability_bonus_spinboxes[each_ability.id] = tkinter.Spinbox(
-            character_creation_window, from_ = 0, to = ability_max_bonus, 
+            ability_frame, from_ = 0, to = ability_max_bonus, 
             command = ability_spinbox_update)
         ability_bonus_spinboxes[each_ability.id].pack()
     #
-    label = tkinter.Label(text="").pack() #blank line
+    label = tkinter.Label(ability_frame, text="").pack() #blank line
 
     ###################################
 
@@ -131,15 +135,19 @@ def character_creation(f_character):
     for each_skill in skills.core_skills.values():
         skill_bonuses[each_skill.id] = 0
 
+    #frame to hold label and spinboxes for skills
+    skill_frame = tkinter.LabelFrame(character_creation_window, text = "Skills",
+                                     labelanchor = tkinter.N)
+    skill_frame.grid(row = 1, column = 0, sticky = tkinter.N, padx = 20, pady = 5)
 
     #give instructions for adding points to skill ranks
-    skill_banner = str("Skills:\nYou have " + str(skill_points_left) + " "+ 
+    skill_banner = str("You have " + str(skill_points_left) + " "+ 
                       "points to distribute amongst your skill ranks.\n" + 
                       "Each rank starts at " + str(min_skill_ranks) + ".\n" +
                       "The maximum for each rank is " + str(max_skill_ranks) + ".\n" +
                       "In addition to ranks, each skill gains a bonus from " +
                       "each of its two link Abilities.")
-    label = tkinter.Label(text = skill_banner).pack()
+    label = tkinter.Label(skill_frame, text = skill_banner).pack()
 
 
     #update skill bonuses when skill spinbox arrows are clicked
@@ -179,15 +187,15 @@ def character_creation(f_character):
     #add a spinbox user uses to allocate points to each skill rank
     skill_bonus_spinboxes = {}
     for each_skill in skills.core_skills.values():
-        label = tkinter.Label(text = str(each_skill.name) + " (" +
+        label = tkinter.Label(skill_frame, text = str(each_skill.name) + " (" +
                               str(each_skill.main_ability.name) + ", " +
                               str(each_skill.secondary_ability.name) + "):").pack()
-        skill_bonus_spinboxes[each_skill.id] = tkinter.Spinbox(character_creation_window, from_ = 0, 
+        skill_bonus_spinboxes[each_skill.id] = tkinter.Spinbox(skill_frame, from_ = 0, 
                                                             to = max_skill_ranks,
                                                             command = skill_spinbox_update)
         skill_bonus_spinboxes[each_skill.id].pack()
     #
-    label = tkinter.Label(text="").pack() #blank line
+    label = tkinter.Label(skill_frame, text="").pack() #blank line
     
     ###################################
 
