@@ -61,7 +61,7 @@ def character_creation(f_character):
     # frame to hold label and spinboxes for abilities
     ability_frame = tkinter.LabelFrame(character_creation_window, text = "Abilities",
                                        labelanchor = tkinter.N, padx = 46)
-    ability_frame.grid(row = 0, column = 0, sticky = tkinter.N, padx = 20, pady = 5)
+    ability_frame.grid(row = 0, column = 0, sticky = tkinter.NW, padx = 20, pady = 10)
 
     #give instructions for adding points to ability scores
     ability_banner = str("You have " + str(ability_points_left) + 
@@ -135,10 +135,23 @@ def character_creation(f_character):
     for each_skill in skills.core_skills.values():
         skill_bonuses[each_skill.id] = 0
 
-    #frame to hold label and spinboxes for skills
-    skill_frame = tkinter.LabelFrame(character_creation_window, text = "Skills",
+    # frame to hold label and spinboxes for skills
+    # canvas and scrollbar used to create a scrollable list of spinboxes
+    def onFrameConfigure(canvas):
+        canvas.configure(scrollregion=canvas.bbox("all"))
+
+    skill_canvas = tkinter.Canvas(character_creation_window, height = 250, width = 500)
+    skill_frame = tkinter.LabelFrame(skill_canvas, text = "Skills",
                                      labelanchor = tkinter.N)
-    skill_frame.grid(row = 1, column = 0, sticky = tkinter.N, padx = 20, pady = 5)
+    skill_scrollbar = tkinter.Scrollbar(character_creation_window, orient = tkinter.VERTICAL,
+                                        command = skill_canvas.yview)
+    skill_canvas.configure(yscrollcommand = skill_scrollbar.set)
+    skill_canvas.grid(row = 1, column = 0, padx = 17)
+    skill_scrollbar.grid(row = 1, column = 1, sticky = tkinter.NW+tkinter.SW, pady = 10)
+    skill_canvas.create_window((0,0), window = skill_frame, anchor = tkinter.N)
+    skill_canvas.bind("<Configure>", lambda event, canvas=skill_canvas: onFrameConfigure(skill_canvas))
+
+    
 
     #give instructions for adding points to skill ranks
     skill_banner = str("You have " + str(skill_points_left) + " "+ 
