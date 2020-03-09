@@ -49,12 +49,10 @@ master_function_queue = multiprocessing.Queue()
 
 # we initialize a game table and GM serverside
 #
-gm1 = user.User()
-gm1.is_gamemaster = True
-gm1.active_character = player_character.PlayerCharacter()
-gm1.active_character.name = "Gamemaster"
-                
-table1 = tabletop.Tabletop(gm1)
+campaign_title = "The Chronicles of Testing"
+gm1 = user.User(True)
+table1 = tabletop.Tabletop(gm1, campaign_title)
+user1 = user.User(False, player_character.PlayerCharacter(table1))
 
 # the test function from client to demonstrate we can pass functions from client to server and 
 # execute them here
@@ -79,7 +77,7 @@ def threaded_client(connection):
             
             # we attempt to recieve 2048 bits of data that was pickled and we can increase the size of the data using the multiplier
             #
-            inbound_data = pickle.loads(connection.recv(1024*4))
+            inbound_data = pickle.loads(connection.recv(1024*10))
             print("Incoming: ", inbound_data)
             
             # we place the recieved fucntion in the master queue
