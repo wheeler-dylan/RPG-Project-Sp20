@@ -77,5 +77,27 @@ def main():
         # a way to control server update cycles
         #
         time.sleep(.5)
-        
-main()
+#
+
+
+
+
+
+
+
+##### Workflow for Game Initialization #####
+
+#open game, choose join or host
+join_or_host = ""
+join_or_host = input("Please choose \"Join\" or \"Host\"...")
+
+if join_or_host == "Host":
+    import server
+    main()
+
+elif join_or_host == "Join":
+    main()
+
+
+
+#main()
