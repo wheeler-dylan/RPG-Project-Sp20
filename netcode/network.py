@@ -21,7 +21,6 @@ class Network:
     def __init__(self):
     
         # We establish a socket with the type of connection will will be using.
-        # We establish a socket with the type of connection will will be using.
         # AF_INET showing that we are using IPv4 and SOCK_STREAM showing
         # it is a TCP socket
         #

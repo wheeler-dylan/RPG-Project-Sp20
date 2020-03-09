@@ -3,7 +3,7 @@
 #Date:      2020 01 30
 #Modified:      2020 02 10
 #Course:    CSC424 - Software Engineering II
-#Modified:      2020 03 05
+#Modified:      2020 03 09
 #Course:    CSC425 - Software Engineering II
 #Prof:      Dr. A. Louise Perkins
 
@@ -110,7 +110,7 @@ def threaded_client(connection):
 # this thread acts as our master thread for the server which will be the main game loop
 # running on the server and process the master function queue onto the game table
 #
-def master_controller(x):
+def server_master_controller():
     global master_function_queue
     global table1
     
@@ -121,7 +121,7 @@ def master_controller(x):
 
 # we initialize our master controller thread
 #
-start_new_thread(master_controller,(1,))
+start_new_thread(server_master_controller,())
 
 # We set a variable for the server the same as our local host setting in out settings.py file
 #
