@@ -122,7 +122,7 @@ def main():
     # Main Game Loop
     #
     while run:
-        send_to_server(TestFunction,("hi", "friend"))
-        time.sleep(.5)
+        words = str(input("Say something..."))
+        send_to_server(print,(words))
         
 main()
