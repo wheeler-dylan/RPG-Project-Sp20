@@ -34,7 +34,8 @@ from functools import partial
 from network import *
 import multiprocessing
 from _thread import *
-from FunctionPackager import FunctionPackager
+#from FunctionPackager import FunctionPackager
+import FunctionPackager
 import time
 import os
 
@@ -68,6 +69,7 @@ def setIP(f_queue):
         #f_user = user.User(f_queue, False)
         LOCALHOST = input("enter an IPv4 address: ")
 
+    
     return user.User(f_queue, ISHOST)
 
 # acts as a function for the sake of demonstrating that one can
@@ -111,6 +113,7 @@ def main():
     run = True
     
     this_user = setIP(client_function_queue)
+
     
     if ISHOST:
         os.system("start cmd /c server.py")
@@ -123,8 +126,11 @@ def main():
     
     # our client side copy of the server's game table
     #
-    table1 = current_network.get_initial_data()
+    local_table = current_network.get_initial_data()
     #user1 = user.User(False, player_character.PlayerCharacter(table1))
+    if not ISHOST:
+        this_user.activeCharacter = player_character.PlayerCharacter(local_table)
+        FunctionPackager.send_to_server(this_user, local_table.put_on_table, (this_user))
 
     # we initialize our master controller thread
     #
@@ -135,9 +141,11 @@ def main():
     #
     while run:
         #words = str(input("Say something..."))
-        this_user.active_character = player_character.PlayerCharacter(table1)
-        window = main_menu.MainMenu(table1, this_user)
-        window.mainloop()
+
+        if not ISHOST:
+            #this_user.active_character = player_character.PlayerCharacter(table1)
+            window = main_menu.MainMenu(local_table, this_user)
+            window.mainloop()
 
         #send_to_server(print,(words))
         
