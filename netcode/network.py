@@ -52,7 +52,7 @@ class Network:
     def connect(self):
         try:
             self.client.connect(self.address)
-            return pickle.loads(self.client.recv(1024*10))
+            return pickle.loads(self.client.recv(1024*MEMORYMULTIPLIER))
         except:
             pass
 
@@ -61,6 +61,6 @@ class Network:
     def send(self, data):
         try:
             self.client.send(pickle.dumps(data))
-            return pickle.loads(self.client.recv(1024*10))
+            return pickle.loads(self.client.recv(1024*MEMORYMULTIPLIER))
         except socket.error:
             print(socket.error)

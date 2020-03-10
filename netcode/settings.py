@@ -10,6 +10,14 @@ import socket
 
 # Multiplayer settings
 #
-MYIP = socket.gethostbyname(socket.gethostname())
+LOCALHOST = ""
+MEMORYMULTIPLIER = 10
 
-LOCALHOST = MYIP
+def setIP():
+    selection = input("Enter 1 to host or 2 to join a server: ")
+    
+    if selection == 1:
+        LOCALHOST = socket.gethostbyname(socket.gethostname())
+        
+    elif selection = 2:
+        LOCALHOST = input("enter an IPv4 address: ")

@@ -77,7 +77,7 @@ def threaded_client(connection):
             
             # we attempt to recieve 2048 bits of data that was pickled and we can increase the size of the data using the multiplier
             #
-            inbound_data = pickle.loads(connection.recv(1024*10))
+            inbound_data = pickle.loads(connection.recv(1024*MEMORYMULTIPLIER))
             print("Incoming: ", inbound_data)
             
             # we place the recieved fucntion in the master queue
