@@ -39,8 +39,7 @@ import socket
 import pickle
 import multiprocessing
 from _thread import *
-from network import Network
-from settings import *
+from network import *
 import time
 
 # queue of functions that are incoming from players and applying to the current game table
@@ -123,7 +122,7 @@ start_new_thread(server_master_controller,())
 
 # We set a variable for the server the same as our local host setting in out settings.py file
 #
-server = LOCALHOST
+server = socket.gethostbyname(socket.gethostname())
 
 # We set the port to 5555 as it is in a commonly unused port range to avoid the commonly used ones
 #

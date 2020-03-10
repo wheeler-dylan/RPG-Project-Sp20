@@ -12,13 +12,14 @@
 
 import socket
 import pickle
-from settings import *
+#from client import ISHOST, LOCALHOST
 
+MEMORYMULTIPLIER = 10
 
 # The class we initialize to interact with the server
 #
 class Network:
-    def __init__(self):
+    def __init__(self, f_localhost):
     
         # We establish a socket with the type of connection will will be using.
         # AF_INET showing that we are using IPv4 and SOCK_STREAM showing
@@ -28,7 +29,7 @@ class Network:
         
         # The server IP we will pull from our settings.py file
         #
-        self.server = LOCALHOST
+        self.server = f_localhost
         
         # a good, typically open port, but can be changed as needed
         #

@@ -31,16 +31,36 @@ import tkinter
 import uuid
 from functools import partial
 
-from network import Network
+from network import *
 import multiprocessing
 from _thread import *
 from FunctionPackager import FunctionPackager
 import time
+import os
 
 
 # queue of functions that are outgoing from the player to the server
 #
 client_function_queue = multiprocessing.Queue()
+
+# Multiplayer settings
+#
+ISHOST = False
+LOCALHOST = ""
+
+def setIP():
+    global LOCALHOST
+    global ISHOST
+
+    selection = int(input("Enter 1 to host or 2 to join a server: "))
+    
+    if selection == 1:
+        ISHOST = True
+        LOCALHOST = socket.gethostbyname(socket.gethostname())
+        
+    else:
+        ISHOST = False
+        LOCALHOST = input("enter an IPv4 address: ")
 
 # acts as a function for the sake of demonstrating that one can
 # be passed from client all the way to the master thread in the
@@ -61,6 +81,7 @@ def client_master_controller(current_network):
         if not client_function_queue.empty():
             next_function_to_send = client_function_queue.get()
             table1 = current_network.send(next_function_to_send)
+            
 
 # the function that will be used to have a function sent to the server
 # within the main game loop
@@ -73,14 +94,21 @@ def send_to_server(function, args):
 # definition of Main
 #
 def main():
-
+    
     # Set run to true to keep the game looping
     #
     run = True
     
+    setIP()
+    
+    if ISHOST:
+        os.system("start cmd /c server.py")
+        print("Server Launching...")
+        time.sleep(3)
+    
     # We initialize a network object to communicate with the server
     #
-    current_network = Network()
+    current_network = Network(LOCALHOST)
     
     # our client side copy of the server's game table
     #
