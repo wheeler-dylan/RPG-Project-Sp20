@@ -108,14 +108,14 @@ def character_creation(f_character):
     for each_ability in abilities.core_abilities.values():
         label = tkinter.Label(ability_frame, text = each_ability.name + ":").pack() 
         ability_bonus_spinboxes[each_ability.id] = tkinter.Spinbox(
-            ability_frame, from_ = 0, to = ability_max_bonus, 
+            ability_frame, from_ = 0, to = ability_max_bonus,   #0, ability_max_bonus
             command = ability_spinbox_update)
         ability_bonus_spinboxes[each_ability.id].pack()
     #
     label = tkinter.Label(ability_frame, text="").pack() #blank line
 
     ###################################
-
+    # f_character.ability_scores[each_ability.id]
 
 
 
@@ -146,8 +146,9 @@ def character_creation(f_character):
     skill_scrollbar = tkinter.Scrollbar(character_creation_window, orient = tkinter.VERTICAL,
                                         command = skill_canvas.yview)
     skill_canvas.configure(yscrollcommand = skill_scrollbar.set)
-    skill_canvas.grid(row = 1, column = 0, padx = 17)
-    skill_scrollbar.grid(row = 1, column = 1, sticky = tkinter.NW+tkinter.SW, pady = 10)
+    skill_canvas.grid(row = 1, column = 0, padx = 17, rowspan = 2)
+    skill_scrollbar.grid(row = 1, column = 1, sticky = tkinter.NW+tkinter.SW, pady = 10,
+                         rowspan = 2)
     skill_canvas.create_window((0,0), window = skill_frame, anchor = tkinter.N)
     skill_canvas.bind("<Configure>", lambda event, canvas=skill_canvas: onFrameConfigure(skill_canvas))
 
@@ -211,8 +212,13 @@ def character_creation(f_character):
     label = tkinter.Label(skill_frame, text="").pack() #blank line
     
     ###################################
+    # f_character.skills[each_skill.id]
 
+    ############ Player Information ############
 
+    # uses the player_character.py build_frame to display the character info
+    player_info_frame = f_character.build_frame(character_creation_window)
+    player_info_frame.grid(row = 0, column = 2, sticky = tkinter.N)
 
 
     character_creation_window.mainloop()
