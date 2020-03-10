@@ -27,6 +27,8 @@ import tkinter
 import uuid
 from functools import partial
 
+from FunctionPackager import send_to_server
+
 
 class MainMenu(tkinter.Tk):
     def __init__(self, f_game_table, f_user):
@@ -168,7 +170,8 @@ class MainMenu(tkinter.Tk):
             msg = chat_message.ChatMessage(self.user.active_character, 
                                            "speech", "public", 
                                            self.chat_entry.get())
-            self.tabletop.put_on_table(msg)
+            #self.tabletop.put_on_table(msg)
+            send_to_server(self.user, self.tabletop.put_on_table, (msg)) 
             self.tabletop.chatlog[msg.object_id].print_chat_message()  #debugging
         self.chat_entry.delete(0, "end")        #clear the entry field
         #self.refresh_chatlog()

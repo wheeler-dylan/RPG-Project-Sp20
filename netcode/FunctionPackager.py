@@ -19,3 +19,10 @@ class FunctionPackager():
     def execute_function(self):
         """executes the function."""
         return self.function_name(*self.function_arguments)
+
+#
+
+
+def send_to_server(user, function, args):
+    function_to_send = FunctionPackager(function, args)
+    user.queue.put(function_to_send)

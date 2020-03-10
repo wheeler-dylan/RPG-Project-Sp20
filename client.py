@@ -48,7 +48,11 @@ client_function_queue = multiprocessing.Queue()
 ISHOST = False
 LOCALHOST = ""
 
-def setIP():
+
+#initialize local user object
+#this_user = None
+
+def setIP(f_queue):
     global LOCALHOST
     global ISHOST
 
@@ -56,11 +60,15 @@ def setIP():
     
     if selection == 1:
         ISHOST = True
+        #f_user = user.User(f_queue, True)
         LOCALHOST = socket.gethostbyname(socket.gethostname())
         
     else:
         ISHOST = False
+        #f_user = user.User(f_queue, False)
         LOCALHOST = input("enter an IPv4 address: ")
+
+    return user.User(f_queue, ISHOST)
 
 # acts as a function for the sake of demonstrating that one can
 # be passed from client all the way to the master thread in the
@@ -86,20 +94,23 @@ def client_master_controller(current_network):
 # the function that will be used to have a function sent to the server
 # within the main game loop
 #
-def send_to_server(function, args):
+"""
+def send_to_server(user, function, args):
     function_to_send = FunctionPackager(function, args)
-    client_function_queue.put(function_to_send)
-
+    user.client_function_queue.put(function_to_send)
+"""
 
 # definition of Main
 #
 def main():
     
+    #this_user = None
+
     # Set run to true to keep the game looping
     #
     run = True
     
-    setIP()
+    this_user = setIP(client_function_queue)
     
     if ISHOST:
         os.system("start cmd /c server.py")
@@ -113,7 +124,8 @@ def main():
     # our client side copy of the server's game table
     #
     table1 = current_network.get_initial_data()
-    
+    #user1 = user.User(False, player_character.PlayerCharacter(table1))
+
     # we initialize our master controller thread
     #
     start_new_thread(client_master_controller,(current_network,))
@@ -122,7 +134,11 @@ def main():
     # Main Game Loop
     #
     while run:
-        words = str(input("Say something..."))
-        send_to_server(print,(words))
+        #words = str(input("Say something..."))
+        this_user.active_character = player_character.PlayerCharacter(table1)
+        window = main_menu.MainMenu(table1, this_user)
+        window.mainloop()
+
+        #send_to_server(print,(words))
         
 main()

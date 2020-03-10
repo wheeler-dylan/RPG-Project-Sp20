@@ -49,9 +49,9 @@ master_function_queue = multiprocessing.Queue()
 # we initialize a game table and GM serverside
 #
 campaign_title = "The Chronicles of Testing"
-gm1 = user.User(True)
-table1 = tabletop.Tabletop(gm1, campaign_title)
-user1 = user.User(False, player_character.PlayerCharacter(table1))
+#gm1 = user.User(True)
+table1 = tabletop.Tabletop()
+#user1 = user.User(False, player_character.PlayerCharacter(table1))
 
 # the test function from client to demonstrate we can pass functions from client to server and 
 # execute them here
