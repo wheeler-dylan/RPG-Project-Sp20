@@ -53,6 +53,7 @@ campaign_title = "The Chronicles of Testing"
 table1 = tabletop.Tabletop()
 #user1 = user.User(False, player_character.PlayerCharacter(table1))
 
+
 # the test function from client to demonstrate we can pass functions from client to server and 
 # execute them here
 #
