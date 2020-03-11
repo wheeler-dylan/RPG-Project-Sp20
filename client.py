@@ -1,7 +1,7 @@
 #Author:    John P Armentor
 #email:     johnparmentor@gmail.com
 #Date:      2020 01 30
-#Modified:  2020 03 05
+#Modified:  2020 03 09
 #Course:    CSC425 - Software Engineering II
 #Prof:      Dr. A. Louise Perkins
 
@@ -31,9 +31,46 @@ import tkinter
 import uuid
 from functools import partial
 
-from network import Network
-from FunctionPackager import FunctionPackager
+from network import *
+import multiprocessing
+from _thread import *
+#from FunctionPackager import FunctionPackager
+import FunctionPackager
 import time
+import os
+
+
+# queue of functions that are outgoing from the player to the server
+#
+client_function_queue = multiprocessing.Queue()
+
+# Multiplayer settings
+#
+ISHOST = False
+LOCALHOST = ""
+
+
+#initialize local user object
+#this_user = None
+
+def setIP(f_queue):
+    global LOCALHOST
+    global ISHOST
+
+    selection = int(input("Enter 1 to host or 2 to join a server: "))
+    
+    if selection == 1:
+        ISHOST = True
+        #f_user = user.User(f_queue, True)
+        LOCALHOST = socket.gethostbyname(socket.gethostname())
+        
+    else:
+        ISHOST = False
+        #f_user = user.User(f_queue, False)
+        LOCALHOST = input("enter an IPv4 address: ")
+
+    
+    return user.User(f_queue, ISHOST)
 
 # acts as a function for the sake of demonstrating that one can
 # be passed from client all the way to the master thread in the
@@ -42,62 +79,74 @@ import time
 def TestFunction(first_word, second_word):
     print(first_word + " " + second_word)
 
+# acts as the master thread for the client that will process all of the data
+# in the client function queue and send it off to the server, while recieving abilities
+# updated copy of the gameboard back each time
+#
+def client_master_controller(current_network):
+    global client_function_queue
+    global table1
+    
+    while True:
+        if not client_function_queue.empty():
+            next_function_to_send = client_function_queue.get()
+            table1 = current_network.send(next_function_to_send)
+            
+
+# the function that will be used to have a function sent to the server
+# within the main game loop
+#
+"""
+def send_to_server(user, function, args):
+    function_to_send = FunctionPackager(function, args)
+    user.client_function_queue.put(function_to_send)
+"""
+
 # definition of Main
 #
 def main():
+    
+    #this_user = None
 
     # Set run to true to keep the game looping
     #
     run = True
     
+    this_user = setIP(client_function_queue)
+
+    
+    if ISHOST:
+        os.system("start cmd /c server.py")
+        print("Server Launching...")
+        time.sleep(3)
+    
     # We initialize a network object to communicate with the server
     #
-    current_network = Network()
+    current_network = Network(LOCALHOST)
     
     # our client side copy of the server's game table
     #
-    table1 = current_network.get_initial_data()
+    local_table = current_network.get_initial_data()
+    #user1 = user.User(False, player_character.PlayerCharacter(table1))
+    if not ISHOST:
+        this_user.activeCharacter = player_character.PlayerCharacter(local_table)
+        FunctionPackager.send_to_server(this_user, local_table.put_on_table, (this_user))
+
+    # we initialize our master controller thread
+    #
+    start_new_thread(client_master_controller,(current_network,))
     
 
     # Main Game Loop
     #
     while run:
-    
-        # we demonstrate how to package a function
-        #
-        func = TestFunction
-        args = ("testing", "testing")
-        function_to_send = FunctionPackager(func, args)
+        #words = str(input("Say something..."))
+
+        if not ISHOST:
+            #this_user.active_character = player_character.PlayerCharacter(table1)
+            window = main_menu.MainMenu(local_table, this_user)
+            window.mainloop()
+
+        #send_to_server(print,(words))
         
-        # the send method both sends our function and recieves an updated 
-        # copy of the game table from the server
-        #
-        table1 = current_network.send(function_to_send)
-        
-        # a way to control server update cycles
-        #
-        time.sleep(.5)
-#
-
-
-
-
-
-
-
-##### Workflow for Game Initialization #####
-
-#open game, choose join or host
-join_or_host = ""
-join_or_host = input("Please choose \"Join\" or \"Host\"...")
-
-if join_or_host == "Host":
-    import server
-    main()
-
-elif join_or_host == "Join":
-    main()
-
-
-
-#main()
+main()

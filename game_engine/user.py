@@ -15,12 +15,13 @@ import socket
 import uuid
 
 class User:
-    def __init__(self, f_is_gamemaster = False, 
+    def __init__(self, f_queue, f_is_gamemaster = False, 
                  f_character = None): 
         self.object_id = uuid.uuid1()
         self.table = None   #set by tabletop.py put_on_table()
         self.ip_address = socket.gethostbyname(socket.gethostname())
         self.is_gamemaster = f_is_gamemaster
+        self.queue = f_queue
 
         #create dependancies for chat message object
         #   required for chat messages spoken by gm

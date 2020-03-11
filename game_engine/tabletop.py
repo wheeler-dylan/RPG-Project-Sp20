@@ -25,6 +25,7 @@ import species
 import game_item
 import game_item_actions
 import chat_message
+import user
 
 import tkinter
 import uuid
@@ -35,7 +36,7 @@ import uuid
 #   game items
 
 class Tabletop:
-    def __init__(self, f_gamemaster, f_campaign_name = "Campaign"):
+    def __init__(self, f_gamemaster = None, f_campaign_name = "Campaign"):
         self.object_id = uuid.uuid1()
         self.gamemaster = f_gamemaster     #stores unique identifier of game master (GM)
         self.campaign_name = f_campaign_name
@@ -55,7 +56,8 @@ class Tabletop:
         #store chatlog messages
         self.chatlog = {}
         #populate chatlog (initializes with welcome message)
-        self.put_on_table(chat_message.ChatMessage(self.gamemaster, 
+        temp_user_object = user.User(True)
+        self.put_on_table(chat_message.ChatMessage(temp_user_object, 
                                                    "technical", "public", 
                                                    "Welcome to Chatquest RPG!"))
 
@@ -90,6 +92,7 @@ class Tabletop:
 
         elif f_token.__class__.__name__ == "User":
             self.users[f_token.object_id] = f_token
+            f_token.table = self
 
         elif f_token.__class__.__name__ == "StoryItem":
             self.story_items[f_token.object_id] = f_token
