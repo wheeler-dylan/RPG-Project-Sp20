@@ -126,11 +126,11 @@ def main():
     
     # our client side copy of the server's game table
     #
-    local_table = current_network.get_initial_data()
+    table1 = current_network.get_initial_data()
     #user1 = user.User(False, player_character.PlayerCharacter(table1))
     if not ISHOST:
-        this_user.activeCharacter = player_character.PlayerCharacter(local_table)
-        FunctionPackager.send_to_server(this_user, local_table.put_on_table, (this_user))
+        this_user.activeCharacter = player_character.PlayerCharacter(table1)
+        FunctionPackager.send_to_server(this_user, table1.put_on_table, (this_user))
     
 
     # we initialize our master controller thread
@@ -145,7 +145,7 @@ def main():
 
         if not ISHOST:
             #this_user.active_character = player_character.PlayerCharacter(table1)
-            window = main_menu.MainMenu(local_table, this_user)
+            window = main_menu.MainMenu(table1, this_user)
             window.mainloop()
 
         #send_to_server(print,(words))

@@ -10,8 +10,8 @@
 # into objects
 
 class FunctionPackager():
-
     def __init__(self, function_name, function_arguments):
+        global table1
         """Initialize attributes for a packaged function."""
         self.function_name = function_name
         self.function_arguments = function_arguments
