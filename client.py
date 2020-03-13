@@ -131,6 +131,7 @@ def main():
     if not ISHOST:
         this_user.activeCharacter = player_character.PlayerCharacter(local_table)
         FunctionPackager.send_to_server(this_user, local_table.put_on_table, (this_user))
+    
 
     # we initialize our master controller thread
     #

@@ -72,65 +72,66 @@ class MainMenu(tkinter.Tk):
         
         #output current HP
         #build frame
-        self.hitpoint_frame = tkinter.LabelFrame(self, text = "Hitpoints:", 
-                                                 padx = 5, pady = 5)
-        self.hitpoint_frame.pack()
-        self.refresh_hitpoints()
+        if self.user.active_character != None: #check for character
+            self.hitpoint_frame = tkinter.LabelFrame(self, text = "Hitpoints:", 
+                                                     padx = 5, pady = 5)
+            self.hitpoint_frame.pack()
+            self.refresh_hitpoints()
 
         #get hitpoint maximums from player's character
-        for each_hitbox in self.user.active_character.max_hitpoints:  
-            hitpoint_string = (str(each_hitbox) + ": " +
-                               str(self.user.active_character.current_hitpoints[each_hitbox]) +
-                               "/" +
-                               str(self.user.active_character.max_hitpoints[each_hitbox]) )
+            for each_hitbox in self.user.active_character.max_hitpoints:  
+                hitpoint_string = (str(each_hitbox) + ": " +
+                                   str(self.user.active_character.current_hitpoints[each_hitbox]) +
+                                   "/" +
+                                   str(self.user.active_character.max_hitpoints[each_hitbox]) )
             
-            hitpoint_label = tkinter.Label(self.hitpoint_frame, text = hitpoint_string)
+                hitpoint_label = tkinter.Label(self.hitpoint_frame, text = hitpoint_string)
             
-            #format to highlight damage
-            if (self.user.active_character.current_hitpoints[each_hitbox] < 0):
-                hitpoint_label.config(foreground = "red")
-            elif (self.user.active_character.current_hitpoints[each_hitbox] <
-                self.user.active_character.max_hitpoints[each_hitbox]):
-                hitpoint_label.config(foreground = "orange")
+                #format to highlight damage
+                if (self.user.active_character.current_hitpoints[each_hitbox] < 0):
+                    hitpoint_label.config(foreground = "red")
+                elif (self.user.active_character.current_hitpoints[each_hitbox] <
+                    self.user.active_character.max_hitpoints[each_hitbox]):
+                    hitpoint_label.config(foreground = "orange")
 
-            hitpoint_label.pack()
+                hitpoint_label.pack()
 
-        ##### END HITPOINTS #####
+            ##### END HITPOINTS #####
 
 
 
-        ##### INVENTORY #####
+            ##### INVENTORY #####
         
-        #build_frame
-        self.inventory_frame = tkinter.LabelFrame(self, text = "Inventory:", 
-                                                  padx = 5, pady = 5)
-        self.inventory_frame.pack()
+            #build_frame
+            self.inventory_frame = tkinter.LabelFrame(self, text = "Inventory:", 
+                                                      padx = 5, pady = 5)
+            self.inventory_frame.pack()
 
-        #get items from player
-        for each_item in self.user.active_character.inventory.values():
-            #add item labels
-            item_label =  tkinter.Label(self.inventory_frame, 
-                                        text = each_item.name)
-            item_label.pack()
+            #get items from player
+            for each_item in self.user.active_character.inventory.values():
+                #add item labels
+                item_label =  tkinter.Label(self.inventory_frame, 
+                                            text = each_item.name)
+                item_label.pack()
 
-            #add item actions
-            for each_action in each_item.actions.values():
+                #add item actions
+                for each_action in each_item.actions.values():
 
 
-                def action_function(f_item, f_action):
-                    action_message = chat_message.ChatMessage(self.user.active_character, 
-                                        "action", "public", 
-                                        "uses " + 
-                                        str(f_item.name) +
-                                        " to perform " + str(f_action.__name__) + ".")
-                    self.tabletop.put_on_table(action_message)
-                    f_action(f_subject = self.user.active_character) 
+                    def action_function(f_item, f_action):
+                        action_message = chat_message.ChatMessage(self.user.active_character, 
+                                            "action", "public", 
+                                            "uses " + 
+                                            str(f_item.name) +
+                                            " to perform " + str(f_action.__name__) + ".")
+                        self.tabletop.put_on_table(action_message)
+                        f_action(f_subject = self.user.active_character) 
 
-                action_button = tkinter.Button(self.inventory_frame, 
-                                                text = str(each_action.__name__), 
-                                                command = partial(action_function, 
-                                                                  each_item, each_action) )
-                action_button.pack()
+                    action_button = tkinter.Button(self.inventory_frame, 
+                                                    text = str(each_action.__name__), 
+                                                    command = partial(action_function, 
+                                                                      each_item, each_action) )
+                    action_button.pack()
 
 
         ##### END INVENTORY
@@ -171,7 +172,7 @@ class MainMenu(tkinter.Tk):
                                            "speech", "public", 
                                            self.chat_entry.get())
             #self.tabletop.put_on_table(msg)
-            send_to_server(self.user, self.tabletop.put_on_table, (msg)) 
+            send_to_server(self.user, self.tabletop.put_on_table, (msg,)) 
             self.tabletop.chatlog[msg.object_id].print_chat_message()  #debugging
         self.chat_entry.delete(0, "end")        #clear the entry field
         #self.refresh_chatlog()

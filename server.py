@@ -50,7 +50,7 @@ master_function_queue = multiprocessing.Queue()
 #
 campaign_title = "The Chronicles of Testing"
 #gm1 = user.User(True)
-table1 = tabletop.Tabletop()
+table1 = tabletop.Tabletop(user.User(None, True))
 #user1 = user.User(False, player_character.PlayerCharacter(table1))
 
 

@@ -93,6 +93,8 @@ class Tabletop:
         elif f_token.__class__.__name__ == "User":
             self.users[f_token.object_id] = f_token
             f_token.table = self
+            if f_token.is_gamemaster == True:
+                self.gamemaster = f_token
 
         elif f_token.__class__.__name__ == "StoryItem":
             self.story_items[f_token.object_id] = f_token
